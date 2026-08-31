@@ -105,6 +105,38 @@ def main():
         failures.append("part2 异常: %r" % exc)
         print("2) FAIL 异常:", exc)
 
+    # ---- 3) 未保存预览在重映射后保持，关闭预览后恢复已保存值 ----
+    try:
+        win.cfg["opacity"] = 60
+        win.opacity_preview = None
+        win._apply_opacity()
+        root.update()
+        win._preview_opacity(100)
+        root.update()
+        win._apply_topmost()
+        root.update()
+        win._place(1)
+        root.update()
+        preview_layered, preview_alpha = layered_alpha(root)
+        preview_ok = (not bool(ex_style(root) & WS_EX_LAYERED)
+                      and not preview_layered and preview_alpha is None)
+        win.opacity_preview = None
+        win._apply_opacity()
+        root.update()
+        restored_layered, restored_alpha = layered_alpha(root)
+        restored_ok = (bool(ex_style(root) & WS_EX_LAYERED) and restored_layered
+                       and restored_alpha is not None
+                       and abs(restored_alpha - round(255 * 60 / 100)) <= 2)
+        if not (preview_ok and restored_ok):
+            failures.append("透明度预览在重映射后未保持或取消后未恢复：preview=%s/%s restored=%s/%s"
+                            % (preview_layered, preview_alpha, restored_layered, restored_alpha))
+            print("3) FAIL:", failures[-1])
+        else:
+            print("3) 透明度预览重映射与取消恢复: OK")
+    except Exception as exc:
+        failures.append("part3 异常: %r" % exc)
+        print("3) FAIL 异常:", exc)
+
     win.quit()
     try:
         root.destroy()

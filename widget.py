@@ -269,6 +269,7 @@ class Widget:
         self.cmd_q = queue.Queue()  # 托盘线程 → tk 线程 的命令队列
         self.icon = None
         self.settings_win = None
+        self.opacity_preview = None
 
         root.overrideredirect(True)
         root.attributes("-topmost", True)
@@ -426,7 +427,12 @@ class Widget:
         DWM 圆角渲染，因此只有 100% 时圆角才生效。滑块反复跨越 100% 时
         Tk 不会自动补回分层样式，所以样式位始终由这里手动管理。"""
         try:
-            k = int(value if value is not None else self.cfg.get("opacity", 100))
+            source = value
+            if source is None:
+                source = self.opacity_preview
+            if source is None:
+                source = self.cfg.get("opacity", 100)
+            k = int(source)
         except (TypeError, ValueError):
             k = 100
         k = max(20, min(100, k))
@@ -482,6 +488,7 @@ class Widget:
                 if cmd == "settings":
                     self.open_settings()
                 elif cmd == "reset_pos":
+                    self.opacity_preview = None
                     self.cfg = dict(DEFAULT_CONFIG)
                     save_config(self.cfg)
                     self._place(max(1, len(self.visible_sessions())))
@@ -549,7 +556,7 @@ class Widget:
                  length=180, variable=self.opacity_var, bg=BG, fg=FG,
                  troughcolor=ROW_BG, highlightthickness=0, activebackground=ROW_HOVER,
                  font=self.font_small,
-                 command=lambda v: self._apply_opacity(v)).pack(side="left", padx=(8, 0))
+                 command=self._preview_opacity).pack(side="left", padx=(8, 0))
         tk.Label(f, text="注：低于 100% 时 Windows 不渲染面板圆角，拉回 100% 即恢复。",
                  bg=BG, fg=FG_DIM, font=self.font_small, anchor="w").pack(fill="x", pady=(0, 8))
 
@@ -572,11 +579,27 @@ class Widget:
                   bg="#3b5bdb", fg="#ffffff", activebackground="#364fc7",
                   relief="flat", font=self.font_base).pack(side="right")
 
+        win.protocol("WM_DELETE_WINDOW", lambda: self._discard_settings(win))
         win.update_idletasks()
         sw = win.winfo_screenwidth()
         sh = win.winfo_screenheight()
         win.geometry("+%d+%d" % ((sw - win.winfo_reqwidth()) // 2,
                                  (sh - win.winfo_reqheight()) // 2))
+
+    def _preview_opacity(self, value):
+        try:
+            self.opacity_preview = max(20, min(100, int(float(value))))
+        except (TypeError, ValueError):
+            self.opacity_preview = int(self.cfg.get("opacity", DEFAULT_CONFIG["opacity"]))
+        self._apply_opacity(self.opacity_preview)
+
+    def _discard_settings(self, win):
+        self.opacity_preview = None
+        self._apply_opacity()
+        try:
+            win.destroy()
+        finally:
+            self.settings_win = None
 
     def _save_settings(self, win):
         try:
@@ -596,6 +619,7 @@ class Widget:
             self.cfg["opacity"] = DEFAULT_CONFIG["opacity"]
         self.cfg["show_idle"] = bool(self.show_idle_var.get())
         save_config(self.cfg)
+        self.opacity_preview = None
         set_autostart(bool(self.auto_var.get()), self._autostart_target())
         win.destroy()
         self.settings_win = None
@@ -648,13 +672,31 @@ class Widget:
     def apply_event(self, ev):
         key = ev.get("session_id") or ev.get("project_dir") or ev.get("project") or "default"
         event = str(ev.get("event") or "").lower()
+        turn_id = str(ev.get("turn_id") or "")
         now = time.time()
         s = self.sessions.get(key)
         if s is None:
             s = self.sessions[key] = {
                 "created_at": now, "todos": [], "state": "unknown",
                 "state_since": now,
+                "active_turn_id": "",
+                "round_closed": False,
             }
+
+        if event == "user_prompt_submit":
+            # 新 prompt 是同一 session 中唯一允许开启下一轮的边界。
+            s["active_turn_id"] = turn_id
+            s["round_closed"] = False
+        else:
+            active_turn_id = s.get("active_turn_id") or ""
+            if active_turn_id and turn_id != active_turn_id:
+                return
+            if not active_turn_id and turn_id:
+                s["active_turn_id"] = turn_id
+            # 完成态是本轮终态。迟到的 hook 不能复活会话或延长保留时间。
+            if s.get("round_closed"):
+                return
+
         s["updated_at"] = now
         for field in ("project", "last_tool", "error_preview"):
             if ev.get(field):
@@ -676,7 +718,12 @@ class Widget:
             if s["state"] in ("done", "unknown"):
                 self._set_state(s, now, "working")
         elif event == "permission_request":
-            self._set_state(s, now, "waiting")
+            # ZCode 没有公开的“Bash 已获准并开始执行”hook。Bash 权限请求
+            # 始终按执行中显示，避免批准后在实际执行期间继续误显示等待确认。
+            if str(ev.get("last_tool") or "").lower() == "bash":
+                self._set_state(s, now, "working")
+            else:
+                self._set_state(s, now, "waiting")
         elif event == "tool_failure":
             # 单个工具失败不代表会话状态（执行中会自行调整重试），
             # 只累计到会话上，悬停详情里展示
@@ -685,6 +732,7 @@ class Widget:
                 s["last_error"] = ev["error_preview"]
         elif event == "stop":
             self._set_state(s, now, "done")
+            s["round_closed"] = True
 
     def visible_sessions(self):
         now = time.time()

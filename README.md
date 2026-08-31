@@ -12,13 +12,13 @@
 
 | 灯 | 动效 | 会话含义 | ZCode 事件 |
 |---|---|---|---|
-| 黄灯 | 闪烁 | 正在执行 | `UserPromptSubmit`、`TodoWrite` |
-| 红灯 | 快闪 | 等待你确认权限 | `PermissionRequest` |
+| 黄灯 | 闪烁 | 正在执行 | `UserPromptSubmit`、`TodoWrite`、Bash 的 `PermissionRequest` |
+| 红灯 | 快闪 | 等待你确认权限 | 非 Bash 工具的 `PermissionRequest` |
 | 绿灯 | 呼吸 | 本轮完成 | `Stop` |
 
 工具失败不是会话状态。`PostToolUseFailure` 只在悬停详情中累计错误次数和最近一条摘要，不会把会话灯切成错误色。
 
-面板按最近活跃时间排序。右侧优先显示 TodoWrite 进度；没有任务清单时，执行中和等待确认状态显示已持续时间。已完成会话默认保留 5 分钟，30 分钟未活动的会话自动移除。
+面板按最近活跃时间排序。右侧优先显示 TodoWrite 进度；没有任务清单时，执行中和等待确认状态显示已持续时间。Bash 权限请求按执行中显示，避免在已批准后的终端执行期间继续误显示等待确认。已完成会话默认保留 5 分钟，30 分钟未活动的会话自动移除。
 
 ## 功能范围
 
@@ -40,13 +40,13 @@
 
 ## 安装
 
-1. 从 GitHub Releases 下载 `ZCodeStatusLight-v0.1.0-windows-x64.zip`。
+1. 从 GitHub Releases 下载 `ZCodeStatusLight-v0.1.1-windows-x64.zip`。
 2. 在下载目录解压 ZIP。不要直接从 ZIP 内运行安装脚本。
 3. 在 PowerShell 中校验下载包的哈希：
 
 ```powershell
-Get-FileHash .\ZCodeStatusLight-v0.1.0-windows-x64.zip -Algorithm SHA256
-Get-Content .\ZCodeStatusLight-v0.1.0-windows-x64.zip.sha256
+Get-FileHash .\ZCodeStatusLight-v0.1.1-windows-x64.zip -Algorithm SHA256
+Get-Content .\ZCodeStatusLight-v0.1.1-windows-x64.zip.sha256
 ```
 
 两行中的 64 位 SHA-256 值必须完全一致。解压后的 `SHA256SUMS.txt` 用于校验包内文件。
@@ -147,7 +147,7 @@ Get-Help .\install.ps1 -Detailed
 .\scripts\package-release.ps1
 ```
 
-第一个脚本读取 [`requirements-build.txt`](requirements-build.txt)，使用 PyInstaller 在 `dist\` 生成 `ZCodeStatusLight.exe`。第二个脚本从白名单文件生成 `release\ZCodeStatusLight-v0.1.0-windows-x64.zip` 和 SHA-256 校验文件。
+第一个脚本读取 [`requirements-build.txt`](requirements-build.txt)，使用 PyInstaller 在 `dist\` 生成 `ZCodeStatusLight.exe`。第二个脚本从白名单文件生成当前版本的 `release\ZCodeStatusLight-v0.1.1-windows-x64.zip` 和 SHA-256 校验文件。
 
 回归测试维持简单脚本形式：
 

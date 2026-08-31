@@ -39,8 +39,13 @@ try {
     $Diff = Compare-Object -ReferenceObject $ExpectedFiles -DifferenceObject $ActualFiles
     if ($Diff) { throw ("Release file whitelist mismatch: " + ($Diff | Out-String)) }
 
+    $VersionSource = Get-Content -LiteralPath (Join-Path $TempRoot "version.py") -Raw -Encoding utf8
+    if ($VersionSource -notmatch 'VERSION\s*=\s*["'']([^"'']+)["'']') {
+        throw "Release version source is malformed."
+    }
+    $ExpectedVersion = $matches[1]
     $Manifest = Get-Content -LiteralPath (Join-Path $TempRoot "release-manifest.json") -Raw -Encoding utf8 | ConvertFrom-Json -ErrorAction Stop
-    if ($Manifest.product -ne "ZCodeStatusLight" -or $Manifest.version -ne "0.1.0" -or $Manifest.platform -ne "windows-x64") {
+    if ($Manifest.product -ne "ZCodeStatusLight" -or $Manifest.version -ne $ExpectedVersion -or $Manifest.platform -ne "windows-x64") {
         throw "Release manifest has unexpected metadata."
     }
 

@@ -105,6 +105,11 @@ def extract_tool_name(data):
     return clip(v, 40) if v else None
 
 
+def extract_turn_id(data):
+    v = data.get("turn_id") or data.get("turnId")
+    return clip(str(v), 128) if v else None
+
+
 def extract_error(data):
     resp = data.get("tool_response")
     if isinstance(resp, dict):
@@ -136,6 +141,7 @@ def build_payload(event, session_id, project_dir, data):
         "error_preview": extract_error(data) or "",
         "todos": todos,
         "current_task": current_task,
+        "turn_id": extract_turn_id(data) or "",
         "ts": time.time(),
     }
 

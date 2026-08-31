@@ -54,7 +54,7 @@ def run(event, payload):
     assert p.stdout == b"", ("stdout 必须为空", p.stdout)
 
 
-run("user_prompt_submit", {"prompt": "帮我实现登录模块"})
+run("user_prompt_submit", {"prompt": "帮我实现登录模块", "turnId": "turn-1"})
 run("todo_update", {"tool_input": {"todos": [
     {"content": "阅读配置", "status": "completed"},
     {"content": "修改登录模块", "status": "in_progress"},
@@ -69,6 +69,7 @@ assert len(received) == 5, received
 ev = {r["event"]: r for r in received}
 assert ev["user_prompt_submit"]["prompt_preview"] == "帮我实现登录模块"
 assert ev["user_prompt_submit"]["project"] == "ZCode_ws"
+assert ev["user_prompt_submit"]["turn_id"] == "turn-1"
 todos = ev["todo_update"]["todos"]
 assert len(todos) == 3, todos
 assert ev["todo_update"]["current_task"] == "修改登录模块"
