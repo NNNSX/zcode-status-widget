@@ -12,11 +12,13 @@ $ErrorActionPreference = "Stop"
 $ScriptRoot = Split-Path -Parent $PSCommandPath
 $ManagedSpecs = @(
     [pscustomobject]@{ Event = "UserPromptSubmit"; Token = "user_prompt_submit"; Matcher = $null },
-    [pscustomobject]@{ Event = "PermissionRequest"; Token = "permission_request"; Matcher = $null },
+    [pscustomobject]@{ Event = "PermissionRequest"; Token = "permission_bash"; Matcher = "^Bash$" },
+    [pscustomobject]@{ Event = "PermissionRequest"; Token = "permission_request"; Matcher = "^(?!Bash$).+" },
     [pscustomobject]@{ Event = "PostToolUse"; Token = "todo_update"; Matcher = "TodoWrite" },
     [pscustomobject]@{ Event = "PostToolUseFailure"; Token = "tool_failure"; Matcher = $null },
     [pscustomobject]@{ Event = "Stop"; Token = "stop"; Matcher = $null }
 )
+$LegacyPermissionSpec = [pscustomobject]@{ Event = "PermissionRequest"; Token = "permission_request"; Matcher = $null }
 
 function Get-Value($Object, [string]$Name) {
     if ($null -eq $Object) { return $null }
@@ -278,6 +280,12 @@ try {
 
     $handlerPath = Join-Path $InstallRoot "hook_handler.py"
     $createdEvents = @()
+    $legacyPermissionRules = @(Get-Value $events $LegacyPermissionSpec.Event)
+    if ($legacyPermissionRules.Count -gt 0) {
+        Set-Value $events $LegacyPermissionSpec.Event @($legacyPermissionRules | Where-Object {
+            -not (Test-ManagedRule $_ $LegacyPermissionSpec $handlerPath)
+        })
+    }
     foreach ($spec in $ManagedSpecs) {
         $current = Get-Value $events $spec.Event
         if ($null -eq $current) { $createdEvents += $spec.Event }
@@ -288,7 +296,7 @@ try {
 
     if ($LegacyHandlerPath) {
         $legacy = Normalize-PathValue $LegacyHandlerPath
-        foreach ($spec in $ManagedSpecs) {
+        foreach ($spec in @($ManagedSpecs) + @($LegacyPermissionSpec)) {
             $rules = @(Get-Value $events $spec.Event)
             $filtered = @($rules | Where-Object {
                 $candidate = @(Get-Value $_ "hooks")

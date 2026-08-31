@@ -9,11 +9,14 @@ param(
 $ErrorActionPreference = "Stop"
 $ManagedSpecs = @(
     [pscustomobject]@{ Event = "UserPromptSubmit"; Token = "user_prompt_submit"; Matcher = $null },
-    [pscustomobject]@{ Event = "PermissionRequest"; Token = "permission_request"; Matcher = $null },
+    [pscustomobject]@{ Event = "PermissionRequest"; Token = "permission_bash"; Matcher = "^Bash$" },
+    [pscustomobject]@{ Event = "PermissionRequest"; Token = "permission_request"; Matcher = "^(?!Bash$).+" },
     [pscustomobject]@{ Event = "PostToolUse"; Token = "todo_update"; Matcher = "TodoWrite" },
     [pscustomobject]@{ Event = "PostToolUseFailure"; Token = "tool_failure"; Matcher = $null },
     [pscustomobject]@{ Event = "Stop"; Token = "stop"; Matcher = $null }
 )
+$LegacyPermissionSpec = [pscustomobject]@{ Event = "PermissionRequest"; Token = "permission_request"; Matcher = $null }
+$RemovalSpecs = @($ManagedSpecs) + @($LegacyPermissionSpec)
 
 function Get-Value($Object, [string]$Name) {
     if ($null -eq $Object) { return $null }
@@ -122,7 +125,7 @@ $hooks = Get-Value $Config "hooks"
 if ($null -ne $hooks) {
     $events = Get-Value $hooks "events"
     if ($null -ne $events) {
-        foreach ($spec in $ManagedSpecs) {
+        foreach ($spec in $RemovalSpecs) {
             $rules = @(Get-Value $events $spec.Event)
             if ($rules.Count -eq 0) { continue }
             $remaining = @($rules | Where-Object { -not (Test-ManagedRule $_ $spec $HandlerPath) })
@@ -163,7 +166,7 @@ try {
     Write-JsonAtomically $Config $ConfigPath
     $written = $true
     $roundTrip = Get-Content -LiteralPath $ConfigPath -Raw -Encoding utf8 | ConvertFrom-Json -ErrorAction Stop
-    foreach ($spec in $ManagedSpecs) {
+    foreach ($spec in $RemovalSpecs) {
         $roundHooks = Get-Value $roundTrip "hooks"
         $roundEvents = Get-Value $roundHooks "events"
         $rules = @(Get-Value $roundEvents $spec.Event)

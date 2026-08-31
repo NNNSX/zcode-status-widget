@@ -16,7 +16,9 @@ import errno
 import json
 import os
 import re
+import sqlite3
 import sys
+from pathlib import Path
 import time
 import http.client
 
@@ -26,6 +28,8 @@ PORT = int(os.environ.get("ZCODE_STATUS_PORT") or 57310)
 PROMPT_PREVIEW_LEN = 60
 TASK_PREVIEW_LEN = 80
 LOG_MAX_BYTES = 1024 * 1024
+SESSION_DB_MAX_DEPTH = 16
+SESSION_DB_TIMEOUT_SECONDS = 0.05
 
 
 def base_dir():
@@ -124,8 +128,53 @@ def extract_error(data):
     return None
 
 
+def session_db_path():
+    override = os.environ.get("ZCODE_STATUS_DB_PATH")
+    if override:
+        return override
+    return os.path.join(os.path.expanduser("~"), ".zcode", "cli", "db", "db.sqlite")
+
+
+def root_workspace_dir(session_id):
+    """按 parent_id 追溯根会话目录；无法读取时返回空字符串并走旧路径回退。"""
+    if not session_id:
+        return ""
+    path = session_db_path()
+    if not os.path.isfile(path):
+        return ""
+    try:
+        uri = Path(path).resolve().as_uri() + "?mode=ro"
+        conn = sqlite3.connect(uri, uri=True, timeout=SESSION_DB_TIMEOUT_SECONDS)
+        try:
+            current = str(session_id)
+            seen = set()
+            root_dir = ""
+            for _ in range(SESSION_DB_MAX_DEPTH):
+                if not current or current in seen:
+                    return ""
+                seen.add(current)
+                row = conn.execute(
+                    "SELECT directory, parent_id FROM session WHERE id = ?", (current,)
+                ).fetchone()
+                if not row:
+                    return ""
+                directory, parent_id = row
+                if isinstance(directory, str) and directory.strip():
+                    root_dir = directory.strip()
+                current = str(parent_id or "").strip()
+                if not current:
+                    return root_dir
+            return ""
+        finally:
+            conn.close()
+    except (OSError, sqlite3.Error, ValueError):
+        return ""
+
+
 def build_payload(event, session_id, project_dir, data):
-    project = os.path.basename(project_dir.rstrip("\\/")) or "ZCode"
+    workspace_dir = root_workspace_dir(session_id)
+    display_dir = workspace_dir or project_dir
+    project = os.path.basename(display_dir.rstrip("\\/")) or "ZCode"
     todos = extract_todos(data) or []
     current_task = next(
         (t["content"] for t in todos if t.get("status") == "in_progress"),
@@ -136,6 +185,8 @@ def build_payload(event, session_id, project_dir, data):
         "session_id": session_id,
         "project": project,
         "project_dir": project_dir,
+        "workspace_dir": workspace_dir,
+        "workspace_source": "session_root" if workspace_dir else "event_dir",
         "prompt_preview": extract_prompt(data) or "",
         "last_tool": extract_tool_name(data) or "",
         "error_preview": extract_error(data) or "",

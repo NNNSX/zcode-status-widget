@@ -9,6 +9,7 @@ import sys
 import threading
 import time
 from pathlib import Path
+from types import SimpleNamespace
 from unittest import mock
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -55,6 +56,61 @@ def main():
             ok = False
     print("1) 最近活跃排序: OK" if ok else "1) FAIL")
 
+    # ---- 1b) 工作区名称首次确定后稳定；首次缺失时允许后续补全 ----
+    inject(win, "workspace", "首次名称", "turn-workspace-1")
+    workspace = win.sessions["workspace"]
+    win.apply_event({"session_id": "workspace", "event": "todo_update",
+                     "project": "迟到名称", "turn_id": "turn-workspace-1",
+                     "todos": [], "current_task": ""})
+    inject(win, "workspace", "新轮名称", "turn-workspace-2")
+    win.apply_event({"session_id": "workspace-empty", "event": "user_prompt_submit",
+                     "project": "", "project_dir": "D:/workspace-empty",
+                     "prompt_preview": "未命名", "turn_id": "turn-empty-1"})
+    empty_workspace = win.sessions["workspace-empty"]
+    win.apply_event({"session_id": "workspace-empty", "event": "todo_update",
+                     "project": "后续补全", "turn_id": "turn-empty-1",
+                     "todos": [], "current_task": ""})
+    win.apply_event({"session_id": "workspace-empty", "event": "permission_bash",
+                     "project": "再次变化", "turn_id": "turn-empty-1"})
+    win.render()
+    root.update()
+    workspace_name_ok = (
+        workspace.get("workspace_name") == "首次名称"
+        and workspace.get("project") == "首次名称"
+        and win.rows[id(workspace)]["lab_p"].cget("text") == "首次名称"
+        and empty_workspace.get("workspace_name") == "后续补全"
+        and empty_workspace.get("project") == "后续补全"
+    )
+    if not workspace_name_ok:
+        print("1b) FAIL 工作区名称稳定: workspace=%r empty=%r" %
+              (workspace, empty_workspace))
+        ok = False
+    else:
+        print("1b) 工作区名称固定与延后补全: OK")
+
+    # ---- 1c) 根会话工作区名称可升级子目录标签，之后保持稳定 ----
+    win.apply_event({"session_id": "workspace-root", "event": "user_prompt_submit",
+                     "project": "latex", "project_dir": "D:/真-毕业论文/latex",
+                     "workspace_source": "event_dir", "prompt_preview": "论文任务",
+                     "turn_id": "turn-root-1"})
+    root_workspace = win.sessions["workspace-root"]
+    win.apply_event({"session_id": "workspace-root", "event": "todo_update",
+                     "project": "真-毕业论文", "project_dir": "D:/真-毕业论文/latex",
+                     "workspace_dir": "D:/真-毕业论文",
+                     "workspace_source": "session_root", "turn_id": "turn-root-1",
+                     "todos": [], "current_task": ""})
+    win.apply_event({"session_id": "workspace-root", "event": "permission_bash",
+                     "project": "latex", "workspace_source": "event_dir",
+                     "turn_id": "turn-root-1"})
+    root_workspace_ok = (root_workspace.get("workspace_name") == "真-毕业论文"
+                         and root_workspace.get("workspace_source") == "session_root"
+                         and root_workspace.get("label") == "真-毕业论文")
+    if not root_workspace_ok:
+        print("1c) FAIL 根工作区名称升级: %r" % root_workspace)
+        ok = False
+    else:
+        print("1c) 根工作区名称升级与稳定: OK")
+
     # ---- 2) 状态持续时长：无清单时右列显示 m:ss，悬停里也有 ----
     s = win.sessions["a"]
     s["todos"] = []
@@ -71,6 +127,24 @@ def main():
     else:
         print("2) 行内状态时长: OK")
 
+    # ---- 2b) 工作态仅保留黄灯闪烁，不创建额外边框 Canvas ----
+    win._update_row(s, 1000)
+    root.update()
+    yellow_bright = row["dot"].itemcget(row["light_ids"]["yellow"], "fill")
+    win._update_row(s, 1500)
+    root.update()
+    yellow_dim = row["dot"].itemcget(row["light_ids"]["yellow"], "fill")
+    three_light_ok = (set(row) == {"frame", "dot", "light_ids", "lab_p", "lab_t", "lab_n", "sig"}
+                      and len(row["light_ids"]) == 3
+                      and yellow_bright == W.LIGHT_BRIGHT["yellow"]
+                      and yellow_dim == W.LIGHT_DIM["yellow"])
+    if not three_light_ok:
+        print("2b) FAIL 三灯行结构或黄灯闪烁: keys=%r yellow=%r/%r"
+              % (sorted(row), yellow_bright, yellow_dim))
+        ok = False
+    else:
+        print("2b) 三灯行与黄灯闪烁: OK")
+
     # ---- 3) 状态切换时刷新 state_since ----
     t_working = s["state_since"]
     win.apply_event({"session_id": "a", "event": "stop", "ts": time.time()})
@@ -80,6 +154,44 @@ def main():
         ok = False
     else:
         print("3) state_since 刷新: OK")
+
+    # ---- 3b) 绿灯保留最终 Todo 进度；无 Todo 时冻结本轮耗时 ----
+    base = time.time()
+    with mock.patch.object(W.time, "time", return_value=base):
+        inject(win, "done-todos", "完成进度", "turn-done-todos")
+        win.apply_event({"session_id": "done-todos", "event": "todo_update",
+                         "turn_id": "turn-done-todos",
+                         "todos": [{"content": "已完成", "status": "completed"}],
+                         "current_task": ""})
+    with mock.patch.object(W.time, "time", return_value=base + 125):
+        win.apply_event({"session_id": "done-todos", "event": "stop",
+                         "turn_id": "turn-done-todos"})
+    with mock.patch.object(W.time, "time", return_value=base + 200):
+        inject(win, "done-duration", "完成耗时", "turn-done-duration")
+    with mock.patch.object(W.time, "time", return_value=base + 345):
+        win.apply_event({"session_id": "done-duration", "event": "stop",
+                         "turn_id": "turn-done-duration"})
+    win.render()
+    root.update()
+    done_todos = win.sessions["done-todos"]
+    done_duration = win.sessions["done-duration"]
+    todo_right = win.rows[id(done_todos)]["lab_n"].cget("text")
+    win._update_row(done_duration, int((base + 999) * 1000))
+    frozen_right = win.rows[id(done_duration)]["lab_n"].cget("text")
+    with mock.patch.object(W.time, "time", return_value=base + 500):
+        inject(win, "done-duration", "不应改名", "turn-done-duration-2")
+    done_summary_ok = (
+        todo_right == "1/1"
+        and done_duration.get("completed_duration") is None
+        and frozen_right == "2:25"
+        and done_duration.get("workspace_name") == "完成耗时"
+    )
+    if not done_summary_ok:
+        print("3b) FAIL 完成态右列: todos=%r duration=%r right=%r" %
+              (done_todos, done_duration, frozen_right))
+        ok = False
+    else:
+        print("3b) 完成态进度保留、耗时冻结与新轮重置: OK")
 
     # ---- 4) _fmt_dur 格式 ----
     cases = {0: "0:00", 59: "0:59", 95: "1:35", 3599: "59:59",
@@ -168,8 +280,11 @@ def main():
     closed = win.sessions["closed"]
     closed_updated = closed["updated_at"]
     closed_todos = list(closed["todos"])
+    closed_duration = closed.get("completed_duration")
+    closed_workspace = closed.get("workspace_name")
     win.apply_event({"session_id": "closed", "event": "todo_update",
                      "turn_id": "turn-closed",
+                     "project": "迟到名称",
                      "todos": [{"content": "迟到任务", "status": "in_progress"}],
                      "current_task": "迟到任务"})
     win.apply_event({"session_id": "closed", "event": "permission_request",
@@ -178,6 +293,8 @@ def main():
                      "turn_id": "turn-closed", "error_preview": "迟到错误"})
     closed_ok = (closed["state"] == "done" and closed["todos"] == closed_todos
                  and closed["updated_at"] == closed_updated
+                 and closed.get("completed_duration") == closed_duration
+                 and closed.get("workspace_name") == closed_workspace
                  and not closed.get("error_count"))
     if not closed_ok:
         print("8) FAIL 完成态被迟到事件覆盖: %r" % closed)
@@ -217,22 +334,126 @@ def main():
     else:
         print("10) 无轮次完成态兼容: OK")
 
-    # ---- 11) Bash 权限请求保持黄灯，其他工具保持红灯 ----
+    # ---- 11) matcher 路由的 Bash 权限请求无需工具名也保持黄灯；旧规则仍兼容 ----
     inject(win, "permissions", "权限测试", "turn-permission")
     permissions = win.sessions["permissions"]
+    win.apply_event({"session_id": "permissions", "event": "permission_bash",
+                     "turn_id": "turn-permission", "last_tool": ""})
+    routed_bash_ok = permissions["state"] == "working"
     win.apply_event({"session_id": "permissions", "event": "permission_request",
                      "turn_id": "turn-permission", "last_tool": "Bash"})
-    bash_ok = permissions["state"] == "working"
+    legacy_bash_ok = permissions["state"] == "working"
     win.apply_event({"session_id": "permissions", "event": "permission_request",
                      "turn_id": "turn-permission", "last_tool": "Write"})
     non_bash_ok = permissions["state"] == "waiting"
-    if not (bash_ok and non_bash_ok):
-        print("11) FAIL 权限灯策略: %r" % permissions)
+    if not (routed_bash_ok and legacy_bash_ok and non_bash_ok):
+        print("11) FAIL 权限灯路由: %r" % permissions)
         ok = False
     else:
-        print("11) Bash 黄灯与其他权限红灯: OK")
+        print("11) Bash matcher 黄灯、旧规则兼容与其他权限红灯: OK")
 
-    # ---- 12) 极大边距和负向拖动都夹在当前屏幕内 ----
+    # ---- 12) 完成态保留时间使用本地分钟设置，所有会话仍受无活动上限约束 ----
+    win.sessions.clear()
+    win.cfg["done_ttl_minutes"] = 1
+    now = time.time()
+    win.sessions["done-keep"] = {"state": "done", "updated_at": now - 60,
+                                 "created_at": now - 60, "todos": []}
+    win.sessions["done-expire"] = {"state": "done", "updated_at": now - 61,
+                                   "created_at": now - 61, "todos": []}
+    win.sessions["working-expire"] = {"state": "working", "updated_at": now - W.ANY_TTL - 1,
+                                      "created_at": now - W.ANY_TTL - 1, "todos": []}
+    with mock.patch.object(W.time, "time", return_value=now):
+        retained = win.visible_sessions()
+    ttl_ok = ([s["state"] for s in retained] == ["done"]
+              and "done-keep" in win.sessions
+              and "done-expire" not in win.sessions
+              and "working-expire" not in win.sessions)
+    if not ttl_ok:
+        print("12) FAIL 会话保留时间: %r" % win.sessions)
+        ok = False
+    else:
+        print("12) 完成态保留时间与无活动上限: OK")
+
+    # ---- 13) 保留时间输入始终规范化到 1..30 分钟 ----
+    normalizations = {None: 5, "": 5, "0": 1, "-2": 1, "1": 1,
+                      "30": 30, "999": 30, "12.8": 12, "bad": 5,
+                      "inf": 5}
+    normalization_ok = all(W.normalize_done_ttl_minutes(raw) == want
+                           for raw, want in normalizations.items())
+    if not normalization_ok:
+        print("13) FAIL 保留时间规范化: %r" %
+              {raw: W.normalize_done_ttl_minutes(raw) for raw in normalizations})
+        ok = False
+    else:
+        print("13) 保留时间输入规范化: OK")
+
+    # ---- 14) 注册表配置兼容旧值，并保存规范化后的分钟数 ----
+    legacy_result = SimpleNamespace(returncode=0, stdout=b"show_idle    REG_SZ    0\r\n")
+    invalid_result = SimpleNamespace(
+        returncode=0, stdout=b"done_ttl_minutes    REG_SZ    999\r\n")
+    with mock.patch.object(W, "_reg", return_value=legacy_result):
+        legacy_cfg = W.load_config()
+    with mock.patch.object(W, "_reg", return_value=invalid_result):
+        clamped_cfg = W.load_config()
+    registry_writes = []
+    with mock.patch.object(W, "_reg", side_effect=lambda args: registry_writes.append(args)):
+        W.save_config({**W.DEFAULT_CONFIG, "done_ttl_minutes": "0"})
+    registry_ok = (legacy_cfg["done_ttl_minutes"] == W.DONE_TTL_MINUTES_DEFAULT
+                   and clamped_cfg["done_ttl_minutes"] == W.DONE_TTL_MINUTES_MAX
+                   and any(args[args.index("/v") + 1] == "done_ttl_minutes"
+                           and args[args.index("/d") + 1] == "1"
+                           for args in registry_writes))
+    if not registry_ok:
+        print("14) FAIL 注册表保留时间读写: legacy=%r clamped=%r writes=%r" %
+              (legacy_cfg, clamped_cfg, registry_writes))
+        ok = False
+    else:
+        print("14) 注册表保留时间读写: OK")
+
+    # ---- 15) 重置位置不覆盖其他展示偏好 ----
+    win.cfg.update({"corner": "top-left", "margin_x": 99, "margin_y": 88,
+                    "opacity": 65, "show_idle": False, "done_ttl_minutes": 17})
+    with mock.patch.object(W, "save_config"), mock.patch.object(win, "_place"):
+        win.cmd_q.put("reset_pos")
+        win._drain_cmds()
+    reset_ok = (win.cfg["corner"] == W.DEFAULT_CONFIG["corner"]
+                and win.cfg["margin_x"] == W.DEFAULT_CONFIG["margin_x"]
+                and win.cfg["margin_y"] == W.DEFAULT_CONFIG["margin_y"]
+                and win.cfg["opacity"] == 65 and not win.cfg["show_idle"]
+                and win.cfg["done_ttl_minutes"] == 17)
+    if not reset_ok:
+        print("15) FAIL 重置位置覆盖展示偏好: %r" % win.cfg)
+        ok = False
+    else:
+        print("15) 重置位置保留展示偏好: OK")
+
+    # ---- 16) 设置保存时仍规范化 Spinbox 手输值，并立即重新计算可见会话 ----
+    win.cfg["done_ttl_minutes"] = 5
+    now = time.time()
+    win.sessions.clear()
+    win.sessions["save-expire"] = {"state": "done", "updated_at": now - 61,
+                                   "created_at": now - 61, "todos": []}
+    win.open_settings()
+    root.update()
+    win.done_ttl_var.set("0")
+    with mock.patch.object(W, "save_config"), mock.patch.object(W, "set_autostart"):
+        win._save_settings(win.settings_win)
+    save_settings_ok = (win.cfg["done_ttl_minutes"] == 1
+                        and "save-expire" not in win.sessions
+                        and win.settings_win is None)
+    win.open_settings()
+    root.update()
+    win.done_ttl_var.set("999")
+    with mock.patch.object(W, "save_config"), mock.patch.object(W, "set_autostart"):
+        win._save_settings(win.settings_win)
+    save_settings_ok = save_settings_ok and win.cfg["done_ttl_minutes"] == 30
+    if not save_settings_ok:
+        print("16) FAIL 设置保留时间保存: %r" % win.cfg)
+        ok = False
+    else:
+        print("16) 设置保留时间保存与立即清理: OK")
+
+    # ---- 17) 极大边距和负向拖动都夹在当前屏幕内 ----
     win.cfg.update({"corner": "bottom-right", "margin_x": 999999, "margin_y": 999999})
     win._place(1)
     root.update()
@@ -245,12 +466,12 @@ def main():
         win._remember_position()
     remembered_ok = win.cfg["margin_x"] >= 0 and win.cfg["margin_y"] >= 0
     if not placed_ok or not remembered_ok:
-        print("12) FAIL 位置夹取")
+        print("17) FAIL 位置夹取")
         ok = False
     else:
-        print("12) 窗口位置夹取: OK")
+        print("17) 窗口位置夹取: OK")
 
-    # ---- 13) 默认常驻空闲态；关闭开关后隐藏；开启后立即恢复 ----
+    # ---- 18) 默认常驻空闲态；关闭开关后隐藏；开启后立即恢复 ----
     win.sessions.clear()
     win.cfg["show_idle"] = True
     win.render()
@@ -269,13 +490,13 @@ def main():
     root.update()
     restored_ok = root.winfo_viewable() and list(win.rows.keys()) == [idle_key]
     if not (idle_ok and idle_stable and hidden_ok and restored_ok):
-        print("13) FAIL 空闲态: idle=%s stable=%s hidden=%s restored=%s"
+        print("18) FAIL 空闲态: idle=%s stable=%s hidden=%s restored=%s"
               % (idle_ok, idle_stable, hidden_ok, restored_ok))
         ok = False
     else:
-        print("13) 常驻空闲态开关: OK")
+        print("18) 常驻空闲态开关: OK")
 
-    # ---- 14) 活跃会话出现后替换空闲行 ----
+    # ---- 19) 活跃会话出现后替换空闲行 ----
     inject(win, "active-after-idle", "活跃会话")
     win.render()
     root.update()
@@ -283,10 +504,10 @@ def main():
                  and next(iter(win.rows.keys())) != idle_key
                  and win.rows[next(iter(win.rows))]["lab_p"].cget("text") == "活跃会话")
     if not active_ok:
-        print("14) FAIL 活跃会话未替换空闲行")
+        print("19) FAIL 活跃会话未替换空闲行")
         ok = False
     else:
-        print("14) 活跃会话替换空闲态: OK")
+        print("19) 活跃会话替换空闲态: OK")
     try:
         root.destroy()
     except tk.TclError:

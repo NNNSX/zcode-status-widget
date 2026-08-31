@@ -36,8 +36,10 @@ PORT = 57310
 PANEL_W = 380
 ROW_H = 34
 PAD = 10
-DONE_TTL = 300        # 完成的会话行保留 5 分钟
-ANY_TTL = 1800        # 任何会话 30 分钟无活动即移除
+DONE_TTL_MINUTES_DEFAULT = 5
+DONE_TTL_MINUTES_MIN = 1
+DONE_TTL_MINUTES_MAX = 30
+ANY_TTL = 1800        # 任何会话 30 分钟无事件即清理，防止遗留行长期堆积
 TICK_MS = 140
 DRAG_THRESHOLD = 4    # 位移超过该像素才算拖动，避免误碰
 MAX_EVENT_BYTES = 64 * 1024
@@ -76,7 +78,17 @@ CORNERS = {
     "top-left": "左上",
 }
 DEFAULT_CONFIG = {"corner": "bottom-right", "margin_x": 14, "margin_y": 52,
-                  "opacity": 100, "show_idle": True}
+                  "opacity": 100, "show_idle": True,
+                  "done_ttl_minutes": DONE_TTL_MINUTES_DEFAULT}
+
+
+def normalize_done_ttl_minutes(value):
+    try:
+        minutes = int(float(str(value).strip()))
+    except (TypeError, ValueError, OverflowError):
+        minutes = DONE_TTL_MINUTES_DEFAULT
+    return max(DONE_TTL_MINUTES_MIN, min(DONE_TTL_MINUTES_MAX, minutes))
+
 
 REG_KEY = "HKCU\\Software\\ZCodeStatusLight"
 RUN_KEY = "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
@@ -133,6 +145,8 @@ def load_config():
                 pass
             if vals.get("show_idle") in ("0", "1"):
                 cfg["show_idle"] = vals["show_idle"] == "1"
+            cfg["done_ttl_minutes"] = normalize_done_ttl_minutes(
+                vals.get("done_ttl_minutes", DONE_TTL_MINUTES_DEFAULT))
     except Exception:
         pass
     return cfg
@@ -151,7 +165,9 @@ def save_config(cfg):
                  ("margin_x", str(int(cfg["margin_x"]))),
                  ("margin_y", str(int(cfg["margin_y"]))),
                  ("opacity", str(int(cfg.get("opacity", 100)))),
-                 ("show_idle", str(int(bool(cfg.get("show_idle", True))))))
+                 ("show_idle", str(int(bool(cfg.get("show_idle", True))))),
+                 ("done_ttl_minutes", str(normalize_done_ttl_minutes(
+                     cfg.get("done_ttl_minutes", DONE_TTL_MINUTES_DEFAULT)))))
         for name, value in items:
             _reg(["add", REG_KEY, "/v", name, "/t", "REG_SZ", "/d", value, "/f"])
     except Exception:
@@ -489,7 +505,9 @@ class Widget:
                     self.open_settings()
                 elif cmd == "reset_pos":
                     self.opacity_preview = None
-                    self.cfg = dict(DEFAULT_CONFIG)
+                    self.cfg["corner"] = DEFAULT_CONFIG["corner"]
+                    self.cfg["margin_x"] = DEFAULT_CONFIG["margin_x"]
+                    self.cfg["margin_y"] = DEFAULT_CONFIG["margin_y"]
                     save_config(self.cfg)
                     self._place(max(1, len(self.visible_sessions())))
                 elif cmd == "quit":
@@ -565,6 +583,19 @@ class Widget:
                        selectcolor=ROW_BG, activebackground=BG, activeforeground=FG,
                        font=self.font_base).pack(anchor="w", pady=(0, 6))
 
+        ttl_row = tk.Frame(f, bg=BG)
+        ttl_row.pack(anchor="w", pady=(0, 8))
+        tk.Label(ttl_row, text="完成会话保留时间", bg=BG, fg=FG_DIM,
+                 font=self.font_base).pack(side="left")
+        self.done_ttl_var = tk.StringVar(value=str(normalize_done_ttl_minutes(
+            self.cfg.get("done_ttl_minutes", DONE_TTL_MINUTES_DEFAULT))))
+        tk.Spinbox(ttl_row, from_=DONE_TTL_MINUTES_MIN, to=DONE_TTL_MINUTES_MAX,
+                   increment=1, textvariable=self.done_ttl_var, width=5,
+                   bg=ROW_BG, fg=FG, insertbackground=FG, buttonbackground=ROW_HOVER,
+                   relief="flat", font=self.font_base).pack(side="left", padx=(8, 4))
+        tk.Label(ttl_row, text="分钟（1–30）", bg=BG, fg=FG_DIM,
+                 font=self.font_small).pack(side="left")
+
         self.auto_var = tk.BooleanVar(value=autostart_enabled())
         tk.Checkbutton(f, text="开机自动启动", variable=self.auto_var, bg=BG, fg=FG,
                        selectcolor=ROW_BG, activebackground=BG, activeforeground=FG,
@@ -618,6 +649,8 @@ class Widget:
         except Exception:
             self.cfg["opacity"] = DEFAULT_CONFIG["opacity"]
         self.cfg["show_idle"] = bool(self.show_idle_var.get())
+        self.cfg["done_ttl_minutes"] = normalize_done_ttl_minutes(
+            self.done_ttl_var.get())
         save_config(self.cfg)
         self.opacity_preview = None
         set_autostart(bool(self.auto_var.get()), self._autostart_target())
@@ -679,6 +712,10 @@ class Widget:
             s = self.sessions[key] = {
                 "created_at": now, "todos": [], "state": "unknown",
                 "state_since": now,
+                "workspace_name": "",
+                "workspace_source": "",
+                "round_started_at": now,
+                "completed_duration": None,
                 "active_turn_id": "",
                 "round_closed": False,
             }
@@ -698,12 +735,34 @@ class Widget:
                 return
 
         s["updated_at"] = now
-        for field in ("project", "last_tool", "error_preview"):
+        project = str(ev.get("project") or "").strip()
+        has_project_dir = bool(str(ev.get("project_dir") or "").strip())
+        source = str(ev.get("workspace_source") or "event_dir")
+        is_root_workspace = source == "session_root"
+        can_update_workspace = (not s.get("workspace_name") or
+                                (is_root_workspace and s.get("workspace_source") != "session_root"))
+        if can_update_workspace and project and (project != "ZCode" or has_project_dir):
+            workspace_name = project
+            s["workspace_name"] = workspace_name
+            s["workspace_source"] = "session_root" if is_root_workspace else "event_dir"
+            s["project"] = workspace_name
+            if not s.get("label") or is_root_workspace:
+                used_labels = {other.get("label") for other in self.sessions.values()
+                               if other is not s and other.get("label")}
+                label = workspace_name
+                suffix = 2
+                while label in used_labels:
+                    label = "%s·%d" % (workspace_name, suffix)
+                    suffix += 1
+                s["label"] = label
+        for field in ("last_tool", "error_preview"):
             if ev.get(field):
                 s[field] = ev[field]
 
         if event == "user_prompt_submit":
             # 同一 session 的新一轮边界：旧清单和旧错误不能跨轮残留
+            s["round_started_at"] = now
+            s["completed_duration"] = None
             s["prompt_preview"] = ev.get("prompt_preview") or ""
             s["todos"] = []
             s["current_task"] = ""
@@ -717,9 +776,12 @@ class Widget:
             s["current_task"] = ev.get("current_task") or ""
             if s["state"] in ("done", "unknown"):
                 self._set_state(s, now, "working")
+        elif event == "permission_bash":
+            # 由 ZCode 的 ^Bash$ matcher 路由，不依赖 stdin 中是否携带工具名。
+            self._set_state(s, now, "working")
         elif event == "permission_request":
-            # ZCode 没有公开的“Bash 已获准并开始执行”hook。Bash 权限请求
-            # 始终按执行中显示，避免批准后在实际执行期间继续误显示等待确认。
+            # 兼容旧安装的通配 PermissionRequest 规则：旧 handler 仍会携带 Bash
+            # 时保持工作态；新版通过 matcher 已在上方分流。
             if str(ev.get("last_tool") or "").lower() == "bash":
                 self._set_state(s, now, "working")
             else:
@@ -731,15 +793,19 @@ class Widget:
             if ev.get("error_preview"):
                 s["last_error"] = ev["error_preview"]
         elif event == "stop":
+            started_at = s.get("round_started_at", s.get("created_at", now))
+            s["completed_duration"] = max(0, now - started_at)
             self._set_state(s, now, "done")
             s["round_closed"] = True
 
     def visible_sessions(self):
         now = time.time()
+        done_ttl = normalize_done_ttl_minutes(
+            self.cfg.get("done_ttl_minutes", DONE_TTL_MINUTES_DEFAULT)) * 60
         alive = []
         for key, s in list(self.sessions.items()):
             age = now - s.get("updated_at", now)
-            if age > ANY_TTL or (s["state"] == "done" and age > DONE_TTL):
+            if age > ANY_TTL or (s["state"] == "done" and age > done_ttl):
                 del self.sessions[key]
                 continue
             alive.append(s)
@@ -794,12 +860,10 @@ class Widget:
                 self._place(1)
             return
 
-        # 项目重名加序号
-        seen = {}
+        # 标签在工作区首次绑定时稳定分配；旧内存会话兼容回退到已有标签或项目名。
         for s in sessions:
-            name = s.get("project") or "ZCode"
-            seen[name] = seen.get(name, 0) + 1
-            s["label"] = name if seen[name] == 1 else "%s·%d" % (name, seen[name])
+            if not s.get("label"):
+                s["label"] = s.get("workspace_name") or s.get("project") or "ZCode"
 
         now_ms = int(time.time() * 1000)
         keys = [id(s) for s in sessions]
@@ -866,9 +930,12 @@ class Widget:
         done_n = sum(1 for t in todos if t.get("status") == "completed")
         prog = "%d/%d" % (done_n, len(todos)) if todos else ""
 
-        # 执行中/等待确认时，右侧展示该状态已持续多久：
-        # 没有清单进度时它就是右列内容，时长本身也能暴露"卡住多久了"
+        # Todo 进度优先；无清单时，活跃态显示当前状态时长，完成态显示冻结的本轮耗时。
         right = prog
+        if not right and state == "done":
+            duration = s.get("completed_duration")
+            if duration is not None:
+                right = _fmt_dur(duration)
         if not right and state in ("working", "waiting"):
             right = _fmt_dur(now_ms / 1000 - s.get("state_since", now_ms / 1000))
 
@@ -922,6 +989,8 @@ class Widget:
         if s.get("state") in ("working", "waiting"):
             lines.append("该状态已持续 %s" % _fmt_dur(
                 time.time() - s.get("state_since", time.time())))
+        elif s.get("state") == "done" and s.get("completed_duration") is not None:
+            lines.append("本轮耗时 %s" % _fmt_dur(s["completed_duration"]))
         for t in s.get("todos") or []:
             mark = TODO_MARK.get(t.get("status"), "○")
             lines.append("  %s %s" % (mark, t.get("content", "")))

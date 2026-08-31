@@ -20,6 +20,23 @@
     ],
     "PermissionRequest": [
       {
+        "matcher": "^Bash$",
+        "hooks": [
+          {
+            "type": "process",
+            "command": "<PYTHON_EXE>",
+            "args": [
+              "<INSTALL_ROOT>\\hook_handler.py",
+              "permission_bash",
+              "${CLAUDE_SESSION_ID}",
+              "${ZCODE_PROJECT_DIR}"
+            ],
+            "timeoutMs": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "^(?!Bash$).+",
         "hooks": [
           {
             "type": "process",

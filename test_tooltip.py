@@ -61,5 +61,31 @@ assert any("修改登录模块" in t for t in texts), texts
 wg._unhover()
 root.update()
 assert wg.tooltip is None, "离开后 tooltip 应销毁"
+
+wg.apply_event({"event": "stop", "session_id": "t1", "ts": time.time()})
+wg.apply_event({
+    "event": "user_prompt_submit", "session_id": "t2",
+    "project": "proj-b", "project_dir": "D:\\proj-b",
+    "prompt_preview": "运行无清单任务", "ts": time.time(),
+})
+wg.apply_event({"event": "stop", "session_id": "t2", "ts": time.time()})
+wg.render()
+root.update()
+key = next(key for key, row in wg.rows.items()
+           if row["lab_p"].cget("text") == "proj-b")
+wg._set_hover(key)
+deadline = time.time() + 2
+while time.time() < deadline and wg.tooltip is None:
+    root.update()
+    time.sleep(0.05)
+
+assert wg.tooltip is not None, "完成态 tooltip 未生成"
+root.update()
+done_texts = [l.cget("text") for l in wg.tooltip.winfo_children()[0].winfo_children()]
+assert any("本轮耗时" in t for t in done_texts), done_texts
+
+wg._unhover()
+root.update()
+assert wg.tooltip is None, "离开后 tooltip 应销毁"
 print("TOOLTIP TEST PASSED")
 wg.quit()

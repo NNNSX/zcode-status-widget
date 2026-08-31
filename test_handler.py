@@ -7,8 +7,10 @@
 import json
 import os
 import socket
+import sqlite3
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 from pathlib import Path
@@ -43,12 +45,12 @@ PY = sys.executable
 H = str(PROJECT_ROOT / "hook_handler.py")
 
 
-def run(event, payload):
+def run(event, payload, session_id="test-session-1", project_dir="D:\\ZCode_ws", extra_env=None):
     p = subprocess.run(
-        [PY, H, event, "test-session-1", "D:\\ZCode_ws"],
+        [PY, H, event, session_id, project_dir],
         input=json.dumps(payload).encode("utf-8"),
         stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15,
-        env={**os.environ, "ZCODE_STATUS_PORT": str(TEST_PORT)},
+        env={**os.environ, "ZCODE_STATUS_PORT": str(TEST_PORT), **(extra_env or {})},
     )
     assert p.returncode == 0, (event, p.stderr)
     assert p.stdout == b"", ("stdout 必须为空", p.stdout)
@@ -60,12 +62,13 @@ run("todo_update", {"tool_input": {"todos": [
     {"content": "修改登录模块", "status": "in_progress"},
     {"content": "写测试", "status": "pending"},
 ]}})
+run("permission_bash", {})
 run("permission_request", {"tool_name": "Bash"})
 run("tool_failure", {"tool_name": "Bash", "tool_response": {"error": "exit code 1"}})
 run("stop", {})
 
 time.sleep(0.3)
-assert len(received) == 5, received
+assert len(received) == 6, received
 ev = {r["event"]: r for r in received}
 assert ev["user_prompt_submit"]["prompt_preview"] == "帮我实现登录模块"
 assert ev["user_prompt_submit"]["project"] == "ZCode_ws"
@@ -73,8 +76,52 @@ assert ev["user_prompt_submit"]["turn_id"] == "turn-1"
 todos = ev["todo_update"]["todos"]
 assert len(todos) == 3, todos
 assert ev["todo_update"]["current_task"] == "修改登录模块"
+assert ev["permission_bash"]["last_tool"] == ""
 assert ev["permission_request"]["last_tool"] == "Bash"
 assert ev["tool_failure"]["error_preview"] == "exit code 1"
+
+# 根会话目录必须优先于子会话运行目录；SQLite 仅通过临时数据库验证。
+with tempfile.TemporaryDirectory() as temp_dir:
+    db_path = Path(temp_dir) / "db.sqlite"
+    conn = sqlite3.connect(db_path)
+    try:
+        conn.execute("CREATE TABLE session (id TEXT PRIMARY KEY, parent_id TEXT, directory TEXT)")
+        conn.executemany(
+            "INSERT INTO session (id, parent_id, directory) VALUES (?, ?, ?)",
+            [
+                ("root-zcode", None, r"D:\\ZCode_ws"),
+                ("child-zcode", "root-zcode", r"D:\\ZCode_ws\\zcode-status-widget"),
+                ("root-paper", None, r"D:\\Workspaces\\真-毕业论文"),
+                ("child-paper", "root-paper", r"D:\\Workspaces\\真-毕业论文\\latex"),
+                ("cycle-a", "cycle-b", r"D:\\cycle-a"),
+                ("cycle-b", "cycle-a", r"D:\\cycle-b"),
+            ],
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+    before = len(received)
+    test_env = {"ZCODE_STATUS_DB_PATH": str(db_path)}
+    run("user_prompt_submit", {}, "child-zcode", r"D:\\ZCode_ws\\zcode-status-widget", test_env)
+    run("user_prompt_submit", {}, "child-paper", r"D:\\Workspaces\\真-毕业论文\\latex", test_env)
+    run("user_prompt_submit", {}, "missing", r"D:\\fallback-project", test_env)
+    run("user_prompt_submit", {}, "cycle-a", r"D:\\cycle-fallback", test_env)
+    time.sleep(0.3)
+    root_events = received[before:]
+    assert len(root_events) == 4, root_events
+    assert root_events[0]["project"] == "ZCode_ws", root_events[0]
+    assert root_events[0]["workspace_dir"] == r"D:\\ZCode_ws", root_events[0]
+    assert root_events[0]["workspace_source"] == "session_root", root_events[0]
+    assert root_events[1]["project"] == "真-毕业论文", root_events[1]
+    assert root_events[1]["workspace_dir"] == r"D:\\Workspaces\\真-毕业论文", root_events[1]
+    assert root_events[1]["workspace_source"] == "session_root", root_events[1]
+    assert root_events[2]["project"] == "fallback-project", root_events[2]
+    assert root_events[2]["workspace_dir"] == "", root_events[2]
+    assert root_events[2]["workspace_source"] == "event_dir", root_events[2]
+    assert root_events[3]["project"] == "cycle-fallback", root_events[3]
+    assert root_events[3]["workspace_source"] == "event_dir", root_events[3]
+
 srv.shutdown()
 
 # 非 2xx 必须重试：第一次 500，第二次 204

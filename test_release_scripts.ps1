@@ -33,6 +33,12 @@ function Get-RuleToken($Rule) {
     return [string]$args[1]
 }
 
+function Get-RuleMatcher($Rule) {
+    $property = $Rule.PSObject.Properties["matcher"]
+    if ($null -eq $property) { return "" }
+    return [string]$property.Value
+}
+
 function Assert([bool]$Condition, [string]$Message) {
     if (-not $Condition) { throw $Message }
 }
@@ -53,12 +59,22 @@ $thirdPartyRule = [ordered]@{
         timeoutMs = 1234
     })
 }
+$thirdPartyPermissionRule = [ordered]@{
+    matcher = "^Bash$"
+    hooks = @([ordered]@{
+        type = "process"
+        command = "C:\\third-party\\python.exe"
+        args = @("C:\\third-party\\permission.py", "permission_request")
+        timeoutMs = 5000
+    })
+}
 $fixture = [ordered]@{
     mcp = [ordered]@{ thirdParty = [ordered]@{ enabled = $true } }
     hooks = [ordered]@{
         enabled = $true
         events = [ordered]@{
             UserPromptSubmit = @($thirdPartyRule)
+            PermissionRequest = @($thirdPartyPermissionRule)
             CustomEvent = @($thirdPartyRule)
         }
     }
@@ -74,23 +90,70 @@ try {
     Assert ((Get-RuleToken @($installed.hooks.events.UserPromptSubmit)[0]) -eq "custom-event") "Installer replaced the existing third-party rule."
 
     $managed = @{
-        UserPromptSubmit = "user_prompt_submit"
-        PermissionRequest = "permission_request"
-        PostToolUse = "todo_update"
-        PostToolUseFailure = "tool_failure"
-        Stop = "stop"
+        UserPromptSubmit = @([pscustomobject]@{ Token = "user_prompt_submit"; Matcher = "" })
+        PermissionRequest = @(
+            [pscustomobject]@{ Token = "permission_bash"; Matcher = "^Bash$" },
+            [pscustomobject]@{ Token = "permission_request"; Matcher = "^(?!Bash$).+" }
+        )
+        PostToolUse = @([pscustomobject]@{ Token = "todo_update"; Matcher = "TodoWrite" })
+        PostToolUseFailure = @([pscustomobject]@{ Token = "tool_failure"; Matcher = "" })
+        Stop = @([pscustomobject]@{ Token = "stop"; Matcher = "" })
     }
     foreach ($event in $managed.Keys) {
-        $matches = @($installed.hooks.events.$event | Where-Object { (Get-RuleToken $_) -eq $managed[$event] })
-        Assert ($matches.Count -eq 1) "Installer did not add exactly one managed rule for $event."
+        foreach ($spec in $managed[$event]) {
+            $matches = @($installed.hooks.events.$event | Where-Object {
+                (Get-RuleToken $_) -eq $spec.Token -and (Get-RuleMatcher $_) -eq $spec.Matcher
+            })
+            Assert ($matches.Count -eq 1) "Installer did not add exactly one managed rule for $event/$($spec.Token)."
+        }
     }
+    $permissionRules = @($installed.hooks.events.PermissionRequest)
+    Assert (@($permissionRules | Where-Object {
+        (Get-RuleToken $_) -eq "permission_request" -and (Get-RuleMatcher $_) -eq ""
+    }).Count -eq 0) "Installer retained its legacy catch-all PermissionRequest rule."
+    Assert (@($permissionRules | Where-Object {
+        (Get-RuleToken $_) -eq "permission_request" -and
+        (Get-RuleMatcher $_) -eq "^Bash$" -and
+        $_.hooks[0].command -eq "C:\\third-party\\python.exe"
+    }).Count -eq 1) "Installer changed the third-party PermissionRequest rule."
 
+    $legacyManagedRule = [pscustomobject]@{
+        hooks = @([pscustomobject]@{
+            type = "process"
+            command = "C:\\legacy\\python.exe"
+            args = @(
+                (Join-Path $InstallRoot "hook_handler.py"),
+                "permission_request",
+                '${CLAUDE_SESSION_ID}',
+                '${ZCODE_PROJECT_DIR}'
+            )
+            timeoutMs = 5000
+        })
+    }
+    $installed.hooks.events.PermissionRequest = @($installed.hooks.events.PermissionRequest) + @($legacyManagedRule)
+    [System.IO.File]::WriteAllText(
+        $ConfigPath,
+        ($installed | ConvertTo-Json -Depth 100),
+        (New-Object System.Text.UTF8Encoding($false))
+    )
     Invoke-ReleaseScript $InstallScript @("-InstallRoot", $InstallRoot, "-ConfigPath", $ConfigPath, "-NoLaunch")
     $reinstalled = Read-Json $ConfigPath
     foreach ($event in $managed.Keys) {
-        $matches = @($reinstalled.hooks.events.$event | Where-Object { (Get-RuleToken $_) -eq $managed[$event] })
-        Assert ($matches.Count -eq 1) "Repeat install duplicated the managed rule for $event."
+        foreach ($spec in $managed[$event]) {
+            $matches = @($reinstalled.hooks.events.$event | Where-Object {
+                (Get-RuleToken $_) -eq $spec.Token -and (Get-RuleMatcher $_) -eq $spec.Matcher
+            })
+            Assert ($matches.Count -eq 1) "Repeat install duplicated the managed rule for $event/$($spec.Token)."
+        }
     }
+    Assert (@($reinstalled.hooks.events.PermissionRequest | Where-Object {
+        (Get-RuleToken $_) -eq "permission_request" -and (Get-RuleMatcher $_) -eq ""
+    }).Count -eq 0) "Repeat install retained the legacy catch-all PermissionRequest rule."
+    Assert (@($reinstalled.hooks.events.PermissionRequest | Where-Object {
+        (Get-RuleToken $_) -eq "permission_request" -and
+        (Get-RuleMatcher $_) -eq "^Bash$" -and
+        $_.hooks[0].command -eq "C:\\third-party\\python.exe"
+    }).Count -eq 1) "Repeat install changed the third-party PermissionRequest rule."
 
     Invoke-ReleaseScript $UninstallScript @("-InstallRoot", $InstallRoot, "-ConfigPath", $ConfigPath)
     $uninstalled = Read-Json $ConfigPath
@@ -98,10 +161,19 @@ try {
     Assert (@($uninstalled.hooks.events.CustomEvent).Count -eq 1) "Uninstaller changed an unrelated hook event."
     Assert ((Get-RuleToken @($uninstalled.hooks.events.UserPromptSubmit)[0]) -eq "custom-event") "Uninstaller removed the third-party rule."
     foreach ($event in $managed.Keys) {
-        $rules = @($uninstalled.hooks.events.$event)
-        $matches = @($rules | Where-Object { (Get-RuleToken $_) -eq $managed[$event] })
-        Assert ($matches.Count -eq 0) "Uninstaller left a managed rule for $event."
+        foreach ($spec in $managed[$event]) {
+            $rules = @($uninstalled.hooks.events.$event)
+            $matches = @($rules | Where-Object {
+                (Get-RuleToken $_) -eq $spec.Token -and (Get-RuleMatcher $_) -eq $spec.Matcher
+            })
+            Assert ($matches.Count -eq 0) "Uninstaller left a managed rule for $event/$($spec.Token)."
+        }
     }
+    Assert (@($uninstalled.hooks.events.PermissionRequest | Where-Object {
+        (Get-RuleToken $_) -eq "permission_request" -and
+        (Get-RuleMatcher $_) -eq "^Bash$" -and
+        $_.hooks[0].command -eq "C:\\third-party\\python.exe"
+    }).Count -eq 1) "Uninstaller removed the third-party PermissionRequest rule."
     Invoke-ReleaseScript $UninstallScript @("-InstallRoot", $InstallRoot, "-ConfigPath", $ConfigPath)
 
     [System.IO.File]::WriteAllText($FailureConfigPath, $fixtureJson, (New-Object System.Text.UTF8Encoding($false)))
@@ -117,3 +189,5 @@ try {
 finally {
     Remove-Item -LiteralPath $TempRoot -Recurse -Force -ErrorAction SilentlyContinue
 }
+
+exit 0
