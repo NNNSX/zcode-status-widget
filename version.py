@@ -1,1 +1,3 @@
-IiIi6aG555uu55qE5ZSv5LiA5Y+R5biD54mI5pys5p2l5rqQ44CCIiIiCgpWRVJTSU9OID0gIjAuMS4wIgo=
+"""项目的唯一发布版本来源。"""
+
+VERSION = "0.1.0"

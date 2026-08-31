@@ -1,1 +1,11 @@
-IyDnrKzkuInmlrnnu4Tku7blo7DmmI4KCuacrOmhueebrummluWPkeaehOW7uumTvui3r+S9v+eUqOS7peS4i+esrOS4ieaWuei9r+S7tu+8mgoKfCDnu4Tku7YgfCDnlKjpgJQgfCDorrjlj6/or4EgfAp8LS0tfC0tLXwtLS18CnwgW1B5SW5zdGFsbGVyXShodHRwczovL3B5aW5zdGFsbGVyLm9yZy8pIHwg5omT5YyFIFdpbmRvd3Mg5Y2V5paH5Lu2IEVYRSB8IEdQTC0yLjAtb3ItbGF0ZXLvvIzpmYQgYm9vdGxvYWRlciBleGNlcHRpb24gfAp8IFtweXN0cmF5XShodHRwczovL2dpdGh1Yi5jb20vbW9zZXMtcGFsbWVyL3B5c3RyYXkpIHwgV2luZG93cyDns7vnu5/miZjnm5jlm77moIflkozoj5zljZUgfCBMR1BMLTMuMC1vci1sYXRlciB8CnwgW1BpbGxvd10oaHR0cHM6Ly9weXRob24tcGlsbG93LmdpdGh1Yi5pby8pIHwg55Sf5oiQ5omY55uY5Zu+5qCH5L2N5Zu+IHwgSFBORCBMaWNlbnNlIHwKCuWujOaVtOiuuOWPr+ivgeaWh+acrOOAgemAgueUqOadoeS7tuWSjOa6kOS7o+eggeiOt+WPluaWueW8j+S7peWQhOe7hOS7tueahOS4iua4uOWPkeW4g+WMheS4uuWHhuOAgmBob29rX2hhbmRsZXIucHlgIOWPquS9v+eUqCBQeXRob24g5qCH5YeG5bqT77yM5LiN5L6d6LWW5LiK6L+w57uE5Lu244CCCg==
+# 第三方组件声明
+
+本项目首发构建链路使用以下第三方软件：
+
+| 组件 | 用途 | 许可证 |
+|---|---|---|
+| [PyInstaller](https://pyinstaller.org/) | 打包 Windows 单文件 EXE | GPL-2.0-or-later，附 bootloader exception |
+| [pystray](https://github.com/moses-palmer/pystray) | Windows 系统托盘图标和菜单 | LGPL-3.0-or-later |
+| [Pillow](https://python-pillow.github.io/) | 生成托盘图标位图 | HPND License |
+
+完整许可证文本、适用条件和源代码获取方式以各组件的上游发布包为准。`hook_handler.py` 只使用 Python 标准库，不依赖上述组件。

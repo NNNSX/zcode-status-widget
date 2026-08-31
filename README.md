@@ -1,1 +1,174 @@
-IyBaQ29kZSDnirbmgIHnga8KClshW1dpbmRvd3NdKGh0dHBzOi8vaW1nLnNoaWVsZHMuaW8vYmFkZ2UvcGxhdGZvcm0tV2luZG93cyUyMDEwJTIwJTJGJTIwMTEtMDA3OEQ0KV0oI+ezu+e7n+imgeaxgikKWyFbUHl0aG9uXShodHRwczovL2ltZy5zaGllbGRzLmlvL2JhZGdlL2hvb2slMjBQeXRob24tMy44JTJCLTM3NzZBQildKCPns7vnu5/opoHmsYIpClshW0xpY2Vuc2VdKGh0dHBzOi8vaW1nLnNoaWVsZHMuaW8vYmFkZ2UvbGljZW5zZS1NSVQtZ3JlZW4pXShMSUNFTlNFKQoKYFpDb2RlU3RhdHVzTGlnaHRgIOaYr+S4gOS4quS7heWcqOacrOacuui/kOihjOeahCBXaW5kb3dzIOaCrOa1rueKtuaAgeeBr+OAguWug+aKiiBaQ29kZSDkvJror53nirbmgIHmmL7npLrlnKjlsY/luZXop5LokL3vvJrkuI3mm7/ku6MgWkNvZGXvvIzkuI3kuIrkvKDkvJror53mlbDmja7vvIzkuI3lu7rnq4vkupHnq6/mnI3liqHjgIIKCuavj+S4qua0u+WKqOS8muivneWNoOS4gOihjO+8jOaWueS+v+WcqOWkmuS4queql+WPo+S5i+mXtOW3peS9nOaXtuW/q+mAn+ehruiupOWTquS4quS8muivneWcqOaJp+ihjOOAgeetieW+heehruiupOaIluW3sue7j+WujOaIkOOAggoKIyMg54q25oCB6K+t5LmJCgp8IOeBryB8IOWKqOaViCB8IOS8muivneWQq+S5iSB8IFpDb2RlIOS6i+S7tiB8CnwtLS18LS0tfC0tLXwtLS18Cnwg6buE54GvIHwg6Zeq54OBIHwg5q2j5Zyo5omn6KGMIHwgYFVzZXJQcm9tcHRTdWJtaXRg44CBYFRvZG9Xcml0ZWAgfAp8IOe6oueBryB8IOW/q+mXqiB8IOetieW+heS9oOehruiupOadg+mZkCB8IGBQZXJtaXNzaW9uUmVxdWVzdGAgfAp8IOe7v+eBryB8IOWRvOWQuCB8IOacrOi9ruWujOaIkCB8IGBTdG9wYCB8Cgrlt6XlhbflpLHotKXkuI3mmK/kvJror53nirbmgIHjgIJgUG9zdFRvb2xVc2VGYWlsdXJlYCDlj6rlnKjmgqzlgZzor6bmg4XkuK3ntK/orqHplJnor6/mrKHmlbDlkozmnIDov5HkuIDmnaHmkZjopoHvvIzkuI3kvJrmiorkvJror53nga/liIfmiJDplJnor6/oibLjgIIKCumdouadv+aMieacgOi/kea0u+i3g+aXtumXtOaOkuW6j+OAguWPs+S+p+S8mOWFiOaYvuekuiBUb2RvV3JpdGUg6L+b5bqm77yb5rKh5pyJ5Lu75Yqh5riF5Y2V5pe277yM5omn6KGM5Lit5ZKM562J5b6F56Gu6K6k54q25oCB5pi+56S65bey5oyB57ut5pe26Ze044CC5bey5a6M5oiQ5Lya6K+d6buY6K6k5L+d55WZIDUg5YiG6ZKf77yMMzAg5YiG6ZKf5pyq5rS75Yqo55qE5Lya6K+d6Ieq5Yqo56e76Zmk44CCCgojIyDlip/og73ojIPlm7QKCi0g5qiq5ZCR57qi44CB6buE44CB57u/5LiJ54Gv5LiO54q25oCB5Yqo5pWI44CCCi0g5aSa5Lya6K+d5YiX6KGo44CBVG9kb1dyaXRlIOi/m+W6puOAgeeKtuaAgeaXtumVv+S4juaCrOWBnOivpuaDheOAggotIOaLluWKqOWumuS9jeOAgeezu+e7n+aJmOebmOOAgeS9jee9ruiusOW/huOAgemAj+aYjuW6puOAgeepuumXsuW4uOmpu+aYvuekuuOAgeWPr+mAieW8gOacuuiHquWQr+OAggotIOaXoOa0u+i3g+S8muivneaXtum7mOiupOaYvuekuuS4gOihjOS4iemil+aal+eBr+WSjOKAnOaaguaXoOa0u+i3g+S8muivneKAne+8m+iuvue9ruS4reWPr+S7peWFs+mXreivpeihjOS4uu+8jOWFs+mXreWQjuWPquS/neeVmeaJmOebmOOAggotIOS7heebkeWQrCBgMTI3LjAuMC4xOjU3MzEwYO+8jOS4jeS8muaatOmcsue9kee7nOerr+WPo+OAggotIOi+k+WFpeS4jei2hei/hyA2NCBLaULvvIzpmJ/liJfmnIDlpJogMjU2IOadoe+8jOavj+asoeeVjOmdouWIt+aWsOacgOWkmuWkhOeQhiAzMiDmnaHvvJvlvILluLjml6Xlv5fph4fnlKggMSBNaUIg5Y2V5aSH5Lu96L2u6L2s44CCCgojIyDns7vnu5/opoHmsYIKCi0gV2luZG93cyAxMCDmiJYgV2luZG93cyAxMeOAggotIFpDb2RlIOW3suWuieijhe+8jOS4lOS9v+eUqOeUqOaIt+mFjee9ruaWh+S7tiBgfi8uemNvZGUvY2xpL2NvbmZpZy5qc29uYOOAggotIFB5dGhvbiAzLjgg5oiW5pu06auY54mI5pys77yM5LuF55So5LqO5ZCv5YqoIGBob29rX2hhbmRsZXIucHlg44CC5oKs5rWu56qXIEVYRSDmnKzouqvkuI3pnIDopoEgUHl0aG9u44CCCi0gUG93ZXJTaGVsbCA1LjEg5oiW5pu06auY54mI5pys77yM5LuF55So5LqO5a6J6KOF5ZKM5Y246L296ISa5pys44CCCgrpppblj5EgRVhFIOacqui/m+ihjCBBdXRoZW50aWNvZGUg562+5ZCN44CCV2luZG93cyBTbWFydFNjcmVlbiDlj6/og73mj5DnpLrigJzmnKrnn6Xlj5HluIPogIXigJ3vvJvor7flj6rku47lr7nlupQgR2l0SHViIFJlbGVhc2Ug5LiL6L2977yM5bm25YWI6aqM6K+BIFNIQS0yNTbjgIIKCiMjIOWuieijhQoKMS4g5LuOIEdpdEh1YiBSZWxlYXNlcyDkuIvovb0gYFpDb2RlU3RhdHVzTGlnaHQtdjAuMS4wLXdpbmRvd3MteDY0LnppcGDjgIIKMi4g5Zyo5LiL6L2955uu5b2V6Kej5Y6LIFpJUOOAguS4jeimgeebtOaOpeS7jiBaSVAg5YaF6L+Q6KGM5a6J6KOF6ISa5pys44CCCjMuIOWcqCBQb3dlclNoZWxsIOS4reagoemqjOS4i+i9veWMheeahOWTiOW4jO+8mgoKYGBgcG93ZXJzaGVsbApHZXQtRmlsZUhhc2ggLlxaQ29kZVN0YXR1c0xpZ2h0LXYwLjEuMC13aW5kb3dzLXg2NC56aXAgLUFsZ29yaXRobSBTSEEyNTYKR2V0LUNvbnRlbnQgLlxaQ29kZVN0YXR1c0xpZ2h0LXYwLjEuMC13aW5kb3dzLXg2NC56aXAuc2hhMjU2CmBgYAoK5Lik6KGM5Lit55qEIDY0IOS9jSBTSEEtMjU2IOWAvOW/hemhu+WujOWFqOS4gOiHtOOAguino+WOi+WQjueahCBgU0hBMjU2U1VNUy50eHRgIOeUqOS6juagoemqjOWMheWGheaWh+S7tuOAggoKNC4g6aKE6KeI5a6J6KOF6ISa5pys55qE5Y+C5pWw5ZKM5bCG6KaB5YaZ5YWl55qE55uu5qCH77yaCgpgYGBwb3dlcnNoZWxsCkdldC1IZWxwIC5caW5zdGFsbC5wczEgLURldGFpbGVkCmBgYAoKNS4g5a6J6KOF5Yiw5b2T5YmN55So5oi355uu5b2V77yM5bm257K+56Gu5ZCI5bm2IDUg5p2hIFpDb2RlIGhvb2tz77yaCgpgYGBwb3dlcnNoZWxsCi5caW5zdGFsbC5wczEKYGBgCgrpu5jorqTlronoo4Xnm67lvZXkuLogYCVMT0NBTEFQUERBVEElXFpDb2RlU3RhdHVzTGlnaHRg44CC6ISa5pys5Lya5Zyo5L+u5pS55YmN5qCh6aqMIFJlbGVhc2Ug5YaF5a6544CBUHl0aG9uIOino+mHiuWZqOWSjCBaQ29kZSBKU09O77yb5YaZ5YWl5YmN5Lya5aSH5Lu95Y6f5aeL6YWN572u5Yiw5a6J6KOF55uu5b2V55qEIGBiYWNrdXBzXGDjgILlroPkuI3kvJropobnm5YgYG1jcGDjgIFgcGx1Z2luc2DjgIHlt7LmnIkgaG9va3Mg5oiW5YW25LuW6aG25bGC6YWN572u44CCCgrlpoLmnpwgUHl0aG9uIOS4jeWcqCBgcHkgLTNgIOaIliBgcHl0aG9uYCDlj6/lj5HnjrDnmoTkvY3nva7vvIzmmL7lvI/mjIflrprop6Pph4rlmajvvJoKCmBgYHBvd2Vyc2hlbGwKLlxpbnN0YWxsLnBzMSAtUHl0aG9uUGF0aCAiQzpcUGF0aFxUb1xweXRob24uZXhlIgpgYGAKCuWmguaenOeUqOaIt+W3sue7j+aYvuW8j+WFs+mXreS6hiBgaG9va3MuZW5hYmxlZGDvvIzlronoo4XkvJrlgZzmraLjgILlj6rmnInmmI7noa7luIzmnJvph43mlrDlkK/nlKggaG9va3Mg5pe277yM5omN5bqU5omn6KGM77yaCgpgYGBwb3dlcnNoZWxsCi5caW5zdGFsbC5wczEgLUVuYWJsZUhvb2tzCmBgYAoK5a6J6KOF5a6M5oiQ5ZCO77yM6YeN5ZCvIFpDb2RlIOaIluaWsOW8gOS8muivne+8m1pDb2RlIOWcqOS8muivneWQr+WKqOaXtuivu+WPliBob29rc+OAggoKIyMg5a6J6KOF6ISa5pys55qE6YWN572u6L6555WMCgrlronoo4Xlmajlj6rnrqHnkIbkupTkuKogYHByb2Nlc3NgIGhvb2tz77yaCgotIGBVc2VyUHJvbXB0U3VibWl0YAotIGBQZXJtaXNzaW9uUmVxdWVzdGAKLSBgUG9zdFRvb2xVc2Vg77yM5LiUIG1hdGNoZXIg57K+56Gu5Li6IGBUb2RvV3JpdGVgCi0gYFBvc3RUb29sVXNlRmFpbHVyZWAKLSBgU3RvcGAKCuavj+adoeWPl+euoeinhOWImemDveW/hemhu+WQjOaXtuWMuemFjSBoYW5kbGVyIOi3r+W+hOOAgeS6i+S7tiB0b2tlbuOAgWAke0NMQVVERV9TRVNTSU9OX0lEfWDjgIFgJHtaQ09ERV9QUk9KRUNUX0RJUn1gIOWSjCA1MDAwIG1zIOi2heaXtuOAgumHjeWkjeWuieijheS8muWOu+mHje+8m+S4jeWMuemFjeeahOesrOS4ieaWueinhOWImeS4gOW+i+S/neeVmeOAggoKW2Bkb2NzL3pjb2RlLWhvb2tzLmV4YW1wbGUuanNvbmBdKGRvY3MvemNvZGUtaG9va3MuZXhhbXBsZS5qc29uKSDmmK/kuI3lkKvkuKrkurrot6/lvoTnmoTphY3nva7mqKHmnb/vvIznlKjkuo7lrqHmn6Xlrp7pmYXlhpnlhaXnu5PmnoTvvIzkuI3lu7rorq7miYvlt6Xopobnm5bmlbTkuKogYGNvbmZpZy5qc29uYOOAggoKIyMg5L2/55SoCgotIOWPjOWHu+WuieijheebruW9leS4reeahCBgWkNvZGVTdGF0dXNMaWdodC5leGVgIOWQr+WKqOOAguWuieijheWujOaIkOWQjuiEmuacrOm7mOiupOWQr+WKqOS4gOasoeOAggotIOW3pumUruaJmOebmOWbvuagh+aJk+W8gOiuvue9ru+8m+WPs+mUruaJmOebmOWbvuagh+WPr+mHjee9ruS9jee9ruaIlumAgOWHuuOAggotIOmdouadv+WPs+mUruiPnOWNleWPr+aJk+W8gOiuvue9ruOAgeWIh+aNoue9rumhtuaIlumAgOWHuuOAggotIOW8gOacuuiHquWQr+S7heeUseiuvue9rueql+WPo+S4reeahOKAnOW8gOacuuiHquWKqOWQr+WKqOKAneaOp+WItu+8jOWuieijheiEmuacrOS4jeS8muiHquWKqOW8gOWQr+OAggotIOmAj+aYjuW6puS4uiAyMCUg5YiwIDEwMCXjgILkvY7kuo4gMTAwJSDml7YgV2luZG93cyDkuI3muLLmn5MgRFdNIOWchuinku+8m+iwg+WbniAxMDAlIOaXtuWchuinkuaBouWkjeOAggoKIyMg5Y246L29CgrlhYjpgIDlh7rmgqzmta7nqpfvvIznhLblkI7lnKgqKuWOn+ino+WOi+ebruW9leaIluWuieijheebruW9lSoq5Lit5omn6KGM77yaCgpgYGBwb3dlcnNoZWxsCi5cdW5pbnN0YWxsLnBzMQpgYGAKCuWNuOi9veWZqOS+neaNriBgaW5zdGFsbC1zdGF0ZS5qc29uYCDnsr7noa7np7vpmaTmnKznqIvluo/mt7vliqDnmoQgaG9va3PvvIzkuI3kvJrliKDpmaTmlbTkuKogYGhvb2tzYCDlnZfvvIzkuI3kvJropobnm5bljoblj7IgYGNvbmZpZy5qc29uLmJha2DvvIzkuZ/kuI3kvJrliKDpmaTlhbbku5bpobnnm67nmoTop4TliJnjgILmr4/mrKHljbjovb3lhpnlhaXliY3vvIzljp/lp4sgWkNvZGUg6YWN572u5Lya5aSH5Lu95YiwIGB+Ly56Y29kZS9jbGkvLnpjb2RlLXN0YXR1cy1saWdodC1iYWNrdXBzL2DjgILpu5jorqTkv53nlZnvvJoKCi0gYEhLQ1VcU29mdHdhcmVcWkNvZGVTdGF0dXNMaWdodGAg5Lit55qE5L2N572u5LiO5pi+56S65YGP5aW944CCCi0gYCVMT0NBTEFQUERBVEElXHpjb2RlLXN0YXR1c2Ag5Lit55qEIGhvb2sg6K+K5pat5pel5b+X44CCCgrpnIDopoHkuIDlubbmuIXnkIbov5nkuKTnsbvmnKzlnLDmlbDmja7ml7bvvIzmiY3kvb/nlKjvvJoKCmBgYHBvd2Vyc2hlbGwKLlx1bmluc3RhbGwucHMxIC1QdXJnZVVzZXJEYXRhCmBgYAoK6Iul5a6J6KOF5pe25pu+55SoIGAtRW5hYmxlSG9va3NgIOWwhuWOn+adpeWFs+mXreeahCBob29rcyDmiZPlvIDvvIzkuJTljbjovb3lkI7kuI3lho3mnInku7vkvZUgaG9va3PvvIzlj6/nlKggYC1SZXN0b3JlRW5hYmxlZFN0YXRlYCDmgaLlpI3lhbPpl63nirbmgIHjgIIKCiMjIOmakOengeS4juWuieWFqAoKLSDkuovku7bku4Xku44gYGhvb2tfaGFuZGxlci5weWAg5Y+R6YCB5Yiw5pys5py65Zue546v5Zyw5Z2AIGAxMjcuMC4wLjE6NTczMTBg44CCCi0g6L2v5Lu25rKh5pyJ572R57uc5LiK5Lyg44CB6YGl5rWL44CB6LSm5Y+344CB5pWw5o2u5bqT5oiW5LqR5ZCM5q2l5Yqf6IO944CCCi0g5Lya6K+d54q25oCB5LuF5Zyo5oKs5rWu56qX6L+b56iL5YaF5a2Y5Lit5L+d5a2Y77yM6L+b56iL6YCA5Ye65ZCO5Lii5byD44CCCi0g5q2j5bi456a757q/5pe25LiN5YaZ5pel5b+X77yb6Z2e6aKE5pyfIGhvb2sg6ZSZ6K+v6K6w5b2V5ZyoIGAlTE9DQUxBUFBEQVRBJVx6Y29kZS1zdGF0dXNcaG9va19lcnJvci5sb2dg77yM5pyA5aSa5L+d55WZ5b2T5YmN5pel5b+X5ZKM5LiA5Liq5aSH5Lu977yM5ZCI6K6h57qmIDIgTWlC44CCCi0g5LiN6KaB5bCG5pel5b+X44CB5oiq5Zu+44CBWkNvZGUg6YWN572u5oiWIFJlbGVhc2Ug5Lit55qEIGBpbnN0YWxsLXN0YXRlLmpzb25gIOWPkeW4g+WIsOWFrOW8gOS9jee9ru+8jOWFtuS4reWPr+iDveWQq+acrOacuui3r+W+hOaIluWFtuS7luacrOWcsOS/oeaBr+OAggoKIyMg5o6S6ZqcCgotIOmdouadv+S4jeaYvuekuu+8muehruiupCBgWkNvZGVTdGF0dXNMaWdodC5leGVgIOato+WcqOi/kOihjO+8jOmHjeaWsOWQr+WKqCBaQ29kZSDmiJbmlrDlvIDkvJror53vvIzlho3mo4Dmn6UgYCVMT0NBTEFQUERBVEElXHpjb2RlLXN0YXR1c1xob29rX2Vycm9yLmxvZ2DjgIIKLSDmlrDlrp7kvovnq4vljbPpgIDlh7rvvJpgMTI3LjAuMC4xOjU3MzEwYCDlt7LooqvnjrDmnInlrp7kvovljaDnlKjvvJvnirbmgIHnga/kvb/nlKjni6zljaDnu5Hlrprpgb/lhY3ph43lpI3ov5DooYzjgIIKLSBob29rcyDmsqHmnInkuovku7bvvJrmo4Dmn6UgUHl0aG9uIOS7jeWtmOWcqO+8jOehruiupCBgY29uZmlnLmpzb25gIOS4reeahCBob29rcyDlt7LooqsgWkNvZGUg6YeN5paw5Yqg6L2977yM5bm25p+l55yLIFpDb2RlIOiHquW3seeahCBob29rIOinpuWPkeaXpeW/l+OAggotIOmdouadv+S9jee9ruW8guW4uO+8muaJmOebmOiPnOWNlemAieaLqeKAnOmHjee9ruS9jee9ruKAneOAggotIOmcgOimgeiviuaWrea4suafk++8muS7jua6kOeggeebruW9lei/kOihjCBgcHl0aG9uIHdpZGdldC5weWDvvIzov5nmoLflj6/ku6XlnKjmjqfliLblj7DnnIvliLAgdGtpbnRlciB0cmFjZWJhY2vjgIIKCiMjIOS7jua6kOeggeaehOW7ugoK5p6E5bu6546v5aKD5L2/55SoIFB5dGhvbiAzLjkg5oiW5pu06auY54mI5pys44CC6K+l5pON5L2c5Y+q5p6E5bu65pys5ZywIEVYRe+8jOS4jeS8muaUuSBaQ29kZSDphY3nva7vvJoKCmBgYHBvd2Vyc2hlbGwKLlxzY3JpcHRzXGJ1aWxkLXJlbGVhc2UucHMxCi5cc2NyaXB0c1xwYWNrYWdlLXJlbGVhc2UucHMxCmBgYAoK56ys5LiA5Liq6ISa5pys6K+75Y+WIFtgcmVxdWlyZW1lbnRzLWJ1aWxkLnR4dGBdKHJlcXVpcmVtZW50cy1idWlsZC50eHQp77yM5L2/55SoIFB5SW5zdGFsbGVyIOWcqCBgZGlzdFxgIOeUn+aIkCBgWkNvZGVTdGF0dXNMaWdodC5leGVg44CC56ys5LqM5Liq6ISa5pys5LuO55m95ZCN5Y2V5paH5Lu255Sf5oiQIGByZWxlYXNlXFpDb2RlU3RhdHVzTGlnaHQtdjAuMS4wLXdpbmRvd3MteDY0LnppcGAg5ZKMIFNIQS0yNTYg5qCh6aqM5paH5Lu244CCCgrlm57lvZLmtYvor5Xnu7TmjIHnroDljZXohJrmnKzlvaLlvI/vvJoKCmBgYHBvd2Vyc2hlbGwKcHl0aG9uIC1tIHB5X2NvbXBpbGUgd2lkZ2V0LnB5IGhvb2tfaGFuZGxlci5weSB2ZXJzaW9uLnB5CnB5dGhvbiB0ZXN0X2hhbmRsZXIucHkKcHl0aG9uIHRlc3RfdG9vbHRpcC5weQpweXRob24gdGVzdF9vcGFjaXR5X3JlZ3Jlc3Npb24ucHkKcHl0aG9uIHRlc3Rfc2Vzc2lvbl9kaXNwbGF5LnB5CnB5dGhvbiB0ZXN0X3N0YWJpbGl0eS5weQpgYGAKCuWFtuS4rSBHVUkg5Zue5b2S5rWL6K+V6ZyA6KaBIFdpbmRvd3Mg5Zu+5b2i5qGM6Z2i77yb5a6D5Lus5L2/55So6ZqP5py65Li05pe256uv5Y+j77yM5LiN5Lya5ZCR6L+Q6KGM5Lit55qE54q25oCB54Gv5Y+R6YCB5rWL6K+V5Lya6K+d44CCCgojIyDlt7Lnn6XpmZDliLYKCi0g5Y+q5pSv5oyBIFdpbmRvd3PvvIzkuI3mlK/mjIEgbWFjT1Mg5oiWIExpbnV444CCCi0g5Z2Q5qCH5oGi5aSN6YeH55So5Y2V5bGP5qih5Z6L77yb5aSa5pi+56S65Zmo54Ot5o+S5ouU44CB5q+P5pi+56S65ZmoIERQSSDkuI7lpI3mnYLnqpflj6PnrqHnkIbkuI3lnKjpppblj5HojIPlm7TjgIIKLSDmoIflh4blupMgSFRUUCDmnI3liqHkuLrmr4/ov57mjqXkuIDnur/nqIvvvIzkvYbmnI3liqHku4Xnu5Hlrprlm57njq/lnLDlnYDvvIzkuJTor7fmsYLjgIHpmJ/liJflkowgR1VJIOa2iOi0uemDveW3suacieWbuuWumuS4iumZkOOAggotIGBob29rX2hhbmRsZXIucHlgIOS4uuWQjOatpeacrOWcsOivt+axgu+8jOWNleasoeWksei0peS8mumHjeivleS4gOasoe+8m+acgOWdj+iAl+aXtue6piAxLjIg56eS77yM5L2O5LqOIGhvb2sg55qEIDUg56eS6LaF5pe244CCCgojIyDorrjlj6/or4EKCuacrOmhueebrumHh+eUqCBbTUlUIExpY2Vuc2VdKExJQ0VOU0Up44CC5omT5YyF5L6d6LWW55qE6K645Y+v6K+B6K+05piO6KeBIFtUSElSRF9QQVJUWV9OT1RJQ0VTLm1kXShUSElSRF9QQVJUWV9OT1RJQ0VTLm1kKeOAggo=
+# ZCode 状态灯
+
+[![Windows](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D4)](#系统要求)
+[![Python](https://img.shields.io/badge/hook%20Python-3.8%2B-3776AB)](#系统要求)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+`ZCodeStatusLight` 是一个仅在本机运行的 Windows 悬浮状态灯。它把 ZCode 会话状态显示在屏幕角落：不替代 ZCode，不上传会话数据，不建立云端服务。
+
+每个活动会话占一行，方便在多个窗口之间工作时快速确认哪个会话在执行、等待确认或已经完成。
+
+## 状态语义
+
+| 灯 | 动效 | 会话含义 | ZCode 事件 |
+|---|---|---|---|
+| 黄灯 | 闪烁 | 正在执行 | `UserPromptSubmit`、`TodoWrite` |
+| 红灯 | 快闪 | 等待你确认权限 | `PermissionRequest` |
+| 绿灯 | 呼吸 | 本轮完成 | `Stop` |
+
+工具失败不是会话状态。`PostToolUseFailure` 只在悬停详情中累计错误次数和最近一条摘要，不会把会话灯切成错误色。
+
+面板按最近活跃时间排序。右侧优先显示 TodoWrite 进度；没有任务清单时，执行中和等待确认状态显示已持续时间。已完成会话默认保留 5 分钟，30 分钟未活动的会话自动移除。
+
+## 功能范围
+
+- 横向红、黄、绿三灯与状态动效。
+- 多会话列表、TodoWrite 进度、状态时长与悬停详情。
+- 拖动定位、系统托盘、位置记忆、透明度、空闲常驻显示、可选开机自启。
+- 无活跃会话时默认显示一行三颗暗灯和“暂无活跃会话”；设置中可以关闭该行为，关闭后只保留托盘。
+- 仅监听 `127.0.0.1:57310`，不会暴露网络端口。
+- 输入不超过 64 KiB，队列最多 256 条，每次界面刷新最多处理 32 条；异常日志采用 1 MiB 单备份轮转。
+
+## 系统要求
+
+- Windows 10 或 Windows 11。
+- ZCode 已安装，且使用用户配置文件 `~/.zcode/cli/config.json`。
+- Python 3.8 或更高版本，仅用于启动 `hook_handler.py`。悬浮窗 EXE 本身不需要 Python。
+- PowerShell 5.1 或更高版本，仅用于安装和卸载脚本。
+
+首发 EXE 未进行 Authenticode 签名。Windows SmartScreen 可能提示“未知发布者”；请只从对应 GitHub Release 下载，并先验证 SHA-256。
+
+## 安装
+
+1. 从 GitHub Releases 下载 `ZCodeStatusLight-v0.1.0-windows-x64.zip`。
+2. 在下载目录解压 ZIP。不要直接从 ZIP 内运行安装脚本。
+3. 在 PowerShell 中校验下载包的哈希：
+
+```powershell
+Get-FileHash .\ZCodeStatusLight-v0.1.0-windows-x64.zip -Algorithm SHA256
+Get-Content .\ZCodeStatusLight-v0.1.0-windows-x64.zip.sha256
+```
+
+两行中的 64 位 SHA-256 值必须完全一致。解压后的 `SHA256SUMS.txt` 用于校验包内文件。
+
+4. 预览安装脚本的参数和将要写入的目标：
+
+```powershell
+Get-Help .\install.ps1 -Detailed
+```
+
+5. 安装到当前用户目录，并精确合并 5 条 ZCode hooks：
+
+```powershell
+.\install.ps1
+```
+
+默认安装目录为 `%LOCALAPPDATA%\ZCodeStatusLight`。脚本会在修改前校验 Release 内容、Python 解释器和 ZCode JSON；写入前会备份原始配置到安装目录的 `backups\`。它不会覆盖 `mcp`、`plugins`、已有 hooks 或其他顶层配置。
+
+如果 Python 不在 `py -3` 或 `python` 可发现的位置，显式指定解释器：
+
+```powershell
+.\install.ps1 -PythonPath "C:\Path\To\python.exe"
+```
+
+如果用户已经显式关闭了 `hooks.enabled`，安装会停止。只有明确希望重新启用 hooks 时，才应执行：
+
+```powershell
+.\install.ps1 -EnableHooks
+```
+
+安装完成后，重启 ZCode 或新开会话；ZCode 在会话启动时读取 hooks。
+
+## 安装脚本的配置边界
+
+安装器只管理五个 `process` hooks：
+
+- `UserPromptSubmit`
+- `PermissionRequest`
+- `PostToolUse`，且 matcher 精确为 `TodoWrite`
+- `PostToolUseFailure`
+- `Stop`
+
+每条受管规则都必须同时匹配 handler 路径、事件 token、`${CLAUDE_SESSION_ID}`、`${ZCODE_PROJECT_DIR}` 和 5000 ms 超时。重复安装会去重；不匹配的第三方规则一律保留。
+
+[`docs/zcode-hooks.example.json`](docs/zcode-hooks.example.json) 是不含个人路径的配置模板，用于审查实际写入结构，不建议手工覆盖整个 `config.json`。
+
+## 使用
+
+- 双击安装目录中的 `ZCodeStatusLight.exe` 启动。安装完成后脚本默认启动一次。
+- 左键托盘图标打开设置；右键托盘图标可重置位置或退出。
+- 面板右键菜单可打开设置、切换置顶或退出。
+- 开机自启仅由设置窗口中的“开机自动启动”控制，安装脚本不会自动开启。
+- 透明度为 20% 到 100%。低于 100% 时 Windows 不渲染 DWM 圆角；调回 100% 时圆角恢复。
+
+## 卸载
+
+先退出悬浮窗，然后在**原解压目录或安装目录**中执行：
+
+```powershell
+.\uninstall.ps1
+```
+
+卸载器依据 `install-state.json` 精确移除本程序添加的 hooks，不会删除整个 `hooks` 块，不会覆盖历史 `config.json.bak`，也不会删除其他项目的规则。每次卸载写入前，原始 ZCode 配置会备份到 `~/.zcode/cli/.zcode-status-light-backups/`。默认保留：
+
+- `HKCU\Software\ZCodeStatusLight` 中的位置与显示偏好。
+- `%LOCALAPPDATA%\zcode-status` 中的 hook 诊断日志。
+
+需要一并清理这两类本地数据时，才使用：
+
+```powershell
+.\uninstall.ps1 -PurgeUserData
+```
+
+若安装时曾用 `-EnableHooks` 将原来关闭的 hooks 打开，且卸载后不再有任何 hooks，可用 `-RestoreEnabledState` 恢复关闭状态。
+
+## 隐私与安全
+
+- 事件仅从 `hook_handler.py` 发送到本机回环地址 `127.0.0.1:57310`。
+- 软件没有网络上传、遥测、账号、数据库或云同步功能。
+- 会话状态仅在悬浮窗进程内存中保存，进程退出后丢弃。
+- 正常离线时不写日志；非预期 hook 错误记录在 `%LOCALAPPDATA%\zcode-status\hook_error.log`，最多保留当前日志和一个备份，合计约 2 MiB。
+- 不要将日志、截图、ZCode 配置或 Release 中的 `install-state.json` 发布到公开位置，其中可能含本机路径或其他本地信息。
+
+## 排障
+
+- 面板不显示：确认 `ZCodeStatusLight.exe` 正在运行，重新启动 ZCode 或新开会话，再检查 `%LOCALAPPDATA%\zcode-status\hook_error.log`。
+- 新实例立即退出：`127.0.0.1:57310` 已被现有实例占用；状态灯使用独占绑定避免重复运行。
+- hooks 没有事件：检查 Python 仍存在，确认 `config.json` 中的 hooks 已被 ZCode 重新加载，并查看 ZCode 自己的 hook 触发日志。
+- 面板位置异常：托盘菜单选择“重置位置”。
+- 需要诊断渲染：从源码目录运行 `python widget.py`，这样可以在控制台看到 tkinter traceback。
+
+## 从源码构建
+
+构建环境使用 Python 3.9 或更高版本。该操作只构建本地 EXE，不会改 ZCode 配置：
+
+```powershell
+.\scripts\build-release.ps1
+.\scripts\package-release.ps1
+```
+
+第一个脚本读取 [`requirements-build.txt`](requirements-build.txt)，使用 PyInstaller 在 `dist\` 生成 `ZCodeStatusLight.exe`。第二个脚本从白名单文件生成 `release\ZCodeStatusLight-v0.1.0-windows-x64.zip` 和 SHA-256 校验文件。
+
+回归测试维持简单脚本形式：
+
+```powershell
+python -m py_compile widget.py hook_handler.py version.py
+python test_handler.py
+python test_tooltip.py
+python test_opacity_regression.py
+python test_session_display.py
+python test_stability.py
+```
+
+其中 GUI 回归测试需要 Windows 图形桌面；它们使用随机临时端口，不会向运行中的状态灯发送测试会话。
+
+## 已知限制
+
+- 只支持 Windows，不支持 macOS 或 Linux。
+- 坐标恢复采用单屏模型；多显示器热插拔、每显示器 DPI 与复杂窗口管理不在首发范围。
+- 标准库 HTTP 服务为每连接一线程，但服务仅绑定回环地址，且请求、队列和 GUI 消费都已有固定上限。
+- `hook_handler.py` 为同步本地请求，单次失败会重试一次；最坏耗时约 1.2 秒，低于 hook 的 5 秒超时。
+
+## 许可证
+
+本项目采用 [MIT License](LICENSE)。打包依赖的许可证说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

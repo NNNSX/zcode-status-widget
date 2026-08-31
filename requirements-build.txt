@@ -1,1 +1,4 @@
-IyBCdWlsZC1vbmx5IGRlcGVuZGVuY2llcy4gaG9va19oYW5kbGVyLnB5IHVzZXMgb25seSB0aGUgUHl0aG9uIHN0YW5kYXJkIGxpYnJhcnkuCnB5aW5zdGFsbGVyPT02LjE4LjAKcHlzdHJheT09MC4xOS41CnBpbGxvdz09MTEuMy4wCg==
+# Build-only dependencies. hook_handler.py uses only the Python standard library.
+pyinstaller==6.18.0
+pystray==0.19.5
+pillow==11.3.0

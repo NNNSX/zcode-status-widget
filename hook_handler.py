@@ -1,1 +1,192 @@
-IyAtKi0gY29kaW5nOiB1dGYtOCAtKi0KIiIiWkNvZGUgaG9vayDlhaXlj6PvvJrmioogaG9vayDkuovku7bpgJrov4fmnKzmnLrlm57njq8gSFRUUCDlj5Hnu5nmgqzmta7nqpfov5vnqIvjgIIKCueUqOazle+8iOeUsSB+Ly56Y29kZS9jbGkvY29uZmlnLmpzb24g55qEIGhvb2tzIOmFjee9ruiwg+eUqO+8jHByb2Nlc3Mg57G75Z6L77yJOgogICAgcHl0aG9uLmV4ZSBob29rX2hhbmRsZXIucHkgPGV2ZW50PiBbc2Vzc2lvbl9pZF0gW3Byb2plY3RfZGlyXQoK57qm5a6a77yaCi0gc3Rkb3V0IOW/hemhu+S/neaMgeS4uuepuu+8iFpDb2RlIOWvuSBob29rIOi+k+WHuuWBmuS4peagvCBKU09OIOagoemqjO+8jOS7u+S9leWkmuS9mei+k+WHuumDveeul+Wksei0pe+8ieOAggotIOS7u+S9leWGhemDqOmUmeivr+mDveWQnuaOieW5tuS7pSAwIOmAgOWHuu+8jOe7neS4jemYu+WhnuS8muivne+8m+S7hemdnumihOacn+emu+e6v+mUmeivr+WGmeWFpQogIGAlTE9DQUxBUFBEQVRBJVxcemNvZGUtc3RhdHVzXFxob29rX2Vycm9yLmxvZ2DvvIzml6Xlv5fmnIDlpJrkv53nlZnlvZPliY3lkozkuIDkuKrlpIfku73jgIIKLSDnirbmgIHnlLHmgqzmta7nqpfov5vnqIvmjqXmlLblkI7ku4XlnKjlhoXlrZjkuK3mjIHmnInvvJvmnKzohJrmnKzkuI3or7vlj5bmiJblhpnlhaXkvJror53nirbmgIHmlofku7bjgIIKLSDmgqzmta7nqpfmnKrov5DooYzml7bov57mjqXlpLHotKXlsZ7kuo7mraPluLjmg4XlhrXvvIzpnZnpu5jkuKLlvIPljbPlj6/jgIIKIiIiCgppbXBvcnQgZXJybm8KaW1wb3J0IGpzb24KaW1wb3J0IG9zCmltcG9ydCByZQppbXBvcnQgc3lzCmltcG9ydCB0aW1lCmltcG9ydCBodHRwLmNsaWVudAoKSE9TVCA9ICIxMjcuMC4wLjEiCiMg5rWL6K+V55So546v5aKD5Y+Y6YeP6KaG55uW56uv5Y+j77yM6YG/5YWN5LiO6L+Q6KGM5Lit55qE5oKs5rWu56qX5oqiIDU3MzEwClBPUlQgPSBpbnQob3MuZW52aXJvbi5nZXQoIlpDT0RFX1NUQVRVU19QT1JUIikgb3IgNTczMTApClBST01QVF9QUkVWSUVXX0xFTiA9IDYwClRBU0tfUFJFVklFV19MRU4gPSA4MApMT0dfTUFYX0JZVEVTID0gMTAyNCAqIDEwMjQKCgpkZWYgYmFzZV9kaXIoKToKICAgIHJvb3QgPSBvcy5lbnZpcm9uLmdldCgiTE9DQUxBUFBEQVRBIikgb3Igb3MucGF0aC5leHBhbmR1c2VyKCJ+IikKICAgIHJldHVybiBvcy5wYXRoLmpvaW4ocm9vdCwgInpjb2RlLXN0YXR1cyIpCgoKZGVmIGxvZ19lcnJvcihtc2cpOgogICAgdHJ5OgogICAgICAgIG9zLm1ha2VkaXJzKGJhc2VfZGlyKCksIGV4aXN0X29rPVRydWUpCiAgICAgICAgcGF0aCA9IG9zLnBhdGguam9pbihiYXNlX2RpcigpLCAiaG9va19lcnJvci5sb2ciKQogICAgICAgIGJhY2t1cCA9IHBhdGggKyAiLjEiCiAgICAgICAgbGluZSA9ICIlcyAlc1xuIiAlICh0aW1lLnN0cmZ0aW1lKCIlWS0lbS0lZCAlSDolTTolUyIpLCBtc2cpCiAgICAgICAgc2l6ZSA9IG9zLnBhdGguZ2V0c2l6ZShwYXRoKSBpZiBvcy5wYXRoLmV4aXN0cyhwYXRoKSBlbHNlIDAKICAgICAgICBpZiBzaXplICsgbGVuKGxpbmUuZW5jb2RlKCJ1dGYtOCIpKSA+IExPR19NQVhfQllURVM6CiAgICAgICAgICAgIG9zLnJlcGxhY2UocGF0aCwgYmFja3VwKQogICAgICAgIHdpdGggb3BlbihwYXRoLCAiYSIsIGVuY29kaW5nPSJ1dGYtOCIpIGFzIGY6CiAgICAgICAgICAgIGYud3JpdGUobGluZSkKICAgIGV4Y2VwdCBFeGNlcHRpb246CiAgICAgICAgcGFzcwoKCmRlZiBpc19leHBlY3RlZF9vZmZsaW5lKGV4Yyk6CiAgICAiIiLmgqzmta7nqpfmnKrov5DooYzml7bnmoTov57mjqXmi5Lnu53lsZ7kuo7pooTmnJ/nprvnur/vvIzkuI3pnIDopoHliLfplJnor6/ml6Xlv5fjgIIiIiIKICAgIHJldHVybiAoaXNpbnN0YW5jZShleGMsIENvbm5lY3Rpb25SZWZ1c2VkRXJyb3IpCiAgICAgICAgICAgIG9yIGdldGF0dHIoZXhjLCAiZXJybm8iLCBOb25lKSA9PSBlcnJuby5FQ09OTlJFRlVTRUQKICAgICAgICAgICAgb3IgZ2V0YXR0cihleGMsICJ3aW5lcnJvciIsIE5vbmUpID09IDEwMDYxKQoKCmRlZiBleHBhbmQoYXJnKToKICAgICIiIuaooeadv+WPmOmHj+S4h+S4gOayoeiiq+WxleW8gO+8jOWFnOW6lea4heaOiSAkey4uLn0g5b2i5byP44CCIiIiCiAgICBpZiBub3QgYXJnOgogICAgICAgIHJldHVybiAiIgogICAgcmV0dXJuIHJlLnN1YihyIlwkXHtbXn1dKlx9IiwgIiIsIGFyZykuc3RyaXAoKQoKCmRlZiBjbGlwKHMsIG4pOgogICAgcyA9ICIgIi5qb2luKHN0cihzKS5zcGxpdCgpKQogICAgcmV0dXJuIHNbOiBuIC0gMV0gKyAi4oCmIiBpZiBsZW4ocykgPiBuIGVsc2UgcwoKCmRlZiByZWFkX3N0ZGluKCk6CiAgICB0cnk6CiAgICAgICAgcmF3ID0gc3lzLnN0ZGluLnJlYWQoKSBpZiBub3Qgc3lzLnN0ZGluLmlzYXR0eSgpIGVsc2UgIiIKICAgIGV4Y2VwdCBFeGNlcHRpb246CiAgICAgICAgcmF3ID0gIiIKICAgIHJldHVybiByYXcgb3IgIiIKCgpkZWYgZXh0cmFjdF90b2RvcyhkYXRhKToKICAgICIiIumYsuW+oeW8j+aJviB0b2Rvc++8mnRvb2xfaW5wdXQudG9kb3MgLyB0b2RvcyAvIG1lc3NhZ2UudG9kb3PjgIIiIiIKICAgIGZvciBob2xkZXIgaW4gKGRhdGEuZ2V0KCJ0b29sX2lucHV0IiksIGRhdGEsIGRhdGEuZ2V0KCJtZXNzYWdlIikpOgogICAgICAgIGlmIGlzaW5zdGFuY2UoaG9sZGVyLCBkaWN0KSBhbmQgaXNpbnN0YW5jZShob2xkZXIuZ2V0KCJ0b2RvcyIpLCBsaXN0KToKICAgICAgICAgICAgdG9kb3MgPSBbXQogICAgICAgICAgICBmb3IgdCBpbiBob2xkZXJbInRvZG9zIl06CiAgICAgICAgICAgICAgICBpZiBub3QgaXNpbnN0YW5jZSh0LCBkaWN0KToKICAgICAgICAgICAgICAgICAgICBjb250aW51ZQogICAgICAgICAgICAgICAgdG9kb3MuYXBwZW5kKHsKICAgICAgICAgICAgICAgICAgICAiY29udGVudCI6IGNsaXAodC5nZXQoImNvbnRlbnQiKSBvciB0LmdldCgiYWN0aXZlRm9ybSIpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9yIHQuZ2V0KCJzdWJqZWN0Iikgb3IgIiIsIFRBU0tfUFJFVklFV19MRU4pLAogICAgICAgICAgICAgICAgICAgICJzdGF0dXMiOiB0LmdldCgic3RhdHVzIikgb3IgInBlbmRpbmciLAogICAgICAgICAgICAgICAgfSkKICAgICAgICAgICAgcmV0dXJuIHRvZG9zCiAgICByZXR1cm4gTm9uZQoKCmRlZiBleHRyYWN0X3Byb21wdChkYXRhKToKICAgIGZvciBrZXkgaW4gKCJwcm9tcHQiLCAidXNlcl9wcm9tcHQiLCAibWVzc2FnZSIpOgogICAgICAgIHYgPSBkYXRhLmdldChrZXkpCiAgICAgICAgaWYgaXNpbnN0YW5jZSh2LCBzdHIpIGFuZCB2LnN0cmlwKCk6CiAgICAgICAgICAgIHJldHVybiBjbGlwKHYsIFBST01QVF9QUkVWSUVXX0xFTikKICAgIHJldHVybiBOb25lCgoKZGVmIGV4dHJhY3RfdG9vbF9uYW1lKGRhdGEpOgogICAgdiA9IGRhdGEuZ2V0KCJ0b29sX25hbWUiKSBvciBkYXRhLmdldCgidG9vbE5hbWUiKQogICAgcmV0dXJuIGNsaXAodiwgNDApIGlmIHYgZWxzZSBOb25lCgoKZGVmIGV4dHJhY3RfZXJyb3IoZGF0YSk6CiAgICByZXNwID0gZGF0YS5nZXQoInRvb2xfcmVzcG9uc2UiKQogICAgaWYgaXNpbnN0YW5jZShyZXNwLCBkaWN0KToKICAgICAgICBmb3Iga2V5IGluICgiZXJyb3IiLCAibWVzc2FnZSIsICJzdGRlcnIiKToKICAgICAgICAgICAgaWYgcmVzcC5nZXQoa2V5KToKICAgICAgICAgICAgICAgIHJldHVybiBjbGlwKHJlc3Bba2V5XSwgUFJPTVBUX1BSRVZJRVdfTEVOKQogICAgZWxpZiBpc2luc3RhbmNlKHJlc3AsIHN0cikgYW5kIHJlc3Auc3RyaXAoKToKICAgICAgICByZXR1cm4gY2xpcChyZXNwLCBQUk9NUFRfUFJFVklFV19MRU4pCiAgICBmb3Iga2V5IGluICgiZXJyb3IiLCAibWVzc2FnZSIpOgogICAgICAgIGlmIGlzaW5zdGFuY2UoZGF0YS5nZXQoa2V5KSwgc3RyKSBhbmQgZGF0YS5nZXQoa2V5KS5zdHJpcCgpOgogICAgICAgICAgICByZXR1cm4gY2xpcChkYXRhW2tleV0sIFBST01QVF9QUkVWSUVXX0xFTikKICAgIHJldHVybiBOb25lCgoKZGVmIGJ1aWxkX3BheWxvYWQoZXZlbnQsIHNlc3Npb25faWQsIHByb2plY3RfZGlyLCBkYXRhKToKICAgIHByb2plY3QgPSBvcy5wYXRoLmJhc2VuYW1lKHByb2plY3RfZGlyLnJzdHJpcCgiXFwvIikpIG9yICJaQ29kZSIKICAgIHRvZG9zID0gZXh0cmFjdF90b2RvcyhkYXRhKSBvciBbXQogICAgY3VycmVudF90YXNrID0gbmV4dCgKICAgICAgICAodFsiY29udGVudCJdIGZvciB0IGluIHRvZG9zIGlmIHQuZ2V0KCJzdGF0dXMiKSA9PSAiaW5fcHJvZ3Jlc3MiKSwKICAgICAgICAiIiwKICAgICkKICAgIHJldHVybiB7CiAgICAgICAgImV2ZW50IjogZXZlbnQsCiAgICAgICAgInNlc3Npb25faWQiOiBzZXNzaW9uX2lkLAogICAgICAgICJwcm9qZWN0IjogcHJvamVjdCwKICAgICAgICAicHJvamVjdF9kaXIiOiBwcm9qZWN0X2RpciwKICAgICAgICAicHJvbXB0X3ByZXZpZXciOiBleHRyYWN0X3Byb21wdChkYXRhKSBvciAiIiwKICAgICAgICAibGFzdF90b29sIjogZXh0cmFjdF90b29sX25hbWUoZGF0YSkgb3IgIiIsCiAgICAgICAgImVycm9yX3ByZXZpZXciOiBleHRyYWN0X2Vycm9yKGRhdGEpIG9yICIiLAogICAgICAgICJ0b2RvcyI6IHRvZG9zLAogICAgICAgICJjdXJyZW50X3Rhc2siOiBjdXJyZW50X3Rhc2ssCiAgICAgICAgInRzIjogdGltZS50aW1lKCksCiAgICB9CgoKZGVmIHNlbmQocGF5bG9hZCwgcmV0cmllcz0xKToKICAgIGJvZHkgPSBqc29uLmR1bXBzKHBheWxvYWQsIGVuc3VyZV9hc2NpaT1GYWxzZSkuZW5jb2RlKCJ1dGYtOCIpCiAgICBsYXN0ID0gTm9uZQogICAgZm9yIGF0dGVtcHQgaW4gcmFuZ2UocmV0cmllcyArIDEpOgogICAgICAgIGNvbm4gPSBodHRwLmNsaWVudC5IVFRQQ29ubmVjdGlvbihIT1NULCBQT1JULCB0aW1lb3V0PTAuNSkKICAgICAgICB0cnk6CiAgICAgICAgICAgIGNvbm4ucmVxdWVzdCgiUE9TVCIsICIvZXZlbnQiLCBib2R5PWJvZHksCiAgICAgICAgICAgICAgICAgICAgICAgICBoZWFkZXJzPXsiQ29udGVudC1UeXBlIjogImFwcGxpY2F0aW9uL2pzb24ifSkKICAgICAgICAgICAgcmVzcG9uc2UgPSBjb25uLmdldHJlc3BvbnNlKCkKICAgICAgICAgICAgcmVzcG9uc2UucmVhZCgpCiAgICAgICAgICAgIGlmIG5vdCAyMDAgPD0gcmVzcG9uc2Uuc3RhdHVzIDwgMzAwOgogICAgICAgICAgICAgICAgcmFpc2UgUnVudGltZUVycm9yKCJ3aWRnZXQgSFRUUCAlZCIgJSByZXNwb25zZS5zdGF0dXMpCiAgICAgICAgICAgIHJldHVybgogICAgICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZXhjOgogICAgICAgICAgICAjIOaCrOa1rueql+ato+WcqOmHjeWQry/nnqzml7bmiqLljaDnq6/lj6Pml7bkuIDmrKHlpLHotKXkuI3ku6PooajkuKLlpLHvvIwKICAgICAgICAgICAgIyDph43or5XkuIDmrKHvvIjmnIDlnY8gfjEuMnPvvIzku43ov5zkvY7kuo4gaG9vayDnmoQgNXMg6LaF5pe277yJCiAgICAgICAgICAgIGxhc3QgPSBleGMKICAgICAgICBmaW5hbGx5OgogICAgICAgICAgICBjb25uLmNsb3NlKCkKICAgICAgICBpZiBhdHRlbXB0IDwgcmV0cmllczoKICAgICAgICAgICAgdGltZS5zbGVlcCgwLjE1KQogICAgcmFpc2UgbGFzdAoKCmRlZiBtYWluKCk6CiAgICBhcmdzID0gW2V4cGFuZChhKSBmb3IgYSBpbiBzeXMuYXJndlsxOl1dCiAgICBldmVudCA9IChhcmdzWzBdIGlmIGFyZ3MgZWxzZSAiIikubG93ZXIoKQogICAgc2Vzc2lvbl9pZCA9IGFyZ3NbMV0gaWYgbGVuKGFyZ3MpID4gMSBlbHNlICIiCiAgICBwcm9qZWN0X2RpciA9IGFyZ3NbMl0gaWYgbGVuKGFyZ3MpID4gMiBlbHNlICIiCiAgICBpZiBub3QgcHJvamVjdF9kaXI6CiAgICAgICAgcHJvamVjdF9kaXIgPSBvcy5lbnZpcm9uLmdldCgiWkNPREVfUFJPSkVDVF9ESVIiKSBvciBvcy5lbnZpcm9uLmdldCgiQ0xBVURFX1BST0pFQ1RfRElSIikgb3IgIiIKCiAgICByYXcgPSByZWFkX3N0ZGluKCkKICAgIHRyeToKICAgICAgICBkYXRhID0ganNvbi5sb2FkcyhyYXcpIGlmIHJhdyBlbHNlIHt9CiAgICAgICAgaWYgbm90IGlzaW5zdGFuY2UoZGF0YSwgZGljdCk6CiAgICAgICAgICAgIGRhdGEgPSB7fQogICAgZXhjZXB0IEV4Y2VwdGlvbjoKICAgICAgICBkYXRhID0ge30KCiAgICBzZW5kKGJ1aWxkX3BheWxvYWQoZXZlbnQsIHNlc3Npb25faWQsIHByb2plY3RfZGlyLCBkYXRhKSkKCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgdHJ5OgogICAgICAgIG1haW4oKQogICAgZXhjZXB0IEV4Y2VwdGlvbiBhcyBleGM6ICAjIOawuOi/nOS7pSAwIOmAgOWHuu+8jOS4jemYu+WhnuS8muivnQogICAgICAgIGlmIG5vdCBpc19leHBlY3RlZF9vZmZsaW5lKGV4Yyk6CiAgICAgICAgICAgIGxvZ19lcnJvcigidW5oYW5kbGVkOiAlciIgJSAoZXhjLCkpCiAgICBzeXMuZXhpdCgwKQo=
+# -*- coding: utf-8 -*-
+"""ZCode hook 入口：把 hook 事件通过本机回环 HTTP 发给悬浮窗进程。
+
+用法（由 ~/.zcode/cli/config.json 的 hooks 配置调用，process 类型）:
+    python.exe hook_handler.py <event> [session_id] [project_dir]
+
+约定：
+- stdout 必须保持为空（ZCode 对 hook 输出做严格 JSON 校验，任何多余输出都算失败）。
+- 任何内部错误都吞掉并以 0 退出，绝不阻塞会话；仅非预期离线错误写入
+  `%LOCALAPPDATA%\\zcode-status\\hook_error.log`，日志最多保留当前和一个备份。
+- 状态由悬浮窗进程接收后仅在内存中持有；本脚本不读取或写入会话状态文件。
+- 悬浮窗未运行时连接失败属于正常情况，静默丢弃即可。
+"""
+
+import errno
+import json
+import os
+import re
+import sys
+import time
+import http.client
+
+HOST = "127.0.0.1"
+# 测试用环境变量覆盖端口，避免与运行中的悬浮窗抢 57310
+PORT = int(os.environ.get("ZCODE_STATUS_PORT") or 57310)
+PROMPT_PREVIEW_LEN = 60
+TASK_PREVIEW_LEN = 80
+LOG_MAX_BYTES = 1024 * 1024
+
+
+def base_dir():
+    root = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
+    return os.path.join(root, "zcode-status")
+
+
+def log_error(msg):
+    try:
+        os.makedirs(base_dir(), exist_ok=True)
+        path = os.path.join(base_dir(), "hook_error.log")
+        backup = path + ".1"
+        line = "%s %s\n" % (time.strftime("%Y-%m-%d %H:%M:%S"), msg)
+        size = os.path.getsize(path) if os.path.exists(path) else 0
+        if size + len(line.encode("utf-8")) > LOG_MAX_BYTES:
+            os.replace(path, backup)
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(line)
+    except Exception:
+        pass
+
+
+def is_expected_offline(exc):
+    """悬浮窗未运行时的连接拒绝属于预期离线，不需要刷错误日志。"""
+    return (isinstance(exc, ConnectionRefusedError)
+            or getattr(exc, "errno", None) == errno.ECONNREFUSED
+            or getattr(exc, "winerror", None) == 10061)
+
+
+def expand(arg):
+    """模板变量万一没被展开，兜底清掉 ${...} 形式。"""
+    if not arg:
+        return ""
+    return re.sub(r"\$\{[^}]*\}", "", arg).strip()
+
+
+def clip(s, n):
+    s = " ".join(str(s).split())
+    return s[: n - 1] + "…" if len(s) > n else s
+
+
+def read_stdin():
+    try:
+        raw = sys.stdin.read() if not sys.stdin.isatty() else ""
+    except Exception:
+        raw = ""
+    return raw or ""
+
+
+def extract_todos(data):
+    """防御式找 todos：tool_input.todos / todos / message.todos。"""
+    for holder in (data.get("tool_input"), data, data.get("message")):
+        if isinstance(holder, dict) and isinstance(holder.get("todos"), list):
+            todos = []
+            for t in holder["todos"]:
+                if not isinstance(t, dict):
+                    continue
+                todos.append({
+                    "content": clip(t.get("content") or t.get("activeForm")
+                                    or t.get("subject") or "", TASK_PREVIEW_LEN),
+                    "status": t.get("status") or "pending",
+                })
+            return todos
+    return None
+
+
+def extract_prompt(data):
+    for key in ("prompt", "user_prompt", "message"):
+        v = data.get(key)
+        if isinstance(v, str) and v.strip():
+            return clip(v, PROMPT_PREVIEW_LEN)
+    return None
+
+
+def extract_tool_name(data):
+    v = data.get("tool_name") or data.get("toolName")
+    return clip(v, 40) if v else None
+
+
+def extract_error(data):
+    resp = data.get("tool_response")
+    if isinstance(resp, dict):
+        for key in ("error", "message", "stderr"):
+            if resp.get(key):
+                return clip(resp[key], PROMPT_PREVIEW_LEN)
+    elif isinstance(resp, str) and resp.strip():
+        return clip(resp, PROMPT_PREVIEW_LEN)
+    for key in ("error", "message"):
+        if isinstance(data.get(key), str) and data.get(key).strip():
+            return clip(data[key], PROMPT_PREVIEW_LEN)
+    return None
+
+
+def build_payload(event, session_id, project_dir, data):
+    project = os.path.basename(project_dir.rstrip("\\/")) or "ZCode"
+    todos = extract_todos(data) or []
+    current_task = next(
+        (t["content"] for t in todos if t.get("status") == "in_progress"),
+        "",
+    )
+    return {
+        "event": event,
+        "session_id": session_id,
+        "project": project,
+        "project_dir": project_dir,
+        "prompt_preview": extract_prompt(data) or "",
+        "last_tool": extract_tool_name(data) or "",
+        "error_preview": extract_error(data) or "",
+        "todos": todos,
+        "current_task": current_task,
+        "ts": time.time(),
+    }
+
+
+def send(payload, retries=1):
+    body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    last = None
+    for attempt in range(retries + 1):
+        conn = http.client.HTTPConnection(HOST, PORT, timeout=0.5)
+        try:
+            conn.request("POST", "/event", body=body,
+                         headers={"Content-Type": "application/json"})
+            response = conn.getresponse()
+            response.read()
+            if not 200 <= response.status < 300:
+                raise RuntimeError("widget HTTP %d" % response.status)
+            return
+        except Exception as exc:
+            # 悬浮窗正在重启/瞬时抢占端口时一次失败不代表丢失，
+            # 重试一次（最坏 ~1.2s，仍远低于 hook 的 5s 超时）
+            last = exc
+        finally:
+            conn.close()
+        if attempt < retries:
+            time.sleep(0.15)
+    raise last
+
+
+def main():
+    args = [expand(a) for a in sys.argv[1:]]
+    event = (args[0] if args else "").lower()
+    session_id = args[1] if len(args) > 1 else ""
+    project_dir = args[2] if len(args) > 2 else ""
+    if not project_dir:
+        project_dir = os.environ.get("ZCODE_PROJECT_DIR") or os.environ.get("CLAUDE_PROJECT_DIR") or ""
+
+    raw = read_stdin()
+    try:
+        data = json.loads(raw) if raw else {}
+        if not isinstance(data, dict):
+            data = {}
+    except Exception:
+        data = {}
+
+    send(build_payload(event, session_id, project_dir, data))
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as exc:  # 永远以 0 退出，不阻塞会话
+        if not is_expected_offline(exc):
+            log_error("unhandled: %r" % (exc,))
+    sys.exit(0)

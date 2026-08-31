@@ -1,1 +1,121 @@
-IyAtKi0gY29kaW5nOiB1dGYtOCAtKi0KIiIi5LiJ5LiqIGJ1ZyDnmoTlm57lvZLmtYvor5XvvIjkuI3kvp3otZbmiKrlsY/vvIznm7TmjqXmlq3oqIDnqpflj6PmoLflvI/kuI7kuovku7bot6/nlLHvvInvvJoKCjEpIGJpbmRfYWxsIOmalOemu++8muiuvue9rueql+WPoy/lhbbku5YgVG9wbGV2ZWwg5LiK55qE6byg5qCH5LqL5Lu25LiN5b6X6Kem5Y+R6Z2i5p2/5ouW5ou9CiAgIO+8iOS/ruWkjSLmi5bpgI/mmI7luqbmu5HlnZfml7bpnaLmnb/ot5/nnYDpvKDmoIfot5Ei77yJ44CCCjIpIOmAj+aYjuW6pui3qOi2iiAxMDAlIOWQjuS7jeacieaViO+8mj49MTAwJSDmuIXpmaQgV1NfRVhfTEFZRVJFRO+8iOaNouWbniBEV00g5ZyG6KeS77yJ77yMCiAgIDwxMDAlIOW/hemhu+ehruS/neagt+W8j+WcqOS9jeWGjeiuviBhbHBoYe+8iFRrIOiHquW3seS4jeS8muihpeWbnu+8jOi/meaYryLpgI/mmI7luqbnqoHnhLblpLHmlYgi55qE5qC55Zug77yJ44CCCiAgIOmAmui/hyBHZXRXaW5kb3dMb25nUHRyVyAvIEdldExheWVyZWRXaW5kb3dBdHRyaWJ1dGVzIOebtOaOpeivu+ezu+e7n+eKtuaAgeaWreiogOOAggoK55So5rOVOiBweXRob24gdGVzdF9vcGFjaXR5X3JlZ3Jlc3Npb24ucHkKIiIiCmltcG9ydCBjdHlwZXMKaW1wb3J0IGN0eXBlcy53aW50eXBlcyBhcyB3dAppbXBvcnQgc3lzCmltcG9ydCB0aW1lCmltcG9ydCB0eXBlcwppbXBvcnQgdGtpbnRlciBhcyB0awoKZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCgpQUk9KRUNUX1JPT1QgPSBQYXRoKF9fZmlsZV9fKS5yZXNvbHZlKCkucGFyZW50CnN5cy5wYXRoLmluc2VydCgwLCBzdHIoUFJPSkVDVF9ST09UKSkKaW1wb3J0IHdpZGdldCBhcyBXICAjIG5vcWE6IEU0MDIKClcuUE9SVCA9IDAgICMg6ZqP5py65Li05pe256uv5Y+j77yM5LiN5b2x5ZON5q2j5Zyo6L+Q6KGM55qE55Sf5Lqn5a6e5L6LCgpHV0xfRVhTVFlMRSA9IC0yMApXU19FWF9MQVlFUkVEID0gMHg4MDAwMApHQV9ST09UID0gMgoKCmRlZiByb290X2h3bmQocm9vdCk6CiAgICByZXR1cm4gY3R5cGVzLndpbmRsbC51c2VyMzIuR2V0QW5jZXN0b3Iocm9vdC53aW5mb19pZCgpLCBHQV9ST09UKQoKCmRlZiBleF9zdHlsZShyb290KToKICAgIHJldHVybiBjdHlwZXMud2luZGxsLnVzZXIzMi5HZXRXaW5kb3dMb25nUHRyVyhyb290X2h3bmQocm9vdCksIEdXTF9FWFNUWUxFKQoKCmRlZiBsYXllcmVkX2FscGhhKHJvb3QpOgogICAgIiIi6L+U5ZueICjmmK/lkKborr7nva7kuobliIblsYJhbHBoYSwgYWxwaGHlgLwp44CC5pyq5YiG5bGC5pe26L+U5ZueIChGYWxzZSwgTm9uZSnjgIIiIiIKICAgIGlmIG5vdCBleF9zdHlsZShyb290KSAmIFdTX0VYX0xBWUVSRUQ6CiAgICAgICAgcmV0dXJuIEZhbHNlLCBOb25lCiAgICBhbHBoYSA9IGN0eXBlcy5jX3VieXRlKCkgICAjIHd0LkJZVEUg5Lya6KKr5oyJ5pyJ56ym5Y+36Kej5p6Q77yMMTUzIOWPmOaIkCAtMTAzCiAgICBmbGFncyA9IHd0LkRXT1JEKCkKICAgIG9rID0gY3R5cGVzLndpbmRsbC51c2VyMzIuR2V0TGF5ZXJlZFdpbmRvd0F0dHJpYnV0ZXMoCiAgICAgICAgcm9vdF9od25kKHJvb3QpLCBOb25lLCBjdHlwZXMuYnlyZWYoYWxwaGEpLCBjdHlwZXMuYnlyZWYoZmxhZ3MpKQogICAgcmV0dXJuIGJvb2wob2spLCBhbHBoYS52YWx1ZSBpZiBvayBlbHNlIE5vbmUKCgpkZWYgcHJlc3NfZXZlbnQod2lkZ2V0LCBudW09MSk6CiAgICAjIEJ1dHRvblByZXNzPTQKICAgIHJldHVybiB0eXBlcy5TaW1wbGVOYW1lc3BhY2UodHlwZT10eXBlcy5TaW1wbGVOYW1lc3BhY2UodmFsdWU9IjQiKSwgbnVtPW51bSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgd2lkZ2V0PXdpZGdldCwgeD0xMCwgeT0xMCwgeF9yb290PTUwMCwgeV9yb290PTUwMCkKCgpkZWYgbWFpbigpOgogICAgZmFpbHVyZXMgPSBbXQoKICAgIHJvb3QgPSB0ay5UaygpCiAgICB3aW4gPSBXLldpZGdldChyb290KQogICAgcm9vdC51cGRhdGVfaWRsZXRhc2tzKCkKICAgIGZvciBfIGluIHJhbmdlKDEwKToKICAgICAgICByb290LnVwZGF0ZSgpCiAgICAgICAgdGltZS5zbGVlcCgwLjAyKQoKICAgICMgLS0tLSAxKSBiaW5kX2FsbCDpmpTnprsgLS0tLQogICAgdHJ5OgogICAgICAgIGZha2UgPSB0ay5Ub3BsZXZlbChyb290KSAgICAgICAgICAjIOaooeaLn+iuvue9rueql+WPowogICAgICAgIGJ0biA9IHRrLkJ1dHRvbihmYWtlKSAgICAgICAgICAgICAjIOWFtuS4iueahOaOp+S7tgogICAgICAgIGZha2UudXBkYXRlX2lkbGV0YXNrcygpCiAgICAgICAgd2luLl9oYW5kbGVyX3Byb3h5KHByZXNzX2V2ZW50KGJ0bikpCiAgICAgICAgaWYgd2luLl9wcmVzcyBpcyBub3QgTm9uZToKICAgICAgICAgICAgZmFpbHVyZXMuYXBwZW5kKCLlpJbpg6ggVG9wbGV2ZWwg5o6n5Lu25LiK55qE5oyJ5LiL6KKr6K+v5b2T5oiQ6Z2i5p2/5ouW5ou9IikKICAgICAgICB3aW4uX2hhbmRsZXJfcHJveHkocHJlc3NfZXZlbnQocm9vdCkpCiAgICAgICAgaWYgd2luLl9wcmVzcyBpcyBOb25lOgogICAgICAgICAgICBmYWlsdXJlcy5hcHBlbmQoIumdouadv+iHqui6q+aMieS4i+acquiiq+iusOW9lSIpCiAgICAgICAgcHJpbnQoIjEpIGJpbmRfYWxsIOS6i+S7tumalOemuzogT0siIGlmIG5vdCBmYWlsdXJlcyBlbHNlICIxKSBGQUlMOiAlcyIgJSBmYWlsdXJlcykKICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZXhjOgogICAgICAgIGZhaWx1cmVzLmFwcGVuZCgicGFydDEg5byC5bi4OiAlciIgJSBleGMpCiAgICAgICAgcHJpbnQoIjEpIEZBSUwg5byC5bi4OiIsIGV4YykKCiAgICAjIC0tLS0gMikg6YCP5piO5bqm6Leo6LaKIDEwMCUg5Zue5b2SIC0tLS0KICAgIHRyeToKICAgICAgICBjaGVja3MgPSBbXQogICAgICAgIGZvciBrLCB3YW50X2xheWVyZWQgaW4gKCgxMDAsIEZhbHNlKSwgKDYwLCBUcnVlKSwgKDEwMCwgRmFsc2UpLCAoNjAsIFRydWUpLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICg4NSwgVHJ1ZSksICgxMDAsIEZhbHNlKSwgKDYwLCBUcnVlKSk6CiAgICAgICAgICAgIHdpbi5fYXBwbHlfb3BhY2l0eShrKQogICAgICAgICAgICByb290LnVwZGF0ZSgpCiAgICAgICAgICAgIHRpbWUuc2xlZXAoMC4wNSkKICAgICAgICAgICAgbGF5ZXJlZCwgYWxwaGEgPSBsYXllcmVkX2FscGhhKHJvb3QpCiAgICAgICAgICAgIG9rID0gYm9vbChleF9zdHlsZShyb290KSAmIFdTX0VYX0xBWUVSRUQpID09IHdhbnRfbGF5ZXJlZAogICAgICAgICAgICBpZiB3YW50X2xheWVyZWQgYW5kIGFscGhhIGlzIG5vdCBOb25lOgogICAgICAgICAgICAgICAgb2sgPSBvayBhbmQgYWJzKGFscGhhIC0gcm91bmQoMjU1ICogayAvIDEwMCkpIDw9IDIKICAgICAgICAgICAgY2hlY2tzLmFwcGVuZCgoaywgd2FudF9sYXllcmVkLCBsYXllcmVkLCBhbHBoYSwgb2spKQogICAgICAgICAgICBpZiBub3Qgb2s6CiAgICAgICAgICAgICAgICBmYWlsdXJlcy5hcHBlbmQoIm9wYWNpdHk9JXMg5pyf5pybIGxheWVyZWQ9JXMg5a6e6ZmFIGxheWVyZWQ9JXMgYWxwaGE9JXMiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJSAoaywgd2FudF9sYXllcmVkLCBsYXllcmVkLCBhbHBoYSkpCiAgICAgICAgaWYgbm90IGZhaWx1cmVzOgogICAgICAgICAgICBwcmludCgiMikg6YCP5piO5bqm6Leo6LaKIDEwMCUlIOWbnuW9kjogT0sgIO+8iG9wYWNpdHksIGxheWVyZWQsIGFscGhhIOW6j+WIlyAlc++8iSIgJQogICAgICAgICAgICAgICAgICBbKGNbMF0sIGNbMl0sIGNbM10pIGZvciBjIGluIGNoZWNrc10pCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcHJpbnQoIjIpIEZBSUw6IiwgW2MgZm9yIGMgaW4gY2hlY2tzIGlmIG5vdCBjWzRdXSkKICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZXhjOgogICAgICAgIGZhaWx1cmVzLmFwcGVuZCgicGFydDIg5byC5bi4OiAlciIgJSBleGMpCiAgICAgICAgcHJpbnQoIjIpIEZBSUwg5byC5bi4OiIsIGV4YykKCiAgICB3aW4ucXVpdCgpCiAgICB0cnk6CiAgICAgICAgcm9vdC5kZXN0cm95KCkKICAgIGV4Y2VwdCB0ay5UY2xFcnJvcjoKICAgICAgICBwYXNzCiAgICBpZiBmYWlsdXJlczoKICAgICAgICBwcmludCgiUkVHUkVTU0lPTiBGQUlMRUQ6ICVkIOmhuSIgJSBsZW4oZmFpbHVyZXMpKQogICAgICAgIHJldHVybiAxCiAgICBwcmludCgiQUxMIFJFR1JFU1NJT04gVEVTVFMgUEFTU0VEIikKICAgIHJldHVybiAwCgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIHN5cy5leGl0KG1haW4oKSkK
+# -*- coding: utf-8 -*-
+"""三个 bug 的回归测试（不依赖截屏，直接断言窗口样式与事件路由）：
+
+1) bind_all 隔离：设置窗口/其他 Toplevel 上的鼠标事件不得触发面板拖拽
+   （修复"拖透明度滑块时面板跟着鼠标跑"）。
+2) 透明度跨越 100% 后仍有效：>=100% 清除 WS_EX_LAYERED（换回 DWM 圆角），
+   <100% 必须确保样式在位再设 alpha（Tk 自己不会补回，这是"透明度突然失效"的根因）。
+   通过 GetWindowLongPtrW / GetLayeredWindowAttributes 直接读系统状态断言。
+
+用法: python test_opacity_regression.py
+"""
+import ctypes
+import ctypes.wintypes as wt
+import sys
+import time
+import types
+import tkinter as tk
+
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(PROJECT_ROOT))
+import widget as W  # noqa: E402
+
+W.PORT = 0  # 随机临时端口，不影响正在运行的生产实例
+
+GWL_EXSTYLE = -20
+WS_EX_LAYERED = 0x80000
+GA_ROOT = 2
+
+
+def root_hwnd(root):
+    return ctypes.windll.user32.GetAncestor(root.winfo_id(), GA_ROOT)
+
+
+def ex_style(root):
+    return ctypes.windll.user32.GetWindowLongPtrW(root_hwnd(root), GWL_EXSTYLE)
+
+
+def layered_alpha(root):
+    """返回 (是否设置了分层alpha, alpha值)。未分层时返回 (False, None)。"""
+    if not ex_style(root) & WS_EX_LAYERED:
+        return False, None
+    alpha = ctypes.c_ubyte()   # wt.BYTE 会被按有符号解析，153 变成 -103
+    flags = wt.DWORD()
+    ok = ctypes.windll.user32.GetLayeredWindowAttributes(
+        root_hwnd(root), None, ctypes.byref(alpha), ctypes.byref(flags))
+    return bool(ok), alpha.value if ok else None
+
+
+def press_event(widget, num=1):
+    # ButtonPress=4
+    return types.SimpleNamespace(type=types.SimpleNamespace(value="4"), num=num,
+                                 widget=widget, x=10, y=10, x_root=500, y_root=500)
+
+
+def main():
+    failures = []
+
+    root = tk.Tk()
+    win = W.Widget(root)
+    root.update_idletasks()
+    for _ in range(10):
+        root.update()
+        time.sleep(0.02)
+
+    # ---- 1) bind_all 隔离 ----
+    try:
+        fake = tk.Toplevel(root)          # 模拟设置窗口
+        btn = tk.Button(fake)             # 其上的控件
+        fake.update_idletasks()
+        win._handler_proxy(press_event(btn))
+        if win._press is not None:
+            failures.append("外部 Toplevel 控件上的按下被误当成面板拖拽")
+        win._handler_proxy(press_event(root))
+        if win._press is None:
+            failures.append("面板自身按下未被记录")
+        print("1) bind_all 事件隔离: OK" if not failures else "1) FAIL: %s" % failures)
+    except Exception as exc:
+        failures.append("part1 异常: %r" % exc)
+        print("1) FAIL 异常:", exc)
+
+    # ---- 2) 透明度跨越 100% 回归 ----
+    try:
+        checks = []
+        for k, want_layered in ((100, False), (60, True), (100, False), (60, True),
+                                (85, True), (100, False), (60, True)):
+            win._apply_opacity(k)
+            root.update()
+            time.sleep(0.05)
+            layered, alpha = layered_alpha(root)
+            ok = bool(ex_style(root) & WS_EX_LAYERED) == want_layered
+            if want_layered and alpha is not None:
+                ok = ok and abs(alpha - round(255 * k / 100)) <= 2
+            checks.append((k, want_layered, layered, alpha, ok))
+            if not ok:
+                failures.append("opacity=%s 期望 layered=%s 实际 layered=%s alpha=%s"
+                                % (k, want_layered, layered, alpha))
+        if not failures:
+            print("2) 透明度跨越 100%% 回归: OK  （opacity, layered, alpha 序列 %s）" %
+                  [(c[0], c[2], c[3]) for c in checks])
+        else:
+            print("2) FAIL:", [c for c in checks if not c[4]])
+    except Exception as exc:
+        failures.append("part2 异常: %r" % exc)
+        print("2) FAIL 异常:", exc)
+
+    win.quit()
+    try:
+        root.destroy()
+    except tk.TclError:
+        pass
+    if failures:
+        print("REGRESSION FAILED: %d 项" % len(failures))
+        return 1
+    print("ALL REGRESSION TESTS PASSED")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

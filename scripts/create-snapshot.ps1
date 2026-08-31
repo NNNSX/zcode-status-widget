@@ -1,1 +1,88 @@
-W0NtZGxldEJpbmRpbmcoKV0KcGFyYW0oCiAgICBbc3RyaW5nXSRTbmFwc2hvdFJvb3QsCiAgICBbc3RyaW5nXSRSZWxlYXNlUm9vdAopCgokRXJyb3JBY3Rpb25QcmVmZXJlbmNlID0gIlN0b3AiCiRQcm9qZWN0Um9vdCA9IChSZXNvbHZlLVBhdGggKEpvaW4tUGF0aCAkUFNTY3JpcHRSb290ICIuLiIpKQppZiAoLW5vdCAkU25hcHNob3RSb290KSB7ICRTbmFwc2hvdFJvb3QgPSBKb2luLVBhdGggJFByb2plY3RSb290ICJzbmFwc2hvdHMiIH0KaWYgKC1ub3QgJFJlbGVhc2VSb290KSB7ICRSZWxlYXNlUm9vdCA9IEpvaW4tUGF0aCAkUHJvamVjdFJvb3QgInJlbGVhc2UiIH0KJFZlcnNpb25Tb3VyY2UgPSBHZXQtQ29udGVudCAtTGl0ZXJhbFBhdGggKEpvaW4tUGF0aCAkUHJvamVjdFJvb3QgInZlcnNpb24ucHkiKSAtUmF3IC1FbmNvZGluZyB1dGY4CmlmICgkVmVyc2lvblNvdXJjZSAtbm90bWF0Y2ggJ1ZFUlNJT05ccyo9XHMqWyInJ10oW14iJyddKylbIicnXScpIHsgdGhyb3cgIkNvdWxkIG5vdCByZWFkIHByb2plY3QgdmVyc2lvbi4iIH0KJFZlcnNpb24gPSAkbWF0Y2hlc1sxXQokVGltZXN0YW1wID0gR2V0LURhdGUgLUZvcm1hdCAieXl5eU1NZGQtSEhtbXNzIgokU25hcHNob3RQYXRoID0gSm9pbi1QYXRoIChbU3lzdGVtLklPLlBhdGhdOjpHZXRGdWxsUGF0aCgkU25hcHNob3RSb290KSkgJFRpbWVzdGFtcAokU291cmNlU3RhZ2UgPSBKb2luLVBhdGggKFtTeXN0ZW0uSU8uUGF0aF06OkdldFRlbXBQYXRoKCkpICgiemNvZGUtc3RhdHVzLXNuYXBzaG90LSIgKyBbZ3VpZF06Ok5ld0d1aWQoKS5Ub1N0cmluZygiTiIpKQokU291cmNlWmlwTmFtZSA9ICJaQ29kZVN0YXR1c0xpZ2h0LXYkVmVyc2lvbi1zb3VyY2UuemlwIgokUmVsZWFzZVppcE5hbWUgPSAiWkNvZGVTdGF0dXNMaWdodC12JFZlcnNpb24td2luZG93cy14NjQuemlwIgokUmVsZWFzZVppcCA9IEpvaW4tUGF0aCAoW1N5c3RlbS5JTy5QYXRoXTo6R2V0RnVsbFBhdGgoJFJlbGVhc2VSb290KSkgJFJlbGVhc2VaaXBOYW1lCiRSZWxlYXNlSGFzaCA9ICIkUmVsZWFzZVppcC5zaGEyNTYiCgokU291cmNlRmlsZXMgPSBAKAogICAgIi5naXRpZ25vcmUiLAogICAgIlJFQURNRS5tZCIsCiAgICAiQ0hBTkdFTE9HLm1kIiwKICAgICJMSUNFTlNFIiwKICAgICJUSElSRF9QQVJUWV9OT1RJQ0VTLm1kIiwKICAgICJyZXF1aXJlbWVudHMtYnVpbGQudHh0IiwKICAgICJ2ZXJzaW9uLnB5IiwKICAgICJ3aWRnZXQucHkiLAogICAgImhvb2tfaGFuZGxlci5weSIsCiAgICAiYnVpbGRfZXhlLmJhdCIsCiAgICAiaW5zdGFsbC5wczEiLAogICAgInVuaW5zdGFsbC5wczEiLAogICAgInRlc3RfaGFuZGxlci5weSIsCiAgICAidGVzdF90b29sdGlwLnB5IiwKICAgICJ0ZXN0X29wYWNpdHlfcmVncmVzc2lvbi5weSIsCiAgICAidGVzdF9zZXNzaW9uX2Rpc3BsYXkucHkiLAogICAgInRlc3Rfc3RhYmlsaXR5LnB5IiwKICAgICJ0ZXN0X3JlbGVhc2Vfc2NyaXB0cy5wczEiLAogICAgInRlc3RfcmVsZWFzZV9wYWNrYWdlLnBzMSIsCiAgICAiZG9jc1x6Y29kZS1ob29rcy5leGFtcGxlLmpzb24iLAogICAgInNjcmlwdHNcYnVpbGQtcmVsZWFzZS5wczEiLAogICAgInNjcmlwdHNccGFja2FnZS1yZWxlYXNlLnBzMSIsCiAgICAic2NyaXB0c1xjcmVhdGUtc25hcHNob3QucHMxIgopCgppZiAoVGVzdC1QYXRoIC1MaXRlcmFsUGF0aCAkU25hcHNob3RQYXRoKSB7IHRocm93ICJTbmFwc2hvdCBkaXJlY3RvcnkgYWxyZWFkeSBleGlzdHM6ICRTbmFwc2hvdFBhdGgiIH0KaWYgKC1ub3QgKFRlc3QtUGF0aCAtTGl0ZXJhbFBhdGggJFJlbGVhc2VaaXAgLVBhdGhUeXBlIExlYWYpKSB7IHRocm93ICJSZWxlYXNlIFpJUCBpcyBtaXNzaW5nOiAkUmVsZWFzZVppcCIgfQppZiAoLW5vdCAoVGVzdC1QYXRoIC1MaXRlcmFsUGF0aCAkUmVsZWFzZUhhc2ggLVBhdGhUeXBlIExlYWYpKSB7IHRocm93ICJSZWxlYXNlIFpJUCBjaGVja3N1bSBpcyBtaXNzaW5nOiAkUmVsZWFzZUhhc2giIH0KCk5ldy1JdGVtIC1JdGVtVHlwZSBEaXJlY3RvcnkgLVBhdGggJFNuYXBzaG90UGF0aCAtRm9yY2UgfCBPdXQtTnVsbApOZXctSXRlbSAtSXRlbVR5cGUgRGlyZWN0b3J5IC1QYXRoICRTb3VyY2VTdGFnZSAtRm9yY2UgfCBPdXQtTnVsbAp0cnkgewogICAgZm9yZWFjaCAoJHJlbGF0aXZlIGluICRTb3VyY2VGaWxlcykgewogICAgICAgICRzb3VyY2UgPSBKb2luLVBhdGggJFByb2plY3RSb290ICRyZWxhdGl2ZQogICAgICAgIGlmICgtbm90IChUZXN0LVBhdGggLUxpdGVyYWxQYXRoICRzb3VyY2UgLVBhdGhUeXBlIExlYWYpKSB7IHRocm93ICJTbmFwc2hvdCBzb3VyY2UgaXMgbWlzc2luZzogJHJlbGF0aXZlIiB9CiAgICAgICAgJGRlc3RpbmF0aW9uID0gSm9pbi1QYXRoICRTb3VyY2VTdGFnZSAkcmVsYXRpdmUKICAgICAgICBOZXctSXRlbSAtSXRlbVR5cGUgRGlyZWN0b3J5IC1QYXRoIChTcGxpdC1QYXRoICRkZXN0aW5hdGlvbiAtUGFyZW50KSAtRm9yY2UgfCBPdXQtTnVsbAogICAgICAgIENvcHktSXRlbSAtTGl0ZXJhbFBhdGggJHNvdXJjZSAtRGVzdGluYXRpb24gJGRlc3RpbmF0aW9uIC1Gb3JjZQogICAgfQoKICAgICRTb3VyY2VaaXAgPSBKb2luLVBhdGggJFNuYXBzaG90UGF0aCAkU291cmNlWmlwTmFtZQogICAgR2V0LUNoaWxkSXRlbSAtTGl0ZXJhbFBhdGggJFNvdXJjZVN0YWdlIHwgQ29tcHJlc3MtQXJjaGl2ZSAtRGVzdGluYXRpb25QYXRoICRTb3VyY2VaaXAgLUNvbXByZXNzaW9uTGV2ZWwgT3B0aW1hbCAtRm9yY2UKICAgIENvcHktSXRlbSAtTGl0ZXJhbFBhdGggJFJlbGVhc2VaaXAgLURlc3RpbmF0aW9uIChKb2luLVBhdGggJFNuYXBzaG90UGF0aCAkUmVsZWFzZVppcE5hbWUpIC1Gb3JjZQogICAgQ29weS1JdGVtIC1MaXRlcmFsUGF0aCAkUmVsZWFzZUhhc2ggLURlc3RpbmF0aW9uIChKb2luLVBhdGggJFNuYXBzaG90UGF0aCAiJFJlbGVhc2VaaXBOYW1lLnNoYTI1NiIpIC1Gb3JjZQoKICAgICRTbmFwc2hvdE5vdGUgPSBAIgojIFJlbGVhc2UgU25hcHNob3QKCi0gVmVyc2lvbjogJFZlcnNpb24KLSBDcmVhdGVkOiAkKFtEYXRlVGltZV06OlV0Y05vdy5Ub1N0cmluZygibyIpKQotIFNvdXJjZSBhcmNoaXZlOiAkU291cmNlWmlwTmFtZQotIFJlbGVhc2UgYXJjaGl2ZTogJFJlbGVhc2VaaXBOYW1lCgpUaGlzIHNuYXBzaG90IGlzIGEgcHJpdmF0ZSByb2xsYmFjayBwb2ludC4gSXQgaW50ZW50aW9uYWxseSBleGNsdWRlcyBkZXNrdG9wIHNjcmVlbnNob3RzLCBaQ29kZSBjb25maWd1cmF0aW9uLCBob29rIGxvZ3MsIHJlZ2lzdHJ5IGV4cG9ydHMsIGJ1aWxkIGludGVybWVkaWF0ZXMsIGFuZCBwcml2YXRlIGhpc3RvcmljYWwgc25hcHNob3RzLgoiQAogICAgU2V0LUNvbnRlbnQgLUxpdGVyYWxQYXRoIChKb2luLVBhdGggJFNuYXBzaG90UGF0aCAiU05BUFNIT1QubWQiKSAtVmFsdWUgJFNuYXBzaG90Tm90ZSAtRW5jb2RpbmcgdXRmOAoKICAgICRIYXNoTGluZXMgPSBHZXQtQ2hpbGRJdGVtIC1MaXRlcmFsUGF0aCAkU25hcHNob3RQYXRoIC1GaWxlIHwgV2hlcmUtT2JqZWN0IHsgJF8uTmFtZSAtbmUgIlNIQTI1NlNVTVMudHh0IiB9IHwgU29ydC1PYmplY3QgTmFtZSB8IEZvckVhY2gtT2JqZWN0IHsKICAgICAgICAiezB9ICB7MX0iIC1mIChHZXQtRmlsZUhhc2ggLUxpdGVyYWxQYXRoICRfLkZ1bGxOYW1lIC1BbGdvcml0aG0gU0hBMjU2KS5IYXNoLlRvTG93ZXJJbnZhcmlhbnQoKSwgJF8uTmFtZQogICAgfQogICAgJEhhc2hMaW5lcyB8IFNldC1Db250ZW50IC1MaXRlcmFsUGF0aCAoSm9pbi1QYXRoICRTbmFwc2hvdFBhdGggIlNIQTI1NlNVTVMudHh0IikgLUVuY29kaW5nIGFzY2lpCiAgICBXcml0ZS1Ib3N0ICJDcmVhdGVkIHNuYXBzaG90OiAkU25hcHNob3RQYXRoIgp9CmZpbmFsbHkgewogICAgUmVtb3ZlLUl0ZW0gLUxpdGVyYWxQYXRoICRTb3VyY2VTdGFnZSAtUmVjdXJzZSAtRm9yY2UgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWUKfQo=
+[CmdletBinding()]
+param(
+    [string]$SnapshotRoot,
+    [string]$ReleaseRoot
+)
+
+$ErrorActionPreference = "Stop"
+$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot ".."))
+if (-not $SnapshotRoot) { $SnapshotRoot = Join-Path $ProjectRoot "snapshots" }
+if (-not $ReleaseRoot) { $ReleaseRoot = Join-Path $ProjectRoot "release" }
+$VersionSource = Get-Content -LiteralPath (Join-Path $ProjectRoot "version.py") -Raw -Encoding utf8
+if ($VersionSource -notmatch 'VERSION\s*=\s*["'']([^"'']+)["'']') { throw "Could not read project version." }
+$Version = $matches[1]
+$Timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+$SnapshotPath = Join-Path ([System.IO.Path]::GetFullPath($SnapshotRoot)) $Timestamp
+$SourceStage = Join-Path ([System.IO.Path]::GetTempPath()) ("zcode-status-snapshot-" + [guid]::NewGuid().ToString("N"))
+$SourceZipName = "ZCodeStatusLight-v$Version-source.zip"
+$ReleaseZipName = "ZCodeStatusLight-v$Version-windows-x64.zip"
+$ReleaseZip = Join-Path ([System.IO.Path]::GetFullPath($ReleaseRoot)) $ReleaseZipName
+$ReleaseHash = "$ReleaseZip.sha256"
+
+$SourceFiles = @(
+    ".gitignore",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "requirements-build.txt",
+    "version.py",
+    "widget.py",
+    "hook_handler.py",
+    "build_exe.bat",
+    "install.ps1",
+    "uninstall.ps1",
+    "test_handler.py",
+    "test_tooltip.py",
+    "test_opacity_regression.py",
+    "test_session_display.py",
+    "test_stability.py",
+    "test_release_scripts.ps1",
+    "test_release_package.ps1",
+    "docs\zcode-hooks.example.json",
+    "scripts\build-release.ps1",
+    "scripts\package-release.ps1",
+    "scripts\create-snapshot.ps1"
+)
+
+if (Test-Path -LiteralPath $SnapshotPath) { throw "Snapshot directory already exists: $SnapshotPath" }
+if (-not (Test-Path -LiteralPath $ReleaseZip -PathType Leaf)) { throw "Release ZIP is missing: $ReleaseZip" }
+if (-not (Test-Path -LiteralPath $ReleaseHash -PathType Leaf)) { throw "Release ZIP checksum is missing: $ReleaseHash" }
+
+New-Item -ItemType Directory -Path $SnapshotPath -Force | Out-Null
+New-Item -ItemType Directory -Path $SourceStage -Force | Out-Null
+try {
+    foreach ($relative in $SourceFiles) {
+        $source = Join-Path $ProjectRoot $relative
+        if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "Snapshot source is missing: $relative" }
+        $destination = Join-Path $SourceStage $relative
+        New-Item -ItemType Directory -Path (Split-Path $destination -Parent) -Force | Out-Null
+        Copy-Item -LiteralPath $source -Destination $destination -Force
+    }
+
+    $SourceZip = Join-Path $SnapshotPath $SourceZipName
+    Get-ChildItem -LiteralPath $SourceStage | Compress-Archive -DestinationPath $SourceZip -CompressionLevel Optimal -Force
+    Copy-Item -LiteralPath $ReleaseZip -Destination (Join-Path $SnapshotPath $ReleaseZipName) -Force
+    Copy-Item -LiteralPath $ReleaseHash -Destination (Join-Path $SnapshotPath "$ReleaseZipName.sha256") -Force
+
+    $SnapshotNote = @"
+# Release Snapshot
+
+- Version: $Version
+- Created: $([DateTime]::UtcNow.ToString("o"))
+- Source archive: $SourceZipName
+- Release archive: $ReleaseZipName
+
+This snapshot is a private rollback point. It intentionally excludes desktop screenshots, ZCode configuration, hook logs, registry exports, build intermediates, and private historical snapshots.
+"@
+    Set-Content -LiteralPath (Join-Path $SnapshotPath "SNAPSHOT.md") -Value $SnapshotNote -Encoding utf8
+
+    $HashLines = Get-ChildItem -LiteralPath $SnapshotPath -File | Where-Object { $_.Name -ne "SHA256SUMS.txt" } | Sort-Object Name | ForEach-Object {
+        "{0}  {1}" -f (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant(), $_.Name
+    }
+    $HashLines | Set-Content -LiteralPath (Join-Path $SnapshotPath "SHA256SUMS.txt") -Encoding ascii
+    Write-Host "Created snapshot: $SnapshotPath"
+}
+finally {
+    Remove-Item -LiteralPath $SourceStage -Recurse -Force -ErrorAction SilentlyContinue
+}

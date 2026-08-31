@@ -1,1 +1,112 @@
-IyAtKi0gY29kaW5nOiB1dGYtOCAtKi0KIiIiSFRUUC/pmJ/liJcv6YCA5Ye66L6555WM5Zue5b2S5rWL6K+V77yM5YWo6YOo5L2/55So6ZqP5py65Li05pe256uv5Y+j44CCIiIiCmltcG9ydCBodHRwLmNsaWVudAppbXBvcnQganNvbgppbXBvcnQgcXVldWUKaW1wb3J0IHNvY2tldAppbXBvcnQgc3lzCmltcG9ydCB0aW1lCmltcG9ydCB0a2ludGVyIGFzIHRrCgpmcm9tIHBhdGhsaWIgaW1wb3J0IFBhdGgKClBST0pFQ1RfUk9PVCA9IFBhdGgoX19maWxlX18pLnJlc29sdmUoKS5wYXJlbnQKc3lzLnBhdGguaW5zZXJ0KDAsIHN0cihQUk9KRUNUX1JPT1QpKQppbXBvcnQgd2lkZ2V0IGFzIFcgICMgbm9xYTogRTQwMgoKVy5QT1JUID0gMAoKCmRlZiByZXF1ZXN0KHBvcnQsIHBhdGg9Ii9ldmVudCIsIGJvZHk9YiJ7fSIsIGhlYWRlcnM9Tm9uZSk6CiAgICBjb25uID0gaHR0cC5jbGllbnQuSFRUUENvbm5lY3Rpb24oVy5IT1NULCBwb3J0LCB0aW1lb3V0PTIpCiAgICB0cnk6CiAgICAgICAgYWxsX2hlYWRlcnMgPSB7IkNvbnRlbnQtVHlwZSI6ICJhcHBsaWNhdGlvbi9qc29uIiwKICAgICAgICAgICAgICAgICAgICAgICAiQ29udGVudC1MZW5ndGgiOiBzdHIobGVuKGJvZHkpKX0KICAgICAgICBhbGxfaGVhZGVycy51cGRhdGUoaGVhZGVycyBvciB7fSkKICAgICAgICBjb25uLnJlcXVlc3QoIlBPU1QiLCBwYXRoLCBib2R5PWJvZHksIGhlYWRlcnM9YWxsX2hlYWRlcnMpCiAgICAgICAgcmVzcG9uc2UgPSBjb25uLmdldHJlc3BvbnNlKCkKICAgICAgICByZXNwb25zZS5yZWFkKCkKICAgICAgICByZXR1cm4gcmVzcG9uc2Uuc3RhdHVzCiAgICBmaW5hbGx5OgogICAgICAgIGNvbm4uY2xvc2UoKQoKCmRlZiBkcmFpbl9ldmVudHMoKToKICAgIHdoaWxlIFRydWU6CiAgICAgICAgdHJ5OgogICAgICAgICAgICBXLmV2ZW50c19xLmdldF9ub3dhaXQoKQogICAgICAgIGV4Y2VwdCBxdWV1ZS5FbXB0eToKICAgICAgICAgICAgcmV0dXJuCgoKZGVmIG1haW4oKToKICAgIGRyYWluX2V2ZW50cygpCiAgICByb290ID0gdGsuVGsoKQogICAgd2luID0gVy5XaWRnZXQocm9vdCkKICAgIHBvcnQgPSB3aW4uc2VydmVyLnNlcnZlcl9hZGRyZXNzWzFdCgogICAgYXNzZXJ0IHJlcXVlc3QocG9ydCwgIi93cm9uZyIpID09IDQwNAogICAgIyDlm7rlrprnq6/lj6Plv4Xpobvni6zljaDvvIznrKzkuozkuKrmnI3liqHkuI3og73lkIzml7bnu5HlrpoKICAgIGR1cGxpY2F0ZV9ibG9ja2VkID0gRmFsc2UKICAgIHRyeToKICAgICAgICBkdXBsaWNhdGUgPSBXLkV4Y2x1c2l2ZVRocmVhZGluZ0hUVFBTZXJ2ZXIoKFcuSE9TVCwgcG9ydCksIFcuRXZlbnRSZWNlaXZlcikKICAgICAgICBkdXBsaWNhdGUuc2VydmVyX2Nsb3NlKCkKICAgIGV4Y2VwdCBPU0Vycm9yOgogICAgICAgIGR1cGxpY2F0ZV9ibG9ja2VkID0gVHJ1ZQogICAgYXNzZXJ0IGR1cGxpY2F0ZV9ibG9ja2VkCiAgICBhc3NlcnQgcmVxdWVzdChwb3J0LCBib2R5PWIibm90LWpzb24iKSA9PSA0MDAKICAgIGFzc2VydCByZXF1ZXN0KHBvcnQsIGJvZHk9YiJbXSIpID09IDQwMAoKICAgIG92ZXJzaXplZCA9IGIieCIgKiAoVy5NQVhfRVZFTlRfQllURVMgKyAxKQogICAgYXNzZXJ0IHJlcXVlc3QocG9ydCwgYm9keT1vdmVyc2l6ZWQpID09IDQxMwogICAgYXNzZXJ0IFcuZXZlbnRzX3EucXNpemUoKSA9PSAwCgogICAgZXZlbnQgPSBqc29uLmR1bXBzKHsiZXZlbnQiOiAic3RvcCIsICJzZXNzaW9uX2lkIjogInN0YWJpbGl0eSJ9KS5lbmNvZGUoInV0Zi04IikKICAgIGFzc2VydCByZXF1ZXN0KHBvcnQsIGJvZHk9ZXZlbnQpID09IDIwNAogICAgYXNzZXJ0IFcuZXZlbnRzX3EucXNpemUoKSA9PSAxCiAgICBkcmFpbl9ldmVudHMoKQoKICAgIGZvciBpIGluIHJhbmdlKFcuTUFYX0VWRU5UX1FVRVVFKToKICAgICAgICBhc3NlcnQgVy5lbnF1ZXVlX2V2ZW50KHsiZXZlbnQiOiAic3RvcCIsICJzZXNzaW9uX2lkIjogInEtJWQiICUgaX0pCiAgICBhc3NlcnQgVy5ldmVudHNfcS5xc2l6ZSgpID09IFcuTUFYX0VWRU5UX1FVRVVFCiAgICBhc3NlcnQgcmVxdWVzdChwb3J0LCBib2R5PWV2ZW50KSA9PSA1MDMKICAgIGFzc2VydCBXLmV2ZW50c19xLnFzaXplKCkgPT0gVy5NQVhfRVZFTlRfUVVFVUUKICAgIGRyYWluX2V2ZW50cygpCgogICAgcHJvY2Vzc2VkID0gW10KICAgIG9yaWdpbmFsX2FwcGx5ID0gd2luLmFwcGx5X2V2ZW50CiAgICBvcmlnaW5hbF9hZnRlciA9IHJvb3QuYWZ0ZXIKICAgIHdpbi5hcHBseV9ldmVudCA9IGxhbWJkYSBldjogcHJvY2Vzc2VkLmFwcGVuZChldlsibiJdKQogICAgcm9vdC5hZnRlciA9IGxhbWJkYSAqYXJnczogTm9uZQogICAgZm9yIGkgaW4gcmFuZ2UoVy5NQVhfRVZFTlRTX1BFUl9USUNLICsgNSk6CiAgICAgICAgVy5lbnF1ZXVlX2V2ZW50KHsibiI6IGl9KQogICAgd2luLnRpY2soKQogICAgYXNzZXJ0IHByb2Nlc3NlZCA9PSBsaXN0KHJhbmdlKFcuTUFYX0VWRU5UU19QRVJfVElDSykpLCBwcm9jZXNzZWQKICAgIHJlbWFpbmluZyA9IFtdCiAgICB3aGlsZSBUcnVlOgogICAgICAgIHRyeToKICAgICAgICAgICAgcmVtYWluaW5nLmFwcGVuZChXLmV2ZW50c19xLmdldF9ub3dhaXQoKVsibiJdKQogICAgICAgIGV4Y2VwdCBxdWV1ZS5FbXB0eToKICAgICAgICAgICAgYnJlYWsKICAgIGFzc2VydCByZW1haW5pbmcgPT0gbGlzdChyYW5nZShXLk1BWF9FVkVOVFNfUEVSX1RJQ0ssCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgVy5NQVhfRVZFTlRTX1BFUl9USUNLICsgNSkpLCByZW1haW5pbmcKICAgIHdpbi5hcHBseV9ldmVudCA9IG9yaWdpbmFsX2FwcGx5CiAgICByb290LmFmdGVyID0gb3JpZ2luYWxfYWZ0ZXIKCiAgICBzZXJ2ZXJfdGhyZWFkID0gd2luLnNlcnZlcl90aHJlYWQKICAgIHdpbi5xdWl0KCkKICAgIGFzc2VydCBub3Qgc2VydmVyX3RocmVhZC5pc19hbGl2ZSgpCiAgICBhc3NlcnQgd2luLnNlcnZlci5maWxlbm8oKSA9PSAtMQogICAgd2l0aCBzb2NrZXQuc29ja2V0KCkgYXMgc29jazoKICAgICAgICBzb2NrLmJpbmQoKFcuSE9TVCwgcG9ydCkpCgogICAgdHJ5OgogICAgICAgIHJvb3QuZGVzdHJveSgpCiAgICBleGNlcHQgdGsuVGNsRXJyb3I6CiAgICAgICAgcGFzcwogICAgcHJpbnQoIkFMTCBTVEFCSUxJVFkgVEVTVFMgUEFTU0VEIikKICAgIHJldHVybiAwCgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIHN5cy5leGl0KG1haW4oKSkK
+# -*- coding: utf-8 -*-
+"""HTTP/队列/退出边界回归测试，全部使用随机临时端口。"""
+import http.client
+import json
+import queue
+import socket
+import sys
+import time
+import tkinter as tk
+
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(PROJECT_ROOT))
+import widget as W  # noqa: E402
+
+W.PORT = 0
+
+
+def request(port, path="/event", body=b"{}", headers=None):
+    conn = http.client.HTTPConnection(W.HOST, port, timeout=2)
+    try:
+        all_headers = {"Content-Type": "application/json",
+                       "Content-Length": str(len(body))}
+        all_headers.update(headers or {})
+        conn.request("POST", path, body=body, headers=all_headers)
+        response = conn.getresponse()
+        response.read()
+        return response.status
+    finally:
+        conn.close()
+
+
+def drain_events():
+    while True:
+        try:
+            W.events_q.get_nowait()
+        except queue.Empty:
+            return
+
+
+def main():
+    drain_events()
+    root = tk.Tk()
+    win = W.Widget(root)
+    port = win.server.server_address[1]
+
+    assert request(port, "/wrong") == 404
+    # 固定端口必须独占，第二个服务不能同时绑定
+    duplicate_blocked = False
+    try:
+        duplicate = W.ExclusiveThreadingHTTPServer((W.HOST, port), W.EventReceiver)
+        duplicate.server_close()
+    except OSError:
+        duplicate_blocked = True
+    assert duplicate_blocked
+    assert request(port, body=b"not-json") == 400
+    assert request(port, body=b"[]") == 400
+
+    oversized = b"x" * (W.MAX_EVENT_BYTES + 1)
+    assert request(port, body=oversized) == 413
+    assert W.events_q.qsize() == 0
+
+    event = json.dumps({"event": "stop", "session_id": "stability"}).encode("utf-8")
+    assert request(port, body=event) == 204
+    assert W.events_q.qsize() == 1
+    drain_events()
+
+    for i in range(W.MAX_EVENT_QUEUE):
+        assert W.enqueue_event({"event": "stop", "session_id": "q-%d" % i})
+    assert W.events_q.qsize() == W.MAX_EVENT_QUEUE
+    assert request(port, body=event) == 503
+    assert W.events_q.qsize() == W.MAX_EVENT_QUEUE
+    drain_events()
+
+    processed = []
+    original_apply = win.apply_event
+    original_after = root.after
+    win.apply_event = lambda ev: processed.append(ev["n"])
+    root.after = lambda *args: None
+    for i in range(W.MAX_EVENTS_PER_TICK + 5):
+        W.enqueue_event({"n": i})
+    win.tick()
+    assert processed == list(range(W.MAX_EVENTS_PER_TICK)), processed
+    remaining = []
+    while True:
+        try:
+            remaining.append(W.events_q.get_nowait()["n"])
+        except queue.Empty:
+            break
+    assert remaining == list(range(W.MAX_EVENTS_PER_TICK,
+                                   W.MAX_EVENTS_PER_TICK + 5)), remaining
+    win.apply_event = original_apply
+    root.after = original_after
+
+    server_thread = win.server_thread
+    win.quit()
+    assert not server_thread.is_alive()
+    assert win.server.fileno() == -1
+    with socket.socket() as sock:
+        sock.bind((W.HOST, port))
+
+    try:
+        root.destroy()
+    except tk.TclError:
+        pass
+    print("ALL STABILITY TESTS PASSED")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

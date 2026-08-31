@@ -1,1 +1,21 @@
-IyDlj5jmm7TorrDlvZUKCuacrOmhueebrumBteW+quivreS5ieWMlueJiOacrOWPt+OAggoKIyMgWzAuMS4wXSAtIDIwMjYtMDgtMzEKCiMjIyDpppblj5Hlip/og70KCi0gV2luZG93cyDmgqzmta7nirbmgIHnga/vvJrmqKrlkJHnuqLjgIHpu4TjgIHnu7/kuInnga/liIbliKvooajovr7nrYnlvoXnoa7orqTjgIHmiafooYzkuK3kuI7mnKzova7lrozmiJDjgIIKLSDlpJogWkNvZGUg5Lya6K+d5oyJ5pyA6L+R5rS76LeD5pe26Ze05o6S5bqP77yM5pi+56S6IFRvZG9Xcml0ZSDku7vliqHov5vluqbjgIHnirbmgIHml7bplb/kuI7mgqzlgZzor6bmg4XjgIIKLSDmiZjnm5joj5zljZXjgIHkvY3nva7orrDlv4bjgIHpgI/mmI7luqbjgIHnqbrpl7LluLjpqbvmmL7npLrlkozlj6/pgInlvIDmnLroh6rlkK/jgIIKLSDku4Xnu5HlrpogYDEyNy4wLjAuMTo1NzMxMGAg55qE5pys5Zyw5LqL5Lu25o6l5pS25Zmo77yM5YW35aSH6K+35rGC44CB6Zif5YiX44CBR1VJIOa2iOi0ueWSjOaXpeW/l+Wkp+Wwj+S4iumZkOOAggotIFB5dGhvbiDmoIflh4blupMgaG9vayBoYW5kbGVy77yM5pSv5oyBIFpDb2RlIOeahOS6lOexu+S8muivneS6i+S7tuOAggotIOWPr+WuoeiuoeeahCBQb3dlclNoZWxsIOWuieijheS4juWNuOi9veiEmuacrO+8mueyvuehruWQiOW5tuWSjOenu+mZpOacrOmhueebrueahCBob29rc++8jOS4jeimhuebluWFtuS7liBaQ29kZSDphY3nva7jgIIKCiMjIyDlt7Lnn6XpmZDliLYKCi0g6aaW5Y+RIFdpbmRvd3MgRVhFIOacqui/m+ihjCBBdXRoZW50aWNvZGUg562+5ZCN77yMU21hcnRTY3JlZW4g5Y+v6IO95o+Q56S66aOO6Zmp44CCCi0gaG9vayBoYW5kbGVyIOmcgOimgeWPr+eUqOeahCBQeXRob24gMy44IOaIluabtOmrmOeJiOacrO+8m0VYRSDmnKzouqvkuI3pnIDopoEgUHl0aG9u44CCCi0g5LuF5pSv5oyBIFdpbmRvd3Mg5Y2V5bGP5Z2Q5qCH5qih5Z6L77yM5LiN5aSE55CG5aSa5pi+56S65Zmo54Ot5o+S5ouU5LiO6YCQ5pi+56S65ZmoIERQSeOAggotIOacrOWcsCBIVFRQIOaOpeaUtuWZqOS9v+eUqOavj+i/nuaOpeS4gOe6v+eoi+eahOagh+WHhuW6k+acjeWKoe+8jOmdouWQkeS4quS6uuacrOacuuS9v+eUqOWcuuaZr+OAggo=
+# 变更记录
+
+本项目遵循语义化版本号。
+
+## [0.1.0] - 2026-08-31
+
+### 首发功能
+
+- Windows 悬浮状态灯：横向红、黄、绿三灯分别表达等待确认、执行中与本轮完成。
+- 多 ZCode 会话按最近活跃时间排序，显示 TodoWrite 任务进度、状态时长与悬停详情。
+- 托盘菜单、位置记忆、透明度、空闲常驻显示和可选开机自启。
+- 仅绑定 `127.0.0.1:57310` 的本地事件接收器，具备请求、队列、GUI 消费和日志大小上限。
+- Python 标准库 hook handler，支持 ZCode 的五类会话事件。
+- 可审计的 PowerShell 安装与卸载脚本：精确合并和移除本项目的 hooks，不覆盖其他 ZCode 配置。
+
+### 已知限制
+
+- 首发 Windows EXE 未进行 Authenticode 签名，SmartScreen 可能提示风险。
+- hook handler 需要可用的 Python 3.8 或更高版本；EXE 本身不需要 Python。
+- 仅支持 Windows 单屏坐标模型，不处理多显示器热插拔与逐显示器 DPI。
+- 本地 HTTP 接收器使用每连接一线程的标准库服务，面向个人本机使用场景。

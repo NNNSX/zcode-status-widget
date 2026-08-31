@@ -1,1 +1,63 @@
-W0NtZGxldEJpbmRpbmcoKV0KcGFyYW0oCiAgICBbc3RyaW5nXSRQeXRob25QYXRoLAogICAgW3N0cmluZ10kT3V0cHV0Um9vdAopCgokRXJyb3JBY3Rpb25QcmVmZXJlbmNlID0gIlN0b3AiCiRQcm9qZWN0Um9vdCA9IChSZXNvbHZlLVBhdGggKEpvaW4tUGF0aCAkUFNTY3JpcHRSb290ICIuLiIpKQppZiAoLW5vdCAkT3V0cHV0Um9vdCkgeyAkT3V0cHV0Um9vdCA9IEpvaW4tUGF0aCAkUHJvamVjdFJvb3QgImRpc3QiIH0KCmZ1bmN0aW9uIFRlc3QtUHl0aG9uTWluaW11bVZlcnNpb24oW3N0cmluZ10kQ29tbWFuZCwgW2ludF0kTWluaW11bU1pbm9yKSB7CiAgICB0cnkgewogICAgICAgICRvdXRwdXQgPSAoJiAkQ29tbWFuZCAtLXZlcnNpb24gMj4mMSB8IFNlbGVjdC1PYmplY3QgLUZpcnN0IDEpLlRvU3RyaW5nKCkKICAgICAgICBpZiAoJG91dHB1dCAtbm90bWF0Y2ggJ1B5dGhvblxzKyhcZCspXC4oXGQrKScpIHsgcmV0dXJuICRmYWxzZSB9CiAgICAgICAgcmV0dXJuIChbaW50XSRtYXRjaGVzWzFdIC1ndCAzIC1vciAoW2ludF0kbWF0Y2hlc1sxXSAtZXEgMyAtYW5kIFtpbnRdJG1hdGNoZXNbMl0gLWdlICRNaW5pbXVtTWlub3IpKQogICAgfQogICAgY2F0Y2ggeyByZXR1cm4gJGZhbHNlIH0KfQoKZnVuY3Rpb24gUmVzb2x2ZS1QeXRob24oW3N0cmluZ10kUmVxdWVzdGVkKSB7CiAgICBpZiAoJFJlcXVlc3RlZCkgewogICAgICAgIGlmICgtbm90IChUZXN0LVBhdGggLUxpdGVyYWxQYXRoICRSZXF1ZXN0ZWQgLVBhdGhUeXBlIExlYWYpKSB7CiAgICAgICAgICAgIHRocm93ICJUaGUgcmVxdWVzdGVkIFB5dGhvbiBleGVjdXRhYmxlIHdhcyBub3QgZm91bmQ6ICRSZXF1ZXN0ZWQiCiAgICAgICAgfQogICAgICAgIGlmICgtbm90IChUZXN0LVB5dGhvbk1pbmltdW1WZXJzaW9uICRSZXF1ZXN0ZWQgOSkpIHsgdGhyb3cgIkJ1aWxkaW5nIHJlcXVpcmVzIFB5dGhvbiAzLjkgb3IgbmV3ZXIuIiB9CiAgICAgICAgcmV0dXJuIEAoJFJlcXVlc3RlZCkKICAgIH0KCiAgICAkcHkgPSBHZXQtQ29tbWFuZCBweSAtRXJyb3JBY3Rpb24gU2lsZW50bHlDb250aW51ZQogICAgaWYgKCRweSkgewogICAgICAgICRwYXRocyA9ICYgcHkgLTBwIDI+JG51bGwgfCBGb3JFYWNoLU9iamVjdCB7CiAgICAgICAgICAgIGlmICgkXyAtbWF0Y2ggJyhbQS1aYS16XTpcXC4qcHl0aG9uXC5leGUpXHMqJCcpIHsgJG1hdGNoZXNbMV0gfQogICAgICAgIH0KICAgICAgICBmb3JlYWNoICgkcGF0aCBpbiAkcGF0aHMpIHsKICAgICAgICAgICAgaWYgKFRlc3QtUHl0aG9uTWluaW11bVZlcnNpb24gJHBhdGggOSkgeyByZXR1cm4gQCgkcGF0aCkgfQogICAgICAgIH0KICAgIH0KCiAgICAkcHl0aG9uID0gR2V0LUNvbW1hbmQgcHl0aG9uIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVlCiAgICBpZiAoJHB5dGhvbiAtYW5kIChUZXN0LVB5dGhvbk1pbmltdW1WZXJzaW9uICRweXRob24uU291cmNlIDkpKSB7IHJldHVybiBAKCRweXRob24uU291cmNlKSB9CiAgICB0aHJvdyAiUHl0aG9uIDMuOSBvciBuZXdlciBpcyByZXF1aXJlZC4gUGFzcyAtUHl0aG9uUGF0aCB0byBzZWxlY3QgYW4gaW50ZXJwcmV0ZXIuIgp9CgppZiAoJGVudjpPUyAtbmUgIldpbmRvd3NfTlQiKSB7IHRocm93ICJUaGlzIGJ1aWxkIHNjcmlwdCBvbmx5IHN1cHBvcnRzIFdpbmRvd3MuIiB9CiRQeXRob24gPSBSZXNvbHZlLVB5dGhvbiAkUHl0aG9uUGF0aAokT3V0cHV0Um9vdCA9IFtTeXN0ZW0uSU8uUGF0aF06OkdldEZ1bGxQYXRoKCRPdXRwdXRSb290KQokQnVpbGRSb290ID0gSm9pbi1QYXRoICRQcm9qZWN0Um9vdCAiYnVpbGQiCgpQdXNoLUxvY2F0aW9uICRQcm9qZWN0Um9vdAp0cnkgewogICAgJiAkUHl0aG9uIC1tIHBpcCBpbnN0YWxsIC0tZGlzYWJsZS1waXAtdmVyc2lvbi1jaGVjayAtciByZXF1aXJlbWVudHMtYnVpbGQudHh0CiAgICBpZiAoJExBU1RFWElUQ09ERSAtbmUgMCkgeyB0aHJvdyAiQnVpbGQgZGVwZW5kZW5jeSBpbnN0YWxsYXRpb24gZmFpbGVkLiIgfQoKICAgICYgJFB5dGhvbiAtbSBQeUluc3RhbGxlciAtLW9uZWZpbGUgLS1ub2NvbnNvbGUgLS1uYW1lIFpDb2RlU3RhdHVzTGlnaHQgLS1jbGVhbiAtLW5vY29uZmlybSBgCiAgICAgICAgLS1kaXN0cGF0aCAkT3V0cHV0Um9vdCAtLXdvcmtwYXRoICRCdWlsZFJvb3QgLS1zcGVjcGF0aCAkQnVpbGRSb290IHdpZGdldC5weQogICAgaWYgKCRMQVNURVhJVENPREUgLW5lIDApIHsgdGhyb3cgIlB5SW5zdGFsbGVyIGJ1aWxkIGZhaWxlZC4iIH0KCiAgICAkVmVyc2lvbiA9IChHZXQtQ29udGVudCAtTGl0ZXJhbFBhdGggInZlcnNpb24ucHkiIC1SYXcgLUVuY29kaW5nIHV0ZjggfCBTZWxlY3QtU3RyaW5nIC1QYXR0ZXJuICdWRVJTSU9OXHMqPVxzKlsiJyddKFteIicnXSspWyInJ10nIC1BbGxNYXRjaGVzKS5NYXRjaGVzWzBdLkdyb3Vwc1sxXS5WYWx1ZQogICAgV3JpdGUtSG9zdCAiQnVpbHQgWkNvZGVTdGF0dXNMaWdodCB2JHtWZXJzaW9ufTogJChKb2luLVBhdGggJE91dHB1dFJvb3QgJ1pDb2RlU3RhdHVzTGlnaHQuZXhlJykiCn0KZmluYWxseSB7CiAgICBQb3AtTG9jYXRpb24KfQo=
+[CmdletBinding()]
+param(
+    [string]$PythonPath,
+    [string]$OutputRoot
+)
+
+$ErrorActionPreference = "Stop"
+$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot ".."))
+if (-not $OutputRoot) { $OutputRoot = Join-Path $ProjectRoot "dist" }
+
+function Test-PythonMinimumVersion([string]$Command, [int]$MinimumMinor) {
+    try {
+        $output = (& $Command --version 2>&1 | Select-Object -First 1).ToString()
+        if ($output -notmatch 'Python\s+(\d+)\.(\d+)') { return $false }
+        return ([int]$matches[1] -gt 3 -or ([int]$matches[1] -eq 3 -and [int]$matches[2] -ge $MinimumMinor))
+    }
+    catch { return $false }
+}
+
+function Resolve-Python([string]$Requested) {
+    if ($Requested) {
+        if (-not (Test-Path -LiteralPath $Requested -PathType Leaf)) {
+            throw "The requested Python executable was not found: $Requested"
+        }
+        if (-not (Test-PythonMinimumVersion $Requested 9)) { throw "Building requires Python 3.9 or newer." }
+        return @($Requested)
+    }
+
+    $py = Get-Command py -ErrorAction SilentlyContinue
+    if ($py) {
+        $paths = & py -0p 2>$null | ForEach-Object {
+            if ($_ -match '([A-Za-z]:\\.*python\.exe)\s*$') { $matches[1] }
+        }
+        foreach ($path in $paths) {
+            if (Test-PythonMinimumVersion $path 9) { return @($path) }
+        }
+    }
+
+    $python = Get-Command python -ErrorAction SilentlyContinue
+    if ($python -and (Test-PythonMinimumVersion $python.Source 9)) { return @($python.Source) }
+    throw "Python 3.9 or newer is required. Pass -PythonPath to select an interpreter."
+}
+
+if ($env:OS -ne "Windows_NT") { throw "This build script only supports Windows." }
+$Python = Resolve-Python $PythonPath
+$OutputRoot = [System.IO.Path]::GetFullPath($OutputRoot)
+$BuildRoot = Join-Path $ProjectRoot "build"
+
+Push-Location $ProjectRoot
+try {
+    & $Python -m pip install --disable-pip-version-check -r requirements-build.txt
+    if ($LASTEXITCODE -ne 0) { throw "Build dependency installation failed." }
+
+    & $Python -m PyInstaller --onefile --noconsole --name ZCodeStatusLight --clean --noconfirm `
+        --distpath $OutputRoot --workpath $BuildRoot --specpath $BuildRoot widget.py
+    if ($LASTEXITCODE -ne 0) { throw "PyInstaller build failed." }
+
+    $Version = (Get-Content -LiteralPath "version.py" -Raw -Encoding utf8 | Select-String -Pattern 'VERSION\s*=\s*["'']([^"'']+)["'']' -AllMatches).Matches[0].Groups[1].Value
+    Write-Host "Built ZCodeStatusLight v${Version}: $(Join-Path $OutputRoot 'ZCodeStatusLight.exe')"
+}
+finally {
+    Pop-Location
+}

@@ -1,1 +1,71 @@
-W0NtZGxldEJpbmRpbmcoKV0KcGFyYW0oCiAgICBbUGFyYW1ldGVyKE1hbmRhdG9yeSA9ICR0cnVlKV0KICAgIFtzdHJpbmddJFppcFBhdGgKKQoKJEVycm9yQWN0aW9uUHJlZmVyZW5jZSA9ICJTdG9wIgokWmlwUGF0aCA9IFtTeXN0ZW0uSU8uUGF0aF06OkdldEZ1bGxQYXRoKCRaaXBQYXRoKQppZiAoLW5vdCAoVGVzdC1QYXRoIC1MaXRlcmFsUGF0aCAkWmlwUGF0aCAtUGF0aFR5cGUgTGVhZikpIHsgdGhyb3cgIlJlbGVhc2UgWklQIGlzIG1pc3Npbmc6ICRaaXBQYXRoIiB9CiRTaWRlY2FyUGF0aCA9ICIkWmlwUGF0aC5zaGEyNTYiCmlmICgtbm90IChUZXN0LVBhdGggLUxpdGVyYWxQYXRoICRTaWRlY2FyUGF0aCAtUGF0aFR5cGUgTGVhZikpIHsgdGhyb3cgIlJlbGVhc2UgWklQIGNoZWNrc3VtIGZpbGUgaXMgbWlzc2luZzogJFNpZGVjYXJQYXRoIiB9CiRBY3R1YWxaaXBIYXNoID0gKEdldC1GaWxlSGFzaCAtTGl0ZXJhbFBhdGggJFppcFBhdGggLUFsZ29yaXRobSBTSEEyNTYpLkhhc2guVG9Mb3dlckludmFyaWFudCgpCiRTaWRlY2FyID0gKEdldC1Db250ZW50IC1MaXRlcmFsUGF0aCAkU2lkZWNhclBhdGggLVJhdyAtRW5jb2RpbmcgYXNjaWkpLlRyaW0oKQppZiAoJFNpZGVjYXIgLW5vdG1hdGNoICdeKFswLTlhLWZdezY0fSkgIChbXlxcL10rXC56aXApJCcpIHsgdGhyb3cgIlJlbGVhc2UgWklQIGNoZWNrc3VtIGZpbGUgaXMgbWFsZm9ybWVkLiIgfQppZiAoJG1hdGNoZXNbMV0gLW5lICRBY3R1YWxaaXBIYXNoKSB7IHRocm93ICJSZWxlYXNlIFpJUCBjaGVja3N1bSBkb2VzIG5vdCBtYXRjaC4iIH0KCiRCeXRlcyA9IFtTeXN0ZW0uSU8uRmlsZV06OlJlYWRBbGxCeXRlcygkWmlwUGF0aCkKaWYgKCRCeXRlcy5MZW5ndGggLWx0IDQgLW9yICRCeXRlc1swXSAtbmUgODAgLW9yICRCeXRlc1sxXSAtbmUgNzUpIHsgdGhyb3cgIlJlbGVhc2UgZmlsZSBpcyBub3QgYSBaSVAgYXJjaGl2ZS4iIH0KJFRlbXBSb290ID0gSm9pbi1QYXRoIChbU3lzdGVtLklPLlBhdGhdOjpHZXRUZW1wUGF0aCgpKSAoInpjb2RlLXN0YXR1cy12ZXJpZnktIiArIFtndWlkXTo6TmV3R3VpZCgpLlRvU3RyaW5nKCJOIikpCnRyeSB7CiAgICBFeHBhbmQtQXJjaGl2ZSAtTGl0ZXJhbFBhdGggJFppcFBhdGggLURlc3RpbmF0aW9uUGF0aCAkVGVtcFJvb3QgLUZvcmNlCiAgICAkRXhwZWN0ZWRGaWxlcyA9IEAoCiAgICAgICAgIkNIQU5HRUxPRy5tZCIsCiAgICAgICAgIkxJQ0VOU0UiLAogICAgICAgICJSRUFETUUubWQiLAogICAgICAgICJTSEEyNTZTVU1TLnR4dCIsCiAgICAgICAgIlRISVJEX1BBUlRZX05PVElDRVMubWQiLAogICAgICAgICJaQ29kZVN0YXR1c0xpZ2h0LmV4ZSIsCiAgICAgICAgImRvY3MvemNvZGUtaG9va3MuZXhhbXBsZS5qc29uIiwKICAgICAgICAiaG9va19oYW5kbGVyLnB5IiwKICAgICAgICAiaW5zdGFsbC5wczEiLAogICAgICAgICJyZWxlYXNlLW1hbmlmZXN0Lmpzb24iLAogICAgICAgICJ1bmluc3RhbGwucHMxIiwKICAgICAgICAidmVyc2lvbi5weSIKICAgICkgfCBTb3J0LU9iamVjdAogICAgJEFjdHVhbEZpbGVzID0gR2V0LUNoaWxkSXRlbSAtTGl0ZXJhbFBhdGggJFRlbXBSb290IC1GaWxlIC1SZWN1cnNlIHwgRm9yRWFjaC1PYmplY3QgewogICAgICAgICRfLkZ1bGxOYW1lLlN1YnN0cmluZygkVGVtcFJvb3QuTGVuZ3RoICsgMSkuUmVwbGFjZSgiXCIsICIvIikKICAgIH0gfCBTb3J0LU9iamVjdAogICAgJERpZmYgPSBDb21wYXJlLU9iamVjdCAtUmVmZXJlbmNlT2JqZWN0ICRFeHBlY3RlZEZpbGVzIC1EaWZmZXJlbmNlT2JqZWN0ICRBY3R1YWxGaWxlcwogICAgaWYgKCREaWZmKSB7IHRocm93ICgiUmVsZWFzZSBmaWxlIHdoaXRlbGlzdCBtaXNtYXRjaDogIiArICgkRGlmZiB8IE91dC1TdHJpbmcpKSB9CgogICAgJE1hbmlmZXN0ID0gR2V0LUNvbnRlbnQgLUxpdGVyYWxQYXRoIChKb2luLVBhdGggJFRlbXBSb290ICJyZWxlYXNlLW1hbmlmZXN0Lmpzb24iKSAtUmF3IC1FbmNvZGluZyB1dGY4IHwgQ29udmVydEZyb20tSnNvbiAtRXJyb3JBY3Rpb24gU3RvcAogICAgaWYgKCRNYW5pZmVzdC5wcm9kdWN0IC1uZSAiWkNvZGVTdGF0dXNMaWdodCIgLW9yICRNYW5pZmVzdC52ZXJzaW9uIC1uZSAiMC4xLjAiIC1vciAkTWFuaWZlc3QucGxhdGZvcm0gLW5lICJ3aW5kb3dzLXg2NCIpIHsKICAgICAgICB0aHJvdyAiUmVsZWFzZSBtYW5pZmVzdCBoYXMgdW5leHBlY3RlZCBtZXRhZGF0YS4iCiAgICB9CgogICAgJEhhc2hGYWlsdXJlcyA9IEAoKQogICAgR2V0LUNvbnRlbnQgLUxpdGVyYWxQYXRoIChKb2luLVBhdGggJFRlbXBSb290ICJTSEEyNTZTVU1TLnR4dCIpIC1FbmNvZGluZyBhc2NpaSB8IEZvckVhY2gtT2JqZWN0IHsKICAgICAgICBpZiAoJF8gLW5vdG1hdGNoICdeKFswLTlhLWZdezY0fSkgICguKykkJykgewogICAgICAgICAgICAkSGFzaEZhaWx1cmVzICs9ICJNYWxmb3JtZWQgY2hlY2tzdW0gZW50cnk6ICRfIgogICAgICAgICAgICByZXR1cm4KICAgICAgICB9CiAgICAgICAgJFJlbGF0aXZlUGF0aCA9ICRtYXRjaGVzWzJdLlJlcGxhY2UoIi8iLCAiXCIpCiAgICAgICAgaWYgKFtTeXN0ZW0uSU8uUGF0aF06OklzUGF0aFJvb3RlZCgkUmVsYXRpdmVQYXRoKSAtb3IgJFJlbGF0aXZlUGF0aC5TcGxpdChbY2hhcl05MikgLWNvbnRhaW5zICIuLiIpIHsKICAgICAgICAgICAgJEhhc2hGYWlsdXJlcyArPSAiVW5zYWZlIGNoZWNrc3VtIHBhdGg6ICRSZWxhdGl2ZVBhdGgiCiAgICAgICAgICAgIHJldHVybgogICAgICAgIH0KICAgICAgICAkRmlsZVBhdGggPSBKb2luLVBhdGggJFRlbXBSb290ICRSZWxhdGl2ZVBhdGgKICAgICAgICBpZiAoLW5vdCAoVGVzdC1QYXRoIC1MaXRlcmFsUGF0aCAkRmlsZVBhdGggLVBhdGhUeXBlIExlYWYpKSB7CiAgICAgICAgICAgICRIYXNoRmFpbHVyZXMgKz0gIk1pc3NpbmcgY2hlY2tzdW0gZmlsZTogJFJlbGF0aXZlUGF0aCIKICAgICAgICAgICAgcmV0dXJuCiAgICAgICAgfQogICAgICAgICRBY3R1YWxIYXNoID0gKEdldC1GaWxlSGFzaCAtTGl0ZXJhbFBhdGggJEZpbGVQYXRoIC1BbGdvcml0aG0gU0hBMjU2KS5IYXNoLlRvTG93ZXJJbnZhcmlhbnQoKQogICAgICAgIGlmICgkQWN0dWFsSGFzaCAtbmUgJG1hdGNoZXNbMV0pIHsgJEhhc2hGYWlsdXJlcyArPSAiQ2hlY2tzdW0gbWlzbWF0Y2g6ICRSZWxhdGl2ZVBhdGgiIH0KICAgIH0KICAgIGlmICgkSGFzaEZhaWx1cmVzLkNvdW50IC1ndCAwKSB7IHRocm93ICgkSGFzaEZhaWx1cmVzIC1qb2luICI7ICIpIH0KICAgIFdyaXRlLUhvc3QgIlJFTEVBU0UgWklQIFZFUklGSUVEOiAkQWN0dWFsWmlwSGFzaCIKfQpmaW5hbGx5IHsKICAgIFJlbW92ZS1JdGVtIC1MaXRlcmFsUGF0aCAkVGVtcFJvb3QgLVJlY3Vyc2UgLUZvcmNlIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVlCn0K
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory = $true)]
+    [string]$ZipPath
+)
+
+$ErrorActionPreference = "Stop"
+$ZipPath = [System.IO.Path]::GetFullPath($ZipPath)
+if (-not (Test-Path -LiteralPath $ZipPath -PathType Leaf)) { throw "Release ZIP is missing: $ZipPath" }
+$SidecarPath = "$ZipPath.sha256"
+if (-not (Test-Path -LiteralPath $SidecarPath -PathType Leaf)) { throw "Release ZIP checksum file is missing: $SidecarPath" }
+$ActualZipHash = (Get-FileHash -LiteralPath $ZipPath -Algorithm SHA256).Hash.ToLowerInvariant()
+$Sidecar = (Get-Content -LiteralPath $SidecarPath -Raw -Encoding ascii).Trim()
+if ($Sidecar -notmatch '^([0-9a-f]{64})  ([^\\/]+\.zip)$') { throw "Release ZIP checksum file is malformed." }
+if ($matches[1] -ne $ActualZipHash) { throw "Release ZIP checksum does not match." }
+
+$Bytes = [System.IO.File]::ReadAllBytes($ZipPath)
+if ($Bytes.Length -lt 4 -or $Bytes[0] -ne 80 -or $Bytes[1] -ne 75) { throw "Release file is not a ZIP archive." }
+$TempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("zcode-status-verify-" + [guid]::NewGuid().ToString("N"))
+try {
+    Expand-Archive -LiteralPath $ZipPath -DestinationPath $TempRoot -Force
+    $ExpectedFiles = @(
+        "CHANGELOG.md",
+        "LICENSE",
+        "README.md",
+        "SHA256SUMS.txt",
+        "THIRD_PARTY_NOTICES.md",
+        "ZCodeStatusLight.exe",
+        "docs/zcode-hooks.example.json",
+        "hook_handler.py",
+        "install.ps1",
+        "release-manifest.json",
+        "uninstall.ps1",
+        "version.py"
+    ) | Sort-Object
+    $ActualFiles = Get-ChildItem -LiteralPath $TempRoot -File -Recurse | ForEach-Object {
+        $_.FullName.Substring($TempRoot.Length + 1).Replace("\", "/")
+    } | Sort-Object
+    $Diff = Compare-Object -ReferenceObject $ExpectedFiles -DifferenceObject $ActualFiles
+    if ($Diff) { throw ("Release file whitelist mismatch: " + ($Diff | Out-String)) }
+
+    $Manifest = Get-Content -LiteralPath (Join-Path $TempRoot "release-manifest.json") -Raw -Encoding utf8 | ConvertFrom-Json -ErrorAction Stop
+    if ($Manifest.product -ne "ZCodeStatusLight" -or $Manifest.version -ne "0.1.0" -or $Manifest.platform -ne "windows-x64") {
+        throw "Release manifest has unexpected metadata."
+    }
+
+    $HashFailures = @()
+    Get-Content -LiteralPath (Join-Path $TempRoot "SHA256SUMS.txt") -Encoding ascii | ForEach-Object {
+        if ($_ -notmatch '^([0-9a-f]{64})  (.+)$') {
+            $HashFailures += "Malformed checksum entry: $_"
+            return
+        }
+        $RelativePath = $matches[2].Replace("/", "\")
+        if ([System.IO.Path]::IsPathRooted($RelativePath) -or $RelativePath.Split([char]92) -contains "..") {
+            $HashFailures += "Unsafe checksum path: $RelativePath"
+            return
+        }
+        $FilePath = Join-Path $TempRoot $RelativePath
+        if (-not (Test-Path -LiteralPath $FilePath -PathType Leaf)) {
+            $HashFailures += "Missing checksum file: $RelativePath"
+            return
+        }
+        $ActualHash = (Get-FileHash -LiteralPath $FilePath -Algorithm SHA256).Hash.ToLowerInvariant()
+        if ($ActualHash -ne $matches[1]) { $HashFailures += "Checksum mismatch: $RelativePath" }
+    }
+    if ($HashFailures.Count -gt 0) { throw ($HashFailures -join "; ") }
+    Write-Host "RELEASE ZIP VERIFIED: $ActualZipHash"
+}
+finally {
+    Remove-Item -LiteralPath $TempRoot -Recurse -Force -ErrorAction SilentlyContinue
+}

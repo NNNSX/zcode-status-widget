@@ -1,1 +1,11 @@
-QGVjaG8gb2ZmCnJlbSBDb21wYXRpYmlsaXR5IGVudHJ5cG9pbnQuIFRoZSBQb3dlclNoZWxsIHNjcmlwdCBkaXNjb3ZlcnMgUHl0aG9uIGFuZCBoYXMgbm8gbWFjaGluZS1zcGVjaWZpYyBwYXRocy4KcG93ZXJzaGVsbC5leGUgLU5vUHJvZmlsZSAtRXhlY3V0aW9uUG9saWN5IEJ5cGFzcyAtRmlsZSAiJX5kcDBzY3JpcHRzXGJ1aWxkLXJlbGVhc2UucHMxIgppZiBlcnJvcmxldmVsIDEgKAogIGVjaG8gQnVpbGQgZmFpbGVkLgogIHBhdXNlCiAgZXhpdCAvYiAxCikKZWNoby4KZWNobyBEb25lLiBPdXRwdXQ6IGRpc3RcWkNvZGVTdGF0dXNMaWdodC5leGUKcGF1c2UK
+@echo off
+rem Compatibility entrypoint. The PowerShell script discovers Python and has no machine-specific paths.
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\build-release.ps1"
+if errorlevel 1 (
+  echo Build failed.
+  pause
+  exit /b 1
+)
+echo.
+echo Done. Output: dist\ZCodeStatusLight.exe
+pause

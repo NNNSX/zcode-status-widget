@@ -1,1 +1,120 @@
-IyAtKi0gY29kaW5nOiB1dGYtOCAtKi0KIiIiaG9va19oYW5kbGVyIOacrOWcsOiHqua1i++8mui1t+S4gOS4quS4tOaXtuaOpeaUtuWZqO+8jOi3keWQhOenjeagt+S+i+S6i+S7tuW5tuaWreiogOOAggoK55So5rOVOiBweXRob24gdGVzdF9oYW5kbGVyLnB5CiIiIgoKaW1wb3J0IGpzb24KaW1wb3J0IG9zCmltcG9ydCBzb2NrZXQKaW1wb3J0IHN1YnByb2Nlc3MKaW1wb3J0IHN5cwppbXBvcnQgdGhyZWFkaW5nCmltcG9ydCB0aW1lCmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aApmcm9tIHVuaXR0ZXN0IGltcG9ydCBtb2NrCmZyb20gaHR0cC5zZXJ2ZXIgaW1wb3J0IEJhc2VIVFRQUmVxdWVzdEhhbmRsZXIsIFRocmVhZGluZ0hUVFBTZXJ2ZXIKClBST0pFQ1RfUk9PVCA9IFBhdGgoX19maWxlX18pLnJlc29sdmUoKS5wYXJlbnQKc3lzLnBhdGguaW5zZXJ0KDAsIHN0cihQUk9KRUNUX1JPT1QpKQppbXBvcnQgaG9va19oYW5kbGVyICAjIG5vcWE6IEU0MDIgIOS7heWkjeeUqCBIT1NUIOW4uOmHjwoKcmVjZWl2ZWQgPSBbXQoKCmNsYXNzIE1vY2tSZWNlaXZlcihCYXNlSFRUUFJlcXVlc3RIYW5kbGVyKToKICAgIGRlZiBkb19QT1NUKHNlbGYpOgogICAgICAgIG4gPSBpbnQoc2VsZi5oZWFkZXJzLmdldCgiQ29udGVudC1MZW5ndGgiKSBvciAwKQogICAgICAgIHJlY2VpdmVkLmFwcGVuZChqc29uLmxvYWRzKHNlbGYucmZpbGUucmVhZChuKS5kZWNvZGUoInV0Zi04IikpKQogICAgICAgIHNlbGYuc2VuZF9yZXNwb25zZSgyMDQpCiAgICAgICAgc2VsZi5lbmRfaGVhZGVycygpCgogICAgZGVmIGxvZ19tZXNzYWdlKHNlbGYsICphKToKICAgICAgICBwYXNzCgoKIyDnu5Hlrprpmo/mnLrnqbrpl7Lnq6/lj6PvvIzpgJrov4fnjq/looPlj5jph4/lkYrnn6XlrZDov5vnqIvvvIzpgb/lhY3kuI7ov5DooYzkuK3nmoTnnJ/mgqzmta7nqpfvvIg1NzMxMO+8ieWGsueqgQpzcnYgPSBUaHJlYWRpbmdIVFRQU2VydmVyKChob29rX2hhbmRsZXIuSE9TVCwgMCksIE1vY2tSZWNlaXZlcikKVEVTVF9QT1JUID0gc3J2LnNlcnZlcl9hZGRyZXNzWzFdCnNydi5kYWVtb25fdGhyZWFkcyA9IFRydWUKdGhyZWFkaW5nLlRocmVhZCh0YXJnZXQ9c3J2LnNlcnZlX2ZvcmV2ZXIsIGRhZW1vbj1UcnVlKS5zdGFydCgpCgpQWSA9IHN5cy5leGVjdXRhYmxlCkggPSBzdHIoUFJPSkVDVF9ST09UIC8gImhvb2tfaGFuZGxlci5weSIpCgoKZGVmIHJ1bihldmVudCwgcGF5bG9hZCk6CiAgICBwID0gc3VicHJvY2Vzcy5ydW4oCiAgICAgICAgW1BZLCBILCBldmVudCwgInRlc3Qtc2Vzc2lvbi0xIiwgIkQ6XFxaQ29kZV93cyJdLAogICAgICAgIGlucHV0PWpzb24uZHVtcHMocGF5bG9hZCkuZW5jb2RlKCJ1dGYtOCIpLAogICAgICAgIHN0ZG91dD1zdWJwcm9jZXNzLlBJUEUsIHN0ZGVycj1zdWJwcm9jZXNzLlBJUEUsIHRpbWVvdXQ9MTUsCiAgICAgICAgZW52PXsqKm9zLmVudmlyb24sICJaQ09ERV9TVEFUVVNfUE9SVCI6IHN0cihURVNUX1BPUlQpfSwKICAgICkKICAgIGFzc2VydCBwLnJldHVybmNvZGUgPT0gMCwgKGV2ZW50LCBwLnN0ZGVycikKICAgIGFzc2VydCBwLnN0ZG91dCA9PSBiIiIsICgic3Rkb3V0IOW/hemhu+S4uuepuiIsIHAuc3Rkb3V0KQoKCnJ1bigidXNlcl9wcm9tcHRfc3VibWl0IiwgeyJwcm9tcHQiOiAi5biu5oiR5a6e546w55m75b2V5qih5Z2XIn0pCnJ1bigidG9kb191cGRhdGUiLCB7InRvb2xfaW5wdXQiOiB7InRvZG9zIjogWwogICAgeyJjb250ZW50IjogIumYheivu+mFjee9riIsICJzdGF0dXMiOiAiY29tcGxldGVkIn0sCiAgICB7ImNvbnRlbnQiOiAi5L+u5pS555m75b2V5qih5Z2XIiwgInN0YXR1cyI6ICJpbl9wcm9ncmVzcyJ9LAogICAgeyJjb250ZW50IjogIuWGmea1i+ivlSIsICJzdGF0dXMiOiAicGVuZGluZyJ9LApdfX0pCnJ1bigicGVybWlzc2lvbl9yZXF1ZXN0IiwgeyJ0b29sX25hbWUiOiAiQmFzaCJ9KQpydW4oInRvb2xfZmFpbHVyZSIsIHsidG9vbF9uYW1lIjogIkJhc2giLCAidG9vbF9yZXNwb25zZSI6IHsiZXJyb3IiOiAiZXhpdCBjb2RlIDEifX0pCnJ1bigic3RvcCIsIHt9KQoKdGltZS5zbGVlcCgwLjMpCmFzc2VydCBsZW4ocmVjZWl2ZWQpID09IDUsIHJlY2VpdmVkCmV2ID0ge3JbImV2ZW50Il06IHIgZm9yIHIgaW4gcmVjZWl2ZWR9CmFzc2VydCBldlsidXNlcl9wcm9tcHRfc3VibWl0Il1bInByb21wdF9wcmV2aWV3Il0gPT0gIuW4ruaIkeWunueOsOeZu+W9leaooeWdlyIKYXNzZXJ0IGV2WyJ1c2VyX3Byb21wdF9zdWJtaXQiXVsicHJvamVjdCJdID09ICJaQ29kZV93cyIKdG9kb3MgPSBldlsidG9kb191cGRhdGUiXVsidG9kb3MiXQphc3NlcnQgbGVuKHRvZG9zKSA9PSAzLCB0b2Rvcwphc3NlcnQgZXZbInRvZG9fdXBkYXRlIl1bImN1cnJlbnRfdGFzayJdID09ICLkv67mlLnnmbvlvZXmqKHlnZciCmFzc2VydCBldlsicGVybWlzc2lvbl9yZXF1ZXN0Il1bImxhc3RfdG9vbCJdID09ICJCYXNoIgphc3NlcnQgZXZbInRvb2xfZmFpbHVyZSJdWyJlcnJvcl9wcmV2aWV3Il0gPT0gImV4aXQgY29kZSAxIgpzcnYuc2h1dGRvd24oKQoKIyDpnZ4gMnh4IOW/hemhu+mHjeivle+8muesrOS4gOasoSA1MDDvvIznrKzkuozmrKEgMjA0CmZsYWt5X2hpdHMgPSBbXQoKCmNsYXNzIEZsYWt5UmVjZWl2ZXIoQmFzZUhUVFBSZXF1ZXN0SGFuZGxlcik6CiAgICBkZWYgZG9fUE9TVChzZWxmKToKICAgICAgICBzZWxmLnJmaWxlLnJlYWQoaW50KHNlbGYuaGVhZGVycy5nZXQoIkNvbnRlbnQtTGVuZ3RoIikgb3IgMCkpCiAgICAgICAgZmxha3lfaGl0cy5hcHBlbmQoMSkKICAgICAgICBzZWxmLnNlbmRfcmVzcG9uc2UoNTAwIGlmIGxlbihmbGFreV9oaXRzKSA9PSAxIGVsc2UgMjA0KQogICAgICAgIHNlbGYuZW5kX2hlYWRlcnMoKQoKICAgIGRlZiBsb2dfbWVzc2FnZShzZWxmLCAqYSk6CiAgICAgICAgcGFzcwoKCmZsYWt5ID0gVGhyZWFkaW5nSFRUUFNlcnZlcigoaG9va19oYW5kbGVyLkhPU1QsIDApLCBGbGFreVJlY2VpdmVyKQp0aHJlYWRpbmcuVGhyZWFkKHRhcmdldD1mbGFreS5zZXJ2ZV9mb3JldmVyLCBkYWVtb249VHJ1ZSkuc3RhcnQoKQpvbGRfcG9ydCA9IGhvb2tfaGFuZGxlci5QT1JUCmhvb2tfaGFuZGxlci5QT1JUID0gZmxha3kuc2VydmVyX2FkZHJlc3NbMV0KaG9va19oYW5kbGVyLnNlbmQoeyJldmVudCI6ICJyZXRyeS10ZXN0In0pCmhvb2tfaGFuZGxlci5QT1JUID0gb2xkX3BvcnQKZmxha3kuc2h1dGRvd24oKQphc3NlcnQgbGVuKGZsYWt5X2hpdHMpID09IDIsIGZsYWt5X2hpdHMKCiMgMSBNaUIg5Y2V5aSH5Lu96L2u6L2s77yabW9jayDpqozor4HosIPnlKjvvIzkuI3lnKjmtYvor5Xph4zlhpnliqjmgIHot6/lvoQKd2l0aCBtb2NrLnBhdGNoLm9iamVjdChob29rX2hhbmRsZXIsICJiYXNlX2RpciIsIHJldHVybl92YWx1ZT1yIkM6XHNhZmUtdGVzdCIpLCBcCiAgICAgICAgbW9jay5wYXRjaC5vYmplY3QoaG9va19oYW5kbGVyLm9zLCAibWFrZWRpcnMiKSwgXAogICAgICAgIG1vY2sucGF0Y2gub2JqZWN0KGhvb2tfaGFuZGxlci5vcy5wYXRoLCAiZXhpc3RzIiwgcmV0dXJuX3ZhbHVlPVRydWUpLCBcCiAgICAgICAgbW9jay5wYXRjaC5vYmplY3QoaG9va19oYW5kbGVyLm9zLnBhdGgsICJnZXRzaXplIiwKICAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm5fdmFsdWU9aG9va19oYW5kbGVyLkxPR19NQVhfQllURVMpLCBcCiAgICAgICAgbW9jay5wYXRjaC5vYmplY3QoaG9va19oYW5kbGVyLm9zLCAicmVwbGFjZSIpIGFzIHJlcGxhY2UsIFwKICAgICAgICBtb2NrLnBhdGNoKCJidWlsdGlucy5vcGVuIiwgbW9jay5tb2NrX29wZW4oKSkgYXMgb3BlbmVkOgogICAgaG9va19oYW5kbGVyLmxvZ19lcnJvcigicm90YXRlLXRlc3QiKQogICAgcmVwbGFjZS5hc3NlcnRfY2FsbGVkX29uY2Vfd2l0aCgKICAgICAgICByIkM6XHNhZmUtdGVzdFxob29rX2Vycm9yLmxvZyIsIHIiQzpcc2FmZS10ZXN0XGhvb2tfZXJyb3IubG9nLjEiKQogICAgb3BlbmVkLmFzc2VydF9jYWxsZWRfb25jZSgpCgojIOaCrOa1rueql+acqui/kOihjOeahOi/nuaOpeaLkue7neWxnuS6juato+W4uOemu+e6vwphc3NlcnQgaG9va19oYW5kbGVyLmlzX2V4cGVjdGVkX29mZmxpbmUoQ29ubmVjdGlvblJlZnVzZWRFcnJvcigxMDA2MSwgIm9mZmxpbmUiKSkKYXNzZXJ0IG5vdCBob29rX2hhbmRsZXIuaXNfZXhwZWN0ZWRfb2ZmbGluZShUaW1lb3V0RXJyb3IoInRpbWVvdXQiKSkKCnByaW50KCJBTEwgVEVTVFMgUEFTU0VEIikK
+# -*- coding: utf-8 -*-
+"""hook_handler 本地自测：起一个临时接收器，跑各种样例事件并断言。
+
+用法: python test_handler.py
+"""
+
+import json
+import os
+import socket
+import subprocess
+import sys
+import threading
+import time
+from pathlib import Path
+from unittest import mock
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(PROJECT_ROOT))
+import hook_handler  # noqa: E402  仅复用 HOST 常量
+
+received = []
+
+
+class MockReceiver(BaseHTTPRequestHandler):
+    def do_POST(self):
+        n = int(self.headers.get("Content-Length") or 0)
+        received.append(json.loads(self.rfile.read(n).decode("utf-8")))
+        self.send_response(204)
+        self.end_headers()
+
+    def log_message(self, *a):
+        pass
+
+
+# 绑定随机空闲端口，通过环境变量告知子进程，避免与运行中的真悬浮窗（57310）冲突
+srv = ThreadingHTTPServer((hook_handler.HOST, 0), MockReceiver)
+TEST_PORT = srv.server_address[1]
+srv.daemon_threads = True
+threading.Thread(target=srv.serve_forever, daemon=True).start()
+
+PY = sys.executable
+H = str(PROJECT_ROOT / "hook_handler.py")
+
+
+def run(event, payload):
+    p = subprocess.run(
+        [PY, H, event, "test-session-1", "D:\\ZCode_ws"],
+        input=json.dumps(payload).encode("utf-8"),
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15,
+        env={**os.environ, "ZCODE_STATUS_PORT": str(TEST_PORT)},
+    )
+    assert p.returncode == 0, (event, p.stderr)
+    assert p.stdout == b"", ("stdout 必须为空", p.stdout)
+
+
+run("user_prompt_submit", {"prompt": "帮我实现登录模块"})
+run("todo_update", {"tool_input": {"todos": [
+    {"content": "阅读配置", "status": "completed"},
+    {"content": "修改登录模块", "status": "in_progress"},
+    {"content": "写测试", "status": "pending"},
+]}})
+run("permission_request", {"tool_name": "Bash"})
+run("tool_failure", {"tool_name": "Bash", "tool_response": {"error": "exit code 1"}})
+run("stop", {})
+
+time.sleep(0.3)
+assert len(received) == 5, received
+ev = {r["event"]: r for r in received}
+assert ev["user_prompt_submit"]["prompt_preview"] == "帮我实现登录模块"
+assert ev["user_prompt_submit"]["project"] == "ZCode_ws"
+todos = ev["todo_update"]["todos"]
+assert len(todos) == 3, todos
+assert ev["todo_update"]["current_task"] == "修改登录模块"
+assert ev["permission_request"]["last_tool"] == "Bash"
+assert ev["tool_failure"]["error_preview"] == "exit code 1"
+srv.shutdown()
+
+# 非 2xx 必须重试：第一次 500，第二次 204
+flaky_hits = []
+
+
+class FlakyReceiver(BaseHTTPRequestHandler):
+    def do_POST(self):
+        self.rfile.read(int(self.headers.get("Content-Length") or 0))
+        flaky_hits.append(1)
+        self.send_response(500 if len(flaky_hits) == 1 else 204)
+        self.end_headers()
+
+    def log_message(self, *a):
+        pass
+
+
+flaky = ThreadingHTTPServer((hook_handler.HOST, 0), FlakyReceiver)
+threading.Thread(target=flaky.serve_forever, daemon=True).start()
+old_port = hook_handler.PORT
+hook_handler.PORT = flaky.server_address[1]
+hook_handler.send({"event": "retry-test"})
+hook_handler.PORT = old_port
+flaky.shutdown()
+assert len(flaky_hits) == 2, flaky_hits
+
+# 1 MiB 单备份轮转：mock 验证调用，不在测试里写动态路径
+with mock.patch.object(hook_handler, "base_dir", return_value=r"C:\safe-test"), \
+        mock.patch.object(hook_handler.os, "makedirs"), \
+        mock.patch.object(hook_handler.os.path, "exists", return_value=True), \
+        mock.patch.object(hook_handler.os.path, "getsize",
+                          return_value=hook_handler.LOG_MAX_BYTES), \
+        mock.patch.object(hook_handler.os, "replace") as replace, \
+        mock.patch("builtins.open", mock.mock_open()) as opened:
+    hook_handler.log_error("rotate-test")
+    replace.assert_called_once_with(
+        r"C:\safe-test\hook_error.log", r"C:\safe-test\hook_error.log.1")
+    opened.assert_called_once()
+
+# 悬浮窗未运行的连接拒绝属于正常离线
+assert hook_handler.is_expected_offline(ConnectionRefusedError(10061, "offline"))
+assert not hook_handler.is_expected_offline(TimeoutError("timeout"))
+
+print("ALL TESTS PASSED")

@@ -1,1 +1,119 @@
-W0NtZGxldEJpbmRpbmcoKV0KcGFyYW0oCiAgICBbUGFyYW1ldGVyKE1hbmRhdG9yeSA9ICR0cnVlKV0KICAgIFtzdHJpbmddJFJlbGVhc2VSb290CikKCiRFcnJvckFjdGlvblByZWZlcmVuY2UgPSAiU3RvcCIKJFJlbGVhc2VSb290ID0gW1N5c3RlbS5JTy5QYXRoXTo6R2V0RnVsbFBhdGgoJFJlbGVhc2VSb290KQokSW5zdGFsbFNjcmlwdCA9IEpvaW4tUGF0aCAkUmVsZWFzZVJvb3QgImluc3RhbGwucHMxIgokVW5pbnN0YWxsU2NyaXB0ID0gSm9pbi1QYXRoICRSZWxlYXNlUm9vdCAidW5pbnN0YWxsLnBzMSIKaWYgKC1ub3QgKFRlc3QtUGF0aCAtTGl0ZXJhbFBhdGggJEluc3RhbGxTY3JpcHQgLVBhdGhUeXBlIExlYWYpKSB7IHRocm93ICJSZWxlYXNlIGluc3RhbGxlciBpcyBtaXNzaW5nOiAkSW5zdGFsbFNjcmlwdCIgfQppZiAoLW5vdCAoVGVzdC1QYXRoIC1MaXRlcmFsUGF0aCAkVW5pbnN0YWxsU2NyaXB0IC1QYXRoVHlwZSBMZWFmKSkgeyB0aHJvdyAiUmVsZWFzZSB1bmluc3RhbGxlciBpcyBtaXNzaW5nOiAkVW5pbnN0YWxsU2NyaXB0IiB9CgpmdW5jdGlvbiBJbnZva2UtUmVsZWFzZVNjcmlwdChbc3RyaW5nXSRTY3JpcHRQYXRoLCBbc3RyaW5nW11dJEFyZ3VtZW50cywgW3N3aXRjaF0kRXhwZWN0RmFpbHVyZSkgewogICAgJiBwb3dlcnNoZWxsLmV4ZSAtTm9Qcm9maWxlIC1FeGVjdXRpb25Qb2xpY3kgQnlwYXNzIC1GaWxlICRTY3JpcHRQYXRoIEBBcmd1bWVudHMKICAgICRleGl0Q29kZSA9ICRMQVNURVhJVENPREUKICAgIGlmICgkRXhwZWN0RmFpbHVyZSkgewogICAgICAgIGlmICgkZXhpdENvZGUgLWVxIDApIHsgdGhyb3cgIkV4cGVjdGVkIGZhaWx1cmUgYnV0IHNjcmlwdCBzdWNjZWVkZWQ6ICRTY3JpcHRQYXRoIiB9CiAgICAgICAgcmV0dXJuCiAgICB9CiAgICBpZiAoJGV4aXRDb2RlIC1uZSAwKSB7IHRocm93ICJTY3JpcHQgZmFpbGVkICgkZXhpdENvZGUpOiAkU2NyaXB0UGF0aCIgfQp9CgpmdW5jdGlvbiBSZWFkLUpzb24oW3N0cmluZ10kUGF0aCkgewogICAgcmV0dXJuIEdldC1Db250ZW50IC1MaXRlcmFsUGF0aCAkUGF0aCAtUmF3IC1FbmNvZGluZyB1dGY4IHwgQ29udmVydEZyb20tSnNvbiAtRXJyb3JBY3Rpb24gU3RvcAp9CgpmdW5jdGlvbiBHZXQtUnVsZVRva2VuKCRSdWxlKSB7CiAgICAkaG9va3MgPSBAKCRSdWxlLmhvb2tzKQogICAgaWYgKCRob29rcy5Db3VudCAtbmUgMSkgeyByZXR1cm4gIiIgfQogICAgJGFyZ3MgPSBAKCRob29rc1swXS5hcmdzKQogICAgaWYgKCRhcmdzLkNvdW50IC1sdCAyKSB7IHJldHVybiAiIiB9CiAgICByZXR1cm4gW3N0cmluZ10kYXJnc1sxXQp9CgpmdW5jdGlvbiBBc3NlcnQoW2Jvb2xdJENvbmRpdGlvbiwgW3N0cmluZ10kTWVzc2FnZSkgewogICAgaWYgKC1ub3QgJENvbmRpdGlvbikgeyB0aHJvdyAkTWVzc2FnZSB9Cn0KCiRUZW1wUm9vdCA9IEpvaW4tUGF0aCAoW1N5c3RlbS5JTy5QYXRoXTo6R2V0VGVtcFBhdGgoKSkgKCJ6Y29kZS1zdGF0dXMtcmVsZWFzZS10ZXN0LSIgKyBbZ3VpZF06Ok5ld0d1aWQoKS5Ub1N0cmluZygiTiIpKQokSW5zdGFsbFJvb3QgPSBKb2luLVBhdGggJFRlbXBSb290ICJpbnN0YWxsZWQiCiRDb25maWdQYXRoID0gSm9pbi1QYXRoICRUZW1wUm9vdCAiY29uZmlnLmpzb24iCiRGYWlsdXJlQ29uZmlnUGF0aCA9IEpvaW4tUGF0aCAkVGVtcFJvb3QgImZhaWx1cmUtY29uZmlnLmpzb24iCiRCYWRSZWxlYXNlUm9vdCA9IEpvaW4tUGF0aCAkVGVtcFJvb3QgImJhZC1yZWxlYXNlIgpOZXctSXRlbSAtSXRlbVR5cGUgRGlyZWN0b3J5IC1QYXRoICRUZW1wUm9vdCAtRm9yY2UgfCBPdXQtTnVsbAoKJHRoaXJkUGFydHlSdWxlID0gW29yZGVyZWRdQHsKICAgIG1hdGNoZXIgPSAiVGhpcmRQYXJ0eVRvb2wiCiAgICBob29rcyA9IEAoW29yZGVyZWRdQHsKICAgICAgICB0eXBlID0gInByb2Nlc3MiCiAgICAgICAgY29tbWFuZCA9ICJDOlxcdGhpcmQtcGFydHlcXHB5dGhvbi5leGUiCiAgICAgICAgYXJncyA9IEAoIkM6XFx0aGlyZC1wYXJ0eVxcaGFuZGxlci5weSIsICJjdXN0b20tZXZlbnQiKQogICAgICAgIHRpbWVvdXRNcyA9IDEyMzQKICAgIH0pCn0KJGZpeHR1cmUgPSBbb3JkZXJlZF1AewogICAgbWNwID0gW29yZGVyZWRdQHsgdGhpcmRQYXJ0eSA9IFtvcmRlcmVkXUB7IGVuYWJsZWQgPSAkdHJ1ZSB9IH0KICAgIGhvb2tzID0gW29yZGVyZWRdQHsKICAgICAgICBlbmFibGVkID0gJHRydWUKICAgICAgICBldmVudHMgPSBbb3JkZXJlZF1AewogICAgICAgICAgICBVc2VyUHJvbXB0U3VibWl0ID0gQCgkdGhpcmRQYXJ0eVJ1bGUpCiAgICAgICAgICAgIEN1c3RvbUV2ZW50ID0gQCgkdGhpcmRQYXJ0eVJ1bGUpCiAgICAgICAgfQogICAgfQp9CiRmaXh0dXJlSnNvbiA9ICRmaXh0dXJlIHwgQ29udmVydFRvLUpzb24gLURlcHRoIDIwCltTeXN0ZW0uSU8uRmlsZV06OldyaXRlQWxsVGV4dCgkQ29uZmlnUGF0aCwgJGZpeHR1cmVKc29uLCAoTmV3LU9iamVjdCBTeXN0ZW0uVGV4dC5VVEY4RW5jb2RpbmcoJGZhbHNlKSkpCgp0cnkgewogICAgSW52b2tlLVJlbGVhc2VTY3JpcHQgJEluc3RhbGxTY3JpcHQgQCgiLUluc3RhbGxSb290IiwgJEluc3RhbGxSb290LCAiLUNvbmZpZ1BhdGgiLCAkQ29uZmlnUGF0aCwgIi1Ob0xhdW5jaCIpCiAgICAkaW5zdGFsbGVkID0gUmVhZC1Kc29uICRDb25maWdQYXRoCiAgICBBc3NlcnQgKFtib29sXSRpbnN0YWxsZWQubWNwLnRoaXJkUGFydHkuZW5hYmxlZCkgIkluc3RhbGxlciBjaGFuZ2VkIHRoaXJkLXBhcnR5IE1DUCBkYXRhLiIKICAgIEFzc2VydCAoQCgkaW5zdGFsbGVkLmhvb2tzLmV2ZW50cy5DdXN0b21FdmVudCkuQ291bnQgLWVxIDEpICJJbnN0YWxsZXIgY2hhbmdlZCBhbiB1bnJlbGF0ZWQgaG9vayBldmVudC4iCiAgICBBc3NlcnQgKChHZXQtUnVsZVRva2VuIEAoJGluc3RhbGxlZC5ob29rcy5ldmVudHMuVXNlclByb21wdFN1Ym1pdClbMF0pIC1lcSAiY3VzdG9tLWV2ZW50IikgIkluc3RhbGxlciByZXBsYWNlZCB0aGUgZXhpc3RpbmcgdGhpcmQtcGFydHkgcnVsZS4iCgogICAgJG1hbmFnZWQgPSBAewogICAgICAgIFVzZXJQcm9tcHRTdWJtaXQgPSAidXNlcl9wcm9tcHRfc3VibWl0IgogICAgICAgIFBlcm1pc3Npb25SZXF1ZXN0ID0gInBlcm1pc3Npb25fcmVxdWVzdCIKICAgICAgICBQb3N0VG9vbFVzZSA9ICJ0b2RvX3VwZGF0ZSIKICAgICAgICBQb3N0VG9vbFVzZUZhaWx1cmUgPSAidG9vbF9mYWlsdXJlIgogICAgICAgIFN0b3AgPSAic3RvcCIKICAgIH0KICAgIGZvcmVhY2ggKCRldmVudCBpbiAkbWFuYWdlZC5LZXlzKSB7CiAgICAgICAgJG1hdGNoZXMgPSBAKCRpbnN0YWxsZWQuaG9va3MuZXZlbnRzLiRldmVudCB8IFdoZXJlLU9iamVjdCB7IChHZXQtUnVsZVRva2VuICRfKSAtZXEgJG1hbmFnZWRbJGV2ZW50XSB9KQogICAgICAgIEFzc2VydCAoJG1hdGNoZXMuQ291bnQgLWVxIDEpICJJbnN0YWxsZXIgZGlkIG5vdCBhZGQgZXhhY3RseSBvbmUgbWFuYWdlZCBydWxlIGZvciAkZXZlbnQuIgogICAgfQoKICAgIEludm9rZS1SZWxlYXNlU2NyaXB0ICRJbnN0YWxsU2NyaXB0IEAoIi1JbnN0YWxsUm9vdCIsICRJbnN0YWxsUm9vdCwgIi1Db25maWdQYXRoIiwgJENvbmZpZ1BhdGgsICItTm9MYXVuY2giKQogICAgJHJlaW5zdGFsbGVkID0gUmVhZC1Kc29uICRDb25maWdQYXRoCiAgICBmb3JlYWNoICgkZXZlbnQgaW4gJG1hbmFnZWQuS2V5cykgewogICAgICAgICRtYXRjaGVzID0gQCgkcmVpbnN0YWxsZWQuaG9va3MuZXZlbnRzLiRldmVudCB8IFdoZXJlLU9iamVjdCB7IChHZXQtUnVsZVRva2VuICRfKSAtZXEgJG1hbmFnZWRbJGV2ZW50XSB9KQogICAgICAgIEFzc2VydCAoJG1hdGNoZXMuQ291bnQgLWVxIDEpICJSZXBlYXQgaW5zdGFsbCBkdXBsaWNhdGVkIHRoZSBtYW5hZ2VkIHJ1bGUgZm9yICRldmVudC4iCiAgICB9CgogICAgSW52b2tlLVJlbGVhc2VTY3JpcHQgJFVuaW5zdGFsbFNjcmlwdCBAKCItSW5zdGFsbFJvb3QiLCAkSW5zdGFsbFJvb3QsICItQ29uZmlnUGF0aCIsICRDb25maWdQYXRoKQogICAgJHVuaW5zdGFsbGVkID0gUmVhZC1Kc29uICRDb25maWdQYXRoCiAgICBBc3NlcnQgKFtib29sXSR1bmluc3RhbGxlZC5tY3AudGhpcmRQYXJ0eS5lbmFibGVkKSAiVW5pbnN0YWxsZXIgY2hhbmdlZCB0aGlyZC1wYXJ0eSBNQ1AgZGF0YS4iCiAgICBBc3NlcnQgKEAoJHVuaW5zdGFsbGVkLmhvb2tzLmV2ZW50cy5DdXN0b21FdmVudCkuQ291bnQgLWVxIDEpICJVbmluc3RhbGxlciBjaGFuZ2VkIGFuIHVucmVsYXRlZCBob29rIGV2ZW50LiIKICAgIEFzc2VydCAoKEdldC1SdWxlVG9rZW4gQCgkdW5pbnN0YWxsZWQuaG9va3MuZXZlbnRzLlVzZXJQcm9tcHRTdWJtaXQpWzBdKSAtZXEgImN1c3RvbS1ldmVudCIpICJVbmluc3RhbGxlciByZW1vdmVkIHRoZSB0aGlyZC1wYXJ0eSBydWxlLiIKICAgIGZvcmVhY2ggKCRldmVudCBpbiAkbWFuYWdlZC5LZXlzKSB7CiAgICAgICAgJHJ1bGVzID0gQCgkdW5pbnN0YWxsZWQuaG9va3MuZXZlbnRzLiRldmVudCkKICAgICAgICAkbWF0Y2hlcyA9IEAoJHJ1bGVzIHwgV2hlcmUtT2JqZWN0IHsgKEdldC1SdWxlVG9rZW4gJF8pIC1lcSAkbWFuYWdlZFskZXZlbnRdIH0pCiAgICAgICAgQXNzZXJ0ICgkbWF0Y2hlcy5Db3VudCAtZXEgMCkgIlVuaW5zdGFsbGVyIGxlZnQgYSBtYW5hZ2VkIHJ1bGUgZm9yICRldmVudC4iCiAgICB9CiAgICBJbnZva2UtUmVsZWFzZVNjcmlwdCAkVW5pbnN0YWxsU2NyaXB0IEAoIi1JbnN0YWxsUm9vdCIsICRJbnN0YWxsUm9vdCwgIi1Db25maWdQYXRoIiwgJENvbmZpZ1BhdGgpCgogICAgW1N5c3RlbS5JTy5GaWxlXTo6V3JpdGVBbGxUZXh0KCRGYWlsdXJlQ29uZmlnUGF0aCwgJGZpeHR1cmVKc29uLCAoTmV3LU9iamVjdCBTeXN0ZW0uVGV4dC5VVEY4RW5jb2RpbmcoJGZhbHNlKSkpCiAgICAkYmVmb3JlRmFpbHVyZSA9IFtTeXN0ZW0uSU8uRmlsZV06OlJlYWRBbGxCeXRlcygkRmFpbHVyZUNvbmZpZ1BhdGgpCiAgICBDb3B5LUl0ZW0gLUxpdGVyYWxQYXRoICRSZWxlYXNlUm9vdCAtRGVzdGluYXRpb24gJEJhZFJlbGVhc2VSb290IC1SZWN1cnNlIC1Gb3JjZQogICAgQWRkLUNvbnRlbnQgLUxpdGVyYWxQYXRoIChKb2luLVBhdGggJEJhZFJlbGVhc2VSb290ICJob29rX2hhbmRsZXIucHkiKSAtVmFsdWUgIiMgbW9kaWZpZWQgYWZ0ZXIgcmVsZWFzZSBoYXNoIiAtRW5jb2RpbmcgdXRmOAogICAgSW52b2tlLVJlbGVhc2VTY3JpcHQgKEpvaW4tUGF0aCAkQmFkUmVsZWFzZVJvb3QgImluc3RhbGwucHMxIikgQCgiLUluc3RhbGxSb290IiwgKEpvaW4tUGF0aCAkVGVtcFJvb3QgImJhZC1pbnN0YWxsZWQiKSwgIi1Db25maWdQYXRoIiwgJEZhaWx1cmVDb25maWdQYXRoLCAiLU5vTGF1bmNoIikgLUV4cGVjdEZhaWx1cmUKICAgICRhZnRlckZhaWx1cmUgPSBbU3lzdGVtLklPLkZpbGVdOjpSZWFkQWxsQnl0ZXMoJEZhaWx1cmVDb25maWdQYXRoKQogICAgQXNzZXJ0ICgoJGJlZm9yZUZhaWx1cmUuTGVuZ3RoIC1lcSAkYWZ0ZXJGYWlsdXJlLkxlbmd0aCkgLWFuZCAoW0NvbnZlcnRdOjpUb0Jhc2U2NFN0cmluZygkYmVmb3JlRmFpbHVyZSkgLWVxIFtDb252ZXJ0XTo6VG9CYXNlNjRTdHJpbmcoJGFmdGVyRmFpbHVyZSkpKSAiQ2hlY2tzdW0gZmFpbHVyZSBtb2RpZmllZCB0aGUgY29uZmlnIGZpbGUuIgoKICAgIFdyaXRlLUhvc3QgIlJFTEVBU0UgSU5TVEFMTC9VTklOU1RBTEwgVEVTVFMgUEFTU0VEIgp9CmZpbmFsbHkgewogICAgUmVtb3ZlLUl0ZW0gLUxpdGVyYWxQYXRoICRUZW1wUm9vdCAtUmVjdXJzZSAtRm9yY2UgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWUKfQo=
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory = $true)]
+    [string]$ReleaseRoot
+)
+
+$ErrorActionPreference = "Stop"
+$ReleaseRoot = [System.IO.Path]::GetFullPath($ReleaseRoot)
+$InstallScript = Join-Path $ReleaseRoot "install.ps1"
+$UninstallScript = Join-Path $ReleaseRoot "uninstall.ps1"
+if (-not (Test-Path -LiteralPath $InstallScript -PathType Leaf)) { throw "Release installer is missing: $InstallScript" }
+if (-not (Test-Path -LiteralPath $UninstallScript -PathType Leaf)) { throw "Release uninstaller is missing: $UninstallScript" }
+
+function Invoke-ReleaseScript([string]$ScriptPath, [string[]]$Arguments, [switch]$ExpectFailure) {
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptPath @Arguments
+    $exitCode = $LASTEXITCODE
+    if ($ExpectFailure) {
+        if ($exitCode -eq 0) { throw "Expected failure but script succeeded: $ScriptPath" }
+        return
+    }
+    if ($exitCode -ne 0) { throw "Script failed ($exitCode): $ScriptPath" }
+}
+
+function Read-Json([string]$Path) {
+    return Get-Content -LiteralPath $Path -Raw -Encoding utf8 | ConvertFrom-Json -ErrorAction Stop
+}
+
+function Get-RuleToken($Rule) {
+    $hooks = @($Rule.hooks)
+    if ($hooks.Count -ne 1) { return "" }
+    $args = @($hooks[0].args)
+    if ($args.Count -lt 2) { return "" }
+    return [string]$args[1]
+}
+
+function Assert([bool]$Condition, [string]$Message) {
+    if (-not $Condition) { throw $Message }
+}
+
+$TempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("zcode-status-release-test-" + [guid]::NewGuid().ToString("N"))
+$InstallRoot = Join-Path $TempRoot "installed"
+$ConfigPath = Join-Path $TempRoot "config.json"
+$FailureConfigPath = Join-Path $TempRoot "failure-config.json"
+$BadReleaseRoot = Join-Path $TempRoot "bad-release"
+New-Item -ItemType Directory -Path $TempRoot -Force | Out-Null
+
+$thirdPartyRule = [ordered]@{
+    matcher = "ThirdPartyTool"
+    hooks = @([ordered]@{
+        type = "process"
+        command = "C:\\third-party\\python.exe"
+        args = @("C:\\third-party\\handler.py", "custom-event")
+        timeoutMs = 1234
+    })
+}
+$fixture = [ordered]@{
+    mcp = [ordered]@{ thirdParty = [ordered]@{ enabled = $true } }
+    hooks = [ordered]@{
+        enabled = $true
+        events = [ordered]@{
+            UserPromptSubmit = @($thirdPartyRule)
+            CustomEvent = @($thirdPartyRule)
+        }
+    }
+}
+$fixtureJson = $fixture | ConvertTo-Json -Depth 20
+[System.IO.File]::WriteAllText($ConfigPath, $fixtureJson, (New-Object System.Text.UTF8Encoding($false)))
+
+try {
+    Invoke-ReleaseScript $InstallScript @("-InstallRoot", $InstallRoot, "-ConfigPath", $ConfigPath, "-NoLaunch")
+    $installed = Read-Json $ConfigPath
+    Assert ([bool]$installed.mcp.thirdParty.enabled) "Installer changed third-party MCP data."
+    Assert (@($installed.hooks.events.CustomEvent).Count -eq 1) "Installer changed an unrelated hook event."
+    Assert ((Get-RuleToken @($installed.hooks.events.UserPromptSubmit)[0]) -eq "custom-event") "Installer replaced the existing third-party rule."
+
+    $managed = @{
+        UserPromptSubmit = "user_prompt_submit"
+        PermissionRequest = "permission_request"
+        PostToolUse = "todo_update"
+        PostToolUseFailure = "tool_failure"
+        Stop = "stop"
+    }
+    foreach ($event in $managed.Keys) {
+        $matches = @($installed.hooks.events.$event | Where-Object { (Get-RuleToken $_) -eq $managed[$event] })
+        Assert ($matches.Count -eq 1) "Installer did not add exactly one managed rule for $event."
+    }
+
+    Invoke-ReleaseScript $InstallScript @("-InstallRoot", $InstallRoot, "-ConfigPath", $ConfigPath, "-NoLaunch")
+    $reinstalled = Read-Json $ConfigPath
+    foreach ($event in $managed.Keys) {
+        $matches = @($reinstalled.hooks.events.$event | Where-Object { (Get-RuleToken $_) -eq $managed[$event] })
+        Assert ($matches.Count -eq 1) "Repeat install duplicated the managed rule for $event."
+    }
+
+    Invoke-ReleaseScript $UninstallScript @("-InstallRoot", $InstallRoot, "-ConfigPath", $ConfigPath)
+    $uninstalled = Read-Json $ConfigPath
+    Assert ([bool]$uninstalled.mcp.thirdParty.enabled) "Uninstaller changed third-party MCP data."
+    Assert (@($uninstalled.hooks.events.CustomEvent).Count -eq 1) "Uninstaller changed an unrelated hook event."
+    Assert ((Get-RuleToken @($uninstalled.hooks.events.UserPromptSubmit)[0]) -eq "custom-event") "Uninstaller removed the third-party rule."
+    foreach ($event in $managed.Keys) {
+        $rules = @($uninstalled.hooks.events.$event)
+        $matches = @($rules | Where-Object { (Get-RuleToken $_) -eq $managed[$event] })
+        Assert ($matches.Count -eq 0) "Uninstaller left a managed rule for $event."
+    }
+    Invoke-ReleaseScript $UninstallScript @("-InstallRoot", $InstallRoot, "-ConfigPath", $ConfigPath)
+
+    [System.IO.File]::WriteAllText($FailureConfigPath, $fixtureJson, (New-Object System.Text.UTF8Encoding($false)))
+    $beforeFailure = [System.IO.File]::ReadAllBytes($FailureConfigPath)
+    Copy-Item -LiteralPath $ReleaseRoot -Destination $BadReleaseRoot -Recurse -Force
+    Add-Content -LiteralPath (Join-Path $BadReleaseRoot "hook_handler.py") -Value "# modified after release hash" -Encoding utf8
+    Invoke-ReleaseScript (Join-Path $BadReleaseRoot "install.ps1") @("-InstallRoot", (Join-Path $TempRoot "bad-installed"), "-ConfigPath", $FailureConfigPath, "-NoLaunch") -ExpectFailure
+    $afterFailure = [System.IO.File]::ReadAllBytes($FailureConfigPath)
+    Assert (($beforeFailure.Length -eq $afterFailure.Length) -and ([Convert]::ToBase64String($beforeFailure) -eq [Convert]::ToBase64String($afterFailure))) "Checksum failure modified the config file."
+
+    Write-Host "RELEASE INSTALL/UNINSTALL TESTS PASSED"
+}
+finally {
+    Remove-Item -LiteralPath $TempRoot -Recurse -Force -ErrorAction SilentlyContinue
+}

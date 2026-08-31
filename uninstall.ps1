@@ -1,1 +1,206 @@
-W0NtZGxldEJpbmRpbmcoKV0KcGFyYW0oCiAgICBbc3RyaW5nXSRJbnN0YWxsUm9vdCA9IChKb2luLVBhdGggJGVudjpMT0NBTEFQUERBVEEgIlpDb2RlU3RhdHVzTGlnaHQiKSwKICAgIFtzdHJpbmddJENvbmZpZ1BhdGgsCiAgICBbc3dpdGNoXSRQdXJnZVVzZXJEYXRhLAogICAgW3N3aXRjaF0kUmVzdG9yZUVuYWJsZWRTdGF0ZQopCgokRXJyb3JBY3Rpb25QcmVmZXJlbmNlID0gIlN0b3AiCiRNYW5hZ2VkU3BlY3MgPSBAKAogICAgW3BzY3VzdG9tb2JqZWN0XUB7IEV2ZW50ID0gIlVzZXJQcm9tcHRTdWJtaXQiOyBUb2tlbiA9ICJ1c2VyX3Byb21wdF9zdWJtaXQiOyBNYXRjaGVyID0gJG51bGwgfSwKICAgIFtwc2N1c3RvbW9iamVjdF1AeyBFdmVudCA9ICJQZXJtaXNzaW9uUmVxdWVzdCI7IFRva2VuID0gInBlcm1pc3Npb25fcmVxdWVzdCI7IE1hdGNoZXIgPSAkbnVsbCB9LAogICAgW3BzY3VzdG9tb2JqZWN0XUB7IEV2ZW50ID0gIlBvc3RUb29sVXNlIjsgVG9rZW4gPSAidG9kb191cGRhdGUiOyBNYXRjaGVyID0gIlRvZG9Xcml0ZSIgfSwKICAgIFtwc2N1c3RvbW9iamVjdF1AeyBFdmVudCA9ICJQb3N0VG9vbFVzZUZhaWx1cmUiOyBUb2tlbiA9ICJ0b29sX2ZhaWx1cmUiOyBNYXRjaGVyID0gJG51bGwgfSwKICAgIFtwc2N1c3RvbW9iamVjdF1AeyBFdmVudCA9ICJTdG9wIjsgVG9rZW4gPSAic3RvcCI7IE1hdGNoZXIgPSAkbnVsbCB9CikKCmZ1bmN0aW9uIEdldC1WYWx1ZSgkT2JqZWN0LCBbc3RyaW5nXSROYW1lKSB7CiAgICBpZiAoJG51bGwgLWVxICRPYmplY3QpIHsgcmV0dXJuICRudWxsIH0KICAgICRwcm9wZXJ0eSA9ICRPYmplY3QuUFNPYmplY3QuUHJvcGVydGllc1skTmFtZV0KICAgIGlmICgkbnVsbCAtZXEgJHByb3BlcnR5KSB7IHJldHVybiAkbnVsbCB9CiAgICByZXR1cm4gJHByb3BlcnR5LlZhbHVlCn0KCmZ1bmN0aW9uIFNldC1WYWx1ZSgkT2JqZWN0LCBbc3RyaW5nXSROYW1lLCAkVmFsdWUpIHsKICAgICRwcm9wZXJ0eSA9ICRPYmplY3QuUFNPYmplY3QuUHJvcGVydGllc1skTmFtZV0KICAgIGlmICgkbnVsbCAtZXEgJHByb3BlcnR5KSB7ICRPYmplY3QgfCBBZGQtTWVtYmVyIC1Ob3RlUHJvcGVydHlOYW1lICROYW1lIC1Ob3RlUHJvcGVydHlWYWx1ZSAkVmFsdWUgfQogICAgZWxzZSB7ICRwcm9wZXJ0eS5WYWx1ZSA9ICRWYWx1ZSB9Cn0KCmZ1bmN0aW9uIFJlbW92ZS1WYWx1ZSgkT2JqZWN0LCBbc3RyaW5nXSROYW1lKSB7CiAgICAkcHJvcGVydHkgPSAkT2JqZWN0LlBTT2JqZWN0LlByb3BlcnRpZXNbJE5hbWVdCiAgICBpZiAoJG51bGwgLW5lICRwcm9wZXJ0eSkgeyAkT2JqZWN0LlBTT2JqZWN0LlByb3BlcnRpZXMuUmVtb3ZlKCROYW1lKSB9Cn0KCmZ1bmN0aW9uIE5vcm1hbGl6ZS1QYXRoVmFsdWUoW3N0cmluZ10kUGF0aFZhbHVlKSB7CiAgICBpZiAoW3N0cmluZ106OklzTnVsbE9yV2hpdGVTcGFjZSgkUGF0aFZhbHVlKSkgeyByZXR1cm4gIiIgfQogICAgdHJ5IHsgcmV0dXJuIFtTeXN0ZW0uSU8uUGF0aF06OkdldEZ1bGxQYXRoKCRQYXRoVmFsdWUuVHJpbSgnIicpKS5UcmltRW5kKFtjaGFyXTkyLCBbY2hhcl00NykuVG9Mb3dlckludmFyaWFudCgpIH0KICAgIGNhdGNoIHsgcmV0dXJuICRQYXRoVmFsdWUuVHJpbSgnIicpLlRyaW1FbmQoW2NoYXJdOTIsIFtjaGFyXTQ3KS5Ub0xvd2VySW52YXJpYW50KCkgfQp9CgpmdW5jdGlvbiBUZXN0LU1hbmFnZWRSdWxlKCRSdWxlLCAkU3BlYywgW3N0cmluZ10kSGFuZGxlclBhdGgpIHsKICAgIGlmICgkbnVsbCAtZXEgJFJ1bGUpIHsgcmV0dXJuICRmYWxzZSB9CiAgICAkbWF0Y2hlciA9IEdldC1WYWx1ZSAkUnVsZSAibWF0Y2hlciIKICAgIGlmICgkbnVsbCAtZXEgJFNwZWMuTWF0Y2hlcikgewogICAgICAgIGlmICgtbm90IFtzdHJpbmddOjpJc051bGxPckVtcHR5KFtzdHJpbmddJG1hdGNoZXIpKSB7IHJldHVybiAkZmFsc2UgfQogICAgfQogICAgZWxzZWlmIChbc3RyaW5nXSRtYXRjaGVyIC1uZSBbc3RyaW5nXSRTcGVjLk1hdGNoZXIpIHsgcmV0dXJuICRmYWxzZSB9CgogICAgJGhvb2tzID0gQChHZXQtVmFsdWUgJFJ1bGUgImhvb2tzIikKICAgIGlmICgkaG9va3MuQ291bnQgLW5lIDEpIHsgcmV0dXJuICRmYWxzZSB9CiAgICAkaG9vayA9ICRob29rc1swXQogICAgaWYgKFtzdHJpbmddKEdldC1WYWx1ZSAkaG9vayAidHlwZSIpIC1uZSAicHJvY2VzcyIpIHsgcmV0dXJuICRmYWxzZSB9CiAgICBpZiAoW3N0cmluZ10oR2V0LVZhbHVlICRob29rICJ0aW1lb3V0TXMiKSAtbmUgIjUwMDAiKSB7IHJldHVybiAkZmFsc2UgfQogICAgJGFyZ3MgPSBAKEdldC1WYWx1ZSAkaG9vayAiYXJncyIpCiAgICBpZiAoJGFyZ3MuQ291bnQgLW5lIDQpIHsgcmV0dXJuICRmYWxzZSB9CiAgICByZXR1cm4gKChOb3JtYWxpemUtUGF0aFZhbHVlIChbc3RyaW5nXSRhcmdzWzBdKSkgLWVxIChOb3JtYWxpemUtUGF0aFZhbHVlICRIYW5kbGVyUGF0aCkgLWFuZAogICAgICAgICAgICBbc3RyaW5nXSRhcmdzWzFdIC1lcSBbc3RyaW5nXSRTcGVjLlRva2VuIC1hbmQKICAgICAgICAgICAgW3N0cmluZ10kYXJnc1syXSAtZXEgJyR7Q0xBVURFX1NFU1NJT05fSUR9JyAtYW5kCiAgICAgICAgICAgIFtzdHJpbmddJGFyZ3NbM10gLWVxICcke1pDT0RFX1BST0pFQ1RfRElSfScpCn0KCmZ1bmN0aW9uIFdyaXRlLUpzb25BdG9taWNhbGx5KCRPYmplY3QsIFtzdHJpbmddJFBhdGgpIHsKICAgICRkaXJlY3RvcnkgPSBTcGxpdC1QYXRoIC1QYXJlbnQgJFBhdGgKICAgICR0ZW1wb3JhcnkgPSBKb2luLVBhdGggJGRpcmVjdG9yeSAoIi57MH0uezF9LnRtcCIgLWYgKFNwbGl0LVBhdGggJFBhdGggLUxlYWYpLCBbZ3VpZF06Ok5ld0d1aWQoKS5Ub1N0cmluZygiTiIpKQogICAgJHJlcGxhY2VCYWNrdXAgPSAiJHRlbXBvcmFyeS5wcmV2aW91cyIKICAgICRqc29uID0gJE9iamVjdCB8IENvbnZlcnRUby1Kc29uIC1EZXB0aCAxMDAKICAgIFtTeXN0ZW0uSU8uRmlsZV06OldyaXRlQWxsVGV4dCgkdGVtcG9yYXJ5LCAkanNvbiArIFtFbnZpcm9ubWVudF06Ok5ld0xpbmUsIChOZXctT2JqZWN0IFN5c3RlbS5UZXh0LlVURjhFbmNvZGluZygkZmFsc2UpKSkKICAgIHRyeSB7IFtTeXN0ZW0uSU8uRmlsZV06OlJlcGxhY2UoJHRlbXBvcmFyeSwgJFBhdGgsICRyZXBsYWNlQmFja3VwLCAkdHJ1ZSkgfQogICAgZmluYWxseSB7CiAgICAgICAgaWYgKFRlc3QtUGF0aCAtTGl0ZXJhbFBhdGggJHRlbXBvcmFyeSkgeyBSZW1vdmUtSXRlbSAtTGl0ZXJhbFBhdGggJHRlbXBvcmFyeSAtRm9yY2UgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWUgfQogICAgICAgIGlmIChUZXN0LVBhdGggLUxpdGVyYWxQYXRoICRyZXBsYWNlQmFja3VwKSB7IFJlbW92ZS1JdGVtIC1MaXRlcmFsUGF0aCAkcmVwbGFjZUJhY2t1cCAtRm9yY2UgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWUgfQogICAgfQp9CgpmdW5jdGlvbiBSZXN0b3JlLVJhd0NvbmZpZyhbYnl0ZVtdXSRCeXRlcywgW3N0cmluZ10kUGF0aCkgewogICAgJGRpcmVjdG9yeSA9IFNwbGl0LVBhdGggLVBhcmVudCAkUGF0aAogICAgJHRlbXBvcmFyeSA9IEpvaW4tUGF0aCAkZGlyZWN0b3J5ICgiLnswfS57MX0ucmVzdG9yZSIgLWYgKFNwbGl0LVBhdGggJFBhdGggLUxlYWYpLCBbZ3VpZF06Ok5ld0d1aWQoKS5Ub1N0cmluZygiTiIpKQogICAgJHJlcGxhY2VCYWNrdXAgPSAiJHRlbXBvcmFyeS5wcmV2aW91cyIKICAgIFtTeXN0ZW0uSU8uRmlsZV06OldyaXRlQWxsQnl0ZXMoJHRlbXBvcmFyeSwgJEJ5dGVzKQogICAgdHJ5IHsgW1N5c3RlbS5JTy5GaWxlXTo6UmVwbGFjZSgkdGVtcG9yYXJ5LCAkUGF0aCwgJHJlcGxhY2VCYWNrdXAsICR0cnVlKSB9CiAgICBmaW5hbGx5IHsKICAgICAgICBpZiAoVGVzdC1QYXRoIC1MaXRlcmFsUGF0aCAkdGVtcG9yYXJ5KSB7IFJlbW92ZS1JdGVtIC1MaXRlcmFsUGF0aCAkdGVtcG9yYXJ5IC1Gb3JjZSAtRXJyb3JBY3Rpb24gU2lsZW50bHlDb250aW51ZSB9CiAgICAgICAgaWYgKFRlc3QtUGF0aCAtTGl0ZXJhbFBhdGggJHJlcGxhY2VCYWNrdXApIHsgUmVtb3ZlLUl0ZW0gLUxpdGVyYWxQYXRoICRyZXBsYWNlQmFja3VwIC1Gb3JjZSAtRXJyb3JBY3Rpb24gU2lsZW50bHlDb250aW51ZSB9CiAgICB9Cn0KCmZ1bmN0aW9uIFN0b3AtSW5zdGFsbGVkUHJvY2Vzc2VzKFtzdHJpbmddJEV4ZVBhdGgpIHsKICAgICR0YXJnZXQgPSBOb3JtYWxpemUtUGF0aFZhbHVlICRFeGVQYXRoCiAgICAkcHJvY2Vzc2VzID0gQChHZXQtUHJvY2VzcyAtTmFtZSAiWkNvZGVTdGF0dXNMaWdodCIgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWUgfCBXaGVyZS1PYmplY3QgewogICAgICAgIHRyeSB7IChOb3JtYWxpemUtUGF0aFZhbHVlICRfLlBhdGgpIC1lcSAkdGFyZ2V0IH0gY2F0Y2ggeyAkZmFsc2UgfQogICAgfSkKICAgIGZvcmVhY2ggKCRwcm9jZXNzIGluICRwcm9jZXNzZXMpIHsgU3RvcC1Qcm9jZXNzIC1JZCAkcHJvY2Vzcy5JZCAtRm9yY2UgLUVycm9yQWN0aW9uIFN0b3AgfQogICAgaWYgKCRwcm9jZXNzZXMuQ291bnQgLWd0IDApIHsgV2FpdC1Qcm9jZXNzIC1JZCAkcHJvY2Vzc2VzLklkIC1UaW1lb3V0IDUgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWUgfQp9CgppZiAoJGVudjpPUyAtbmUgIldpbmRvd3NfTlQiKSB7IHRocm93ICJUaGlzIHVuaW5zdGFsbGVyIG9ubHkgc3VwcG9ydHMgV2luZG93cy4iIH0KaWYgKCRQU1ZlcnNpb25UYWJsZS5QU1ZlcnNpb24uTWFqb3IgLWx0IDUpIHsgdGhyb3cgIlBvd2VyU2hlbGwgNS4xIG9yIGxhdGVyIGlzIHJlcXVpcmVkLiIgfQokSW5zdGFsbFJvb3QgPSBbU3lzdGVtLklPLlBhdGhdOjpHZXRGdWxsUGF0aCgkSW5zdGFsbFJvb3QpCmlmICgtbm90IChUZXN0LVBhdGggLUxpdGVyYWxQYXRoICRJbnN0YWxsUm9vdCAtUGF0aFR5cGUgQ29udGFpbmVyKSkgewogICAgV3JpdGUtSG9zdCAiWkNvZGVTdGF0dXNMaWdodCBpcyBhbHJlYWR5IHJlbW92ZWQ6ICRJbnN0YWxsUm9vdCIKICAgIGV4aXQgMAp9CiRTdGF0ZVBhdGggPSBKb2luLVBhdGggJEluc3RhbGxSb290ICJpbnN0YWxsLXN0YXRlLmpzb24iCmlmICgtbm90IChUZXN0LVBhdGggLUxpdGVyYWxQYXRoICRTdGF0ZVBhdGggLVBhdGhUeXBlIExlYWYpKSB7CiAgICB0aHJvdyAiSW5zdGFsbCBzdGF0ZSBpcyBtaXNzaW5nLiBSZWZ1c2luZyB0byBndWVzcyB3aGljaCBaQ29kZSBob29rcyB0byByZW1vdmUuIgp9CiRTdGF0ZSA9IEdldC1Db250ZW50IC1MaXRlcmFsUGF0aCAkU3RhdGVQYXRoIC1SYXcgLUVuY29kaW5nIHV0ZjggfCBDb252ZXJ0RnJvbS1Kc29uIC1FcnJvckFjdGlvbiBTdG9wCmlmICgtbm90ICRDb25maWdQYXRoKSB7ICRDb25maWdQYXRoID0gW3N0cmluZ10oR2V0LVZhbHVlICRTdGF0ZSAiY29uZmlnUGF0aCIpIH0KaWYgKC1ub3QgJENvbmZpZ1BhdGgpIHsgdGhyb3cgIkNvbmZpZyBwYXRoIGlzIG1pc3NpbmcgZnJvbSBpbnN0YWxsIHN0YXRlLiBQYXNzIC1Db25maWdQYXRoIGV4cGxpY2l0bHkuIiB9CiRDb25maWdQYXRoID0gW1N5c3RlbS5JTy5QYXRoXTo6R2V0RnVsbFBhdGgoJENvbmZpZ1BhdGgpCmlmICgtbm90IChUZXN0LVBhdGggLUxpdGVyYWxQYXRoICRDb25maWdQYXRoIC1QYXRoVHlwZSBMZWFmKSkgeyB0aHJvdyAiWkNvZGUgY29uZmlnIHdhcyBub3QgZm91bmQ6ICRDb25maWdQYXRoIiB9CiRIYW5kbGVyUGF0aCA9IFtzdHJpbmddKEdldC1WYWx1ZSAkU3RhdGUgImhhbmRsZXJQYXRoIikKaWYgKChOb3JtYWxpemUtUGF0aFZhbHVlICRIYW5kbGVyUGF0aCkgLW5lIChOb3JtYWxpemUtUGF0aFZhbHVlIChKb2luLVBhdGggJEluc3RhbGxSb290ICJob29rX2hhbmRsZXIucHkiKSkpIHsKICAgIHRocm93ICJJbnN0YWxsIHN0YXRlIGhhbmRsZXIgcGF0aCBkb2VzIG5vdCBtYXRjaCB0aGUgc2VsZWN0ZWQgaW5zdGFsbCByb290LiIKfQoKJENvbmZpZ0J5dGVzID0gW1N5c3RlbS5JTy5GaWxlXTo6UmVhZEFsbEJ5dGVzKCRDb25maWdQYXRoKQp0cnkgeyAkQ29uZmlnID0gW1N5c3RlbS5UZXh0LkVuY29kaW5nXTo6VVRGOC5HZXRTdHJpbmcoJENvbmZpZ0J5dGVzKSB8IENvbnZlcnRGcm9tLUpzb24gLUVycm9yQWN0aW9uIFN0b3AgfQpjYXRjaCB7IHRocm93ICJaQ29kZSBjb25maWcgaXMgbm90IHZhbGlkIEpTT046ICRDb25maWdQYXRoIiB9CiRob29rcyA9IEdldC1WYWx1ZSAkQ29uZmlnICJob29rcyIKaWYgKCRudWxsIC1uZSAkaG9va3MpIHsKICAgICRldmVudHMgPSBHZXQtVmFsdWUgJGhvb2tzICJldmVudHMiCiAgICBpZiAoJG51bGwgLW5lICRldmVudHMpIHsKICAgICAgICBmb3JlYWNoICgkc3BlYyBpbiAkTWFuYWdlZFNwZWNzKSB7CiAgICAgICAgICAgICRydWxlcyA9IEAoR2V0LVZhbHVlICRldmVudHMgJHNwZWMuRXZlbnQpCiAgICAgICAgICAgIGlmICgkcnVsZXMuQ291bnQgLWVxIDApIHsgY29udGludWUgfQogICAgICAgICAgICAkcmVtYWluaW5nID0gQCgkcnVsZXMgfCBXaGVyZS1PYmplY3QgeyAtbm90IChUZXN0LU1hbmFnZWRSdWxlICRfICRzcGVjICRIYW5kbGVyUGF0aCkgfSkKICAgICAgICAgICAgJGNyZWF0ZWRFdmVudHMgPSBAKChHZXQtVmFsdWUgJFN0YXRlICJjcmVhdGVkRXZlbnRzIikpCiAgICAgICAgICAgIGlmICgkcmVtYWluaW5nLkNvdW50IC1lcSAwIC1hbmQgJGNyZWF0ZWRFdmVudHMgLWNvbnRhaW5zICRzcGVjLkV2ZW50KSB7CiAgICAgICAgICAgICAgICBSZW1vdmUtVmFsdWUgJGV2ZW50cyAkc3BlYy5FdmVudAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsc2UgewogICAgICAgICAgICAgICAgU2V0LVZhbHVlICRldmVudHMgJHNwZWMuRXZlbnQgJHJlbWFpbmluZwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQoKICAgIGlmICgkUmVzdG9yZUVuYWJsZWRTdGF0ZSAtYW5kIFtib29sXShHZXQtVmFsdWUgJFN0YXRlICJlbmFibGVkV2FzRmFsc2UiKSkgewogICAgICAgICRoYXNBbnlSdWxlcyA9ICRmYWxzZQogICAgICAgICRyZW1haW5pbmdFdmVudHMgPSBHZXQtVmFsdWUgJGhvb2tzICJldmVudHMiCiAgICAgICAgaWYgKCRudWxsIC1uZSAkcmVtYWluaW5nRXZlbnRzKSB7CiAgICAgICAgICAgIGZvcmVhY2ggKCRwcm9wZXJ0eSBpbiAkcmVtYWluaW5nRXZlbnRzLlBTT2JqZWN0LlByb3BlcnRpZXMpIHsKICAgICAgICAgICAgICAgIGlmIChAKCRwcm9wZXJ0eS5WYWx1ZSkuQ291bnQgLWd0IDApIHsgJGhhc0FueVJ1bGVzID0gJHRydWU7IGJyZWFrIH0KICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICBpZiAoLW5vdCAkaGFzQW55UnVsZXMpIHsgU2V0LVZhbHVlICRob29rcyAiZW5hYmxlZCIgJGZhbHNlIH0KICAgIH0KCiAgICAkZXZlbnRzQWZ0ZXIgPSBHZXQtVmFsdWUgJGhvb2tzICJldmVudHMiCiAgICAkaGFzRXZlbnRQcm9wZXJ0aWVzID0gJG51bGwgLW5lICRldmVudHNBZnRlciAtYW5kICRldmVudHNBZnRlci5QU09iamVjdC5Qcm9wZXJ0aWVzLkNvdW50IC1ndCAwCiAgICAkb25seUluc3RhbGxlclN0cnVjdHVyZSA9IFtib29sXShHZXQtVmFsdWUgJFN0YXRlICJjcmVhdGVkSG9va3MiKSAtYW5kIC1ub3QgJGhhc0V2ZW50UHJvcGVydGllcwogICAgaWYgKCRvbmx5SW5zdGFsbGVyU3RydWN0dXJlKSB7IFJlbW92ZS1WYWx1ZSAkQ29uZmlnICJob29rcyIgfQp9CgokYmFja3VwRGlyID0gSm9pbi1QYXRoIChTcGxpdC1QYXRoIC1QYXJlbnQgJENvbmZpZ1BhdGgpICIuemNvZGUtc3RhdHVzLWxpZ2h0LWJhY2t1cHMiCiR0aW1lc3RhbXAgPSBHZXQtRGF0ZSAtRm9ybWF0ICJ5eXl5TU1kZC1ISG1tc3MiCk5ldy1JdGVtIC1JdGVtVHlwZSBEaXJlY3RvcnkgLVBhdGggJGJhY2t1cERpciAtRm9yY2UgfCBPdXQtTnVsbAokY29uZmlnQmFja3VwID0gSm9pbi1QYXRoICRiYWNrdXBEaXIgKCJjb25maWctYmVmb3JlLXVuaW5zdGFsbC17MH0uanNvbiIgLWYgJHRpbWVzdGFtcCkKW1N5c3RlbS5JTy5GaWxlXTo6V3JpdGVBbGxCeXRlcygkY29uZmlnQmFja3VwLCAkQ29uZmlnQnl0ZXMpCiR3cml0dGVuID0gJGZhbHNlCnRyeSB7CiAgICBXcml0ZS1Kc29uQXRvbWljYWxseSAkQ29uZmlnICRDb25maWdQYXRoCiAgICAkd3JpdHRlbiA9ICR0cnVlCiAgICAkcm91bmRUcmlwID0gR2V0LUNvbnRlbnQgLUxpdGVyYWxQYXRoICRDb25maWdQYXRoIC1SYXcgLUVuY29kaW5nIHV0ZjggfCBDb252ZXJ0RnJvbS1Kc29uIC1FcnJvckFjdGlvbiBTdG9wCiAgICBmb3JlYWNoICgkc3BlYyBpbiAkTWFuYWdlZFNwZWNzKSB7CiAgICAgICAgJHJvdW5kSG9va3MgPSBHZXQtVmFsdWUgJHJvdW5kVHJpcCAiaG9va3MiCiAgICAgICAgJHJvdW5kRXZlbnRzID0gR2V0LVZhbHVlICRyb3VuZEhvb2tzICJldmVudHMiCiAgICAgICAgJHJ1bGVzID0gQChHZXQtVmFsdWUgJHJvdW5kRXZlbnRzICRzcGVjLkV2ZW50KQogICAgICAgIGlmIChAKCRydWxlcyB8IFdoZXJlLU9iamVjdCB7IFRlc3QtTWFuYWdlZFJ1bGUgJF8gJHNwZWMgJEhhbmRsZXJQYXRoIH0pLkNvdW50IC1uZSAwKSB7CiAgICAgICAgICAgIHRocm93ICJQb3N0LXdyaXRlIGhvb2sgdmVyaWZpY2F0aW9uIGZhaWxlZCBmb3IgJCgkc3BlYy5FdmVudCkuIgogICAgICAgIH0KICAgIH0KfQpjYXRjaCB7CiAgICBpZiAoJHdyaXR0ZW4pIHsKICAgICAgICB0cnkgeyBSZXN0b3JlLVJhd0NvbmZpZyAkQ29uZmlnQnl0ZXMgJENvbmZpZ1BhdGggfSBjYXRjaCB7IFdyaXRlLVdhcm5pbmcgIkNvdWxkIG5vdCByZXN0b3JlIHRoZSBwcmV2aW91cyBaQ29kZSBjb25maWcgYXV0b21hdGljYWxseS4iIH0KICAgIH0KICAgIHRocm93Cn0KClN0b3AtSW5zdGFsbGVkUHJvY2Vzc2VzIChKb2luLVBhdGggJEluc3RhbGxSb290ICJaQ29kZVN0YXR1c0xpZ2h0LmV4ZSIpCiRydW5LZXkgPSAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cUnVuIgp0cnkgewogICAgJHJ1blZhbHVlID0gKEdldC1JdGVtUHJvcGVydHkgLVBhdGggJHJ1bktleSAtTmFtZSAiWkNvZGVTdGF0dXNMaWdodCIgLUVycm9yQWN0aW9uIFN0b3ApLlpDb2RlU3RhdHVzTGlnaHQKICAgIGlmICgoTm9ybWFsaXplLVBhdGhWYWx1ZSAoW3N0cmluZ10kcnVuVmFsdWUpKSAtZXEgKE5vcm1hbGl6ZS1QYXRoVmFsdWUgKEpvaW4tUGF0aCAkSW5zdGFsbFJvb3QgIlpDb2RlU3RhdHVzTGlnaHQuZXhlIikpKSB7CiAgICAgICAgUmVtb3ZlLUl0ZW1Qcm9wZXJ0eSAtUGF0aCAkcnVuS2V5IC1OYW1lICJaQ29kZVN0YXR1c0xpZ2h0IiAtRXJyb3JBY3Rpb24gU3RvcAogICAgfQp9CmNhdGNoIFtTeXN0ZW0uTWFuYWdlbWVudC5BdXRvbWF0aW9uLkl0ZW1Ob3RGb3VuZEV4Y2VwdGlvbl0gewp9CmNhdGNoIHsKICAgIFdyaXRlLVdhcm5pbmcgIkNvdWxkIG5vdCBpbnNwZWN0IG9yIHJlbW92ZSB0aGUgbWF0Y2hpbmcgYXV0b3N0YXJ0IHZhbHVlOiAkKCRfLkV4Y2VwdGlvbi5NZXNzYWdlKSIKfQoKaWYgKCRQdXJnZVVzZXJEYXRhKSB7CiAgICAkY29uZmlnQmFja3VwRGlyID0gSm9pbi1QYXRoIChTcGxpdC1QYXRoIC1QYXJlbnQgJENvbmZpZ1BhdGgpICIuemNvZGUtc3RhdHVzLWxpZ2h0LWJhY2t1cHMiCiAgICBSZW1vdmUtSXRlbSAtTGl0ZXJhbFBhdGggJGNvbmZpZ0JhY2t1cERpciAtUmVjdXJzZSAtRm9yY2UgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWUKICAgIFJlbW92ZS1JdGVtIC1MaXRlcmFsUGF0aCAiSEtDVTpcU29mdHdhcmVcWkNvZGVTdGF0dXNMaWdodCIgLVJlY3Vyc2UgLUZvcmNlIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVlCiAgICAkbG9jYWxBcHBEYXRhID0gJGVudjpMT0NBTEFQUERBVEEKICAgIGlmICgtbm90ICRsb2NhbEFwcERhdGEpIHsgJGxvY2FsQXBwRGF0YSA9ICRIT01FIH0KICAgICRsb2dEaXIgPSBKb2luLVBhdGggJGxvY2FsQXBwRGF0YSAiemNvZGUtc3RhdHVzIgogICAgUmVtb3ZlLUl0ZW0gLUxpdGVyYWxQYXRoICRsb2dEaXIgLVJlY3Vyc2UgLUZvcmNlIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVlCn0KUmVtb3ZlLUl0ZW0gLUxpdGVyYWxQYXRoICRJbnN0YWxsUm9vdCAtUmVjdXJzZSAtRm9yY2UKV3JpdGUtSG9zdCAiVW5pbnN0YWxsZWQgWkNvZGVTdGF0dXNMaWdodC4gQSBaQ29kZSBjb25maWcgYmFja3VwIHdhcyBzYXZlZCB0byAkY29uZmlnQmFja3VwLiBJbnRlcmZhY2UgcHJlZmVyZW5jZXMgYW5kIGRpYWdub3N0aWMgbG9ncyB3ZXJlIHByZXNlcnZlZCB1bmxlc3MgLVB1cmdlVXNlckRhdGEgd2FzIHVzZWQuIgo=
+[CmdletBinding()]
+param(
+    [string]$InstallRoot = (Join-Path $env:LOCALAPPDATA "ZCodeStatusLight"),
+    [string]$ConfigPath,
+    [switch]$PurgeUserData,
+    [switch]$RestoreEnabledState
+)
+
+$ErrorActionPreference = "Stop"
+$ManagedSpecs = @(
+    [pscustomobject]@{ Event = "UserPromptSubmit"; Token = "user_prompt_submit"; Matcher = $null },
+    [pscustomobject]@{ Event = "PermissionRequest"; Token = "permission_request"; Matcher = $null },
+    [pscustomobject]@{ Event = "PostToolUse"; Token = "todo_update"; Matcher = "TodoWrite" },
+    [pscustomobject]@{ Event = "PostToolUseFailure"; Token = "tool_failure"; Matcher = $null },
+    [pscustomobject]@{ Event = "Stop"; Token = "stop"; Matcher = $null }
+)
+
+function Get-Value($Object, [string]$Name) {
+    if ($null -eq $Object) { return $null }
+    $property = $Object.PSObject.Properties[$Name]
+    if ($null -eq $property) { return $null }
+    return $property.Value
+}
+
+function Set-Value($Object, [string]$Name, $Value) {
+    $property = $Object.PSObject.Properties[$Name]
+    if ($null -eq $property) { $Object | Add-Member -NotePropertyName $Name -NotePropertyValue $Value }
+    else { $property.Value = $Value }
+}
+
+function Remove-Value($Object, [string]$Name) {
+    $property = $Object.PSObject.Properties[$Name]
+    if ($null -ne $property) { $Object.PSObject.Properties.Remove($Name) }
+}
+
+function Normalize-PathValue([string]$PathValue) {
+    if ([string]::IsNullOrWhiteSpace($PathValue)) { return "" }
+    try { return [System.IO.Path]::GetFullPath($PathValue.Trim('"')).TrimEnd([char]92, [char]47).ToLowerInvariant() }
+    catch { return $PathValue.Trim('"').TrimEnd([char]92, [char]47).ToLowerInvariant() }
+}
+
+function Test-ManagedRule($Rule, $Spec, [string]$HandlerPath) {
+    if ($null -eq $Rule) { return $false }
+    $matcher = Get-Value $Rule "matcher"
+    if ($null -eq $Spec.Matcher) {
+        if (-not [string]::IsNullOrEmpty([string]$matcher)) { return $false }
+    }
+    elseif ([string]$matcher -ne [string]$Spec.Matcher) { return $false }
+
+    $hooks = @(Get-Value $Rule "hooks")
+    if ($hooks.Count -ne 1) { return $false }
+    $hook = $hooks[0]
+    if ([string](Get-Value $hook "type") -ne "process") { return $false }
+    if ([string](Get-Value $hook "timeoutMs") -ne "5000") { return $false }
+    $args = @(Get-Value $hook "args")
+    if ($args.Count -ne 4) { return $false }
+    return ((Normalize-PathValue ([string]$args[0])) -eq (Normalize-PathValue $HandlerPath) -and
+            [string]$args[1] -eq [string]$Spec.Token -and
+            [string]$args[2] -eq '${CLAUDE_SESSION_ID}' -and
+            [string]$args[3] -eq '${ZCODE_PROJECT_DIR}')
+}
+
+function Write-JsonAtomically($Object, [string]$Path) {
+    $directory = Split-Path -Parent $Path
+    $temporary = Join-Path $directory (".{0}.{1}.tmp" -f (Split-Path $Path -Leaf), [guid]::NewGuid().ToString("N"))
+    $replaceBackup = "$temporary.previous"
+    $json = $Object | ConvertTo-Json -Depth 100
+    [System.IO.File]::WriteAllText($temporary, $json + [Environment]::NewLine, (New-Object System.Text.UTF8Encoding($false)))
+    try { [System.IO.File]::Replace($temporary, $Path, $replaceBackup, $true) }
+    finally {
+        if (Test-Path -LiteralPath $temporary) { Remove-Item -LiteralPath $temporary -Force -ErrorAction SilentlyContinue }
+        if (Test-Path -LiteralPath $replaceBackup) { Remove-Item -LiteralPath $replaceBackup -Force -ErrorAction SilentlyContinue }
+    }
+}
+
+function Restore-RawConfig([byte[]]$Bytes, [string]$Path) {
+    $directory = Split-Path -Parent $Path
+    $temporary = Join-Path $directory (".{0}.{1}.restore" -f (Split-Path $Path -Leaf), [guid]::NewGuid().ToString("N"))
+    $replaceBackup = "$temporary.previous"
+    [System.IO.File]::WriteAllBytes($temporary, $Bytes)
+    try { [System.IO.File]::Replace($temporary, $Path, $replaceBackup, $true) }
+    finally {
+        if (Test-Path -LiteralPath $temporary) { Remove-Item -LiteralPath $temporary -Force -ErrorAction SilentlyContinue }
+        if (Test-Path -LiteralPath $replaceBackup) { Remove-Item -LiteralPath $replaceBackup -Force -ErrorAction SilentlyContinue }
+    }
+}
+
+function Stop-InstalledProcesses([string]$ExePath) {
+    $target = Normalize-PathValue $ExePath
+    $processes = @(Get-Process -Name "ZCodeStatusLight" -ErrorAction SilentlyContinue | Where-Object {
+        try { (Normalize-PathValue $_.Path) -eq $target } catch { $false }
+    })
+    foreach ($process in $processes) { Stop-Process -Id $process.Id -Force -ErrorAction Stop }
+    if ($processes.Count -gt 0) { Wait-Process -Id $processes.Id -Timeout 5 -ErrorAction SilentlyContinue }
+}
+
+if ($env:OS -ne "Windows_NT") { throw "This uninstaller only supports Windows." }
+if ($PSVersionTable.PSVersion.Major -lt 5) { throw "PowerShell 5.1 or later is required." }
+$InstallRoot = [System.IO.Path]::GetFullPath($InstallRoot)
+if (-not (Test-Path -LiteralPath $InstallRoot -PathType Container)) {
+    Write-Host "ZCodeStatusLight is already removed: $InstallRoot"
+    exit 0
+}
+$StatePath = Join-Path $InstallRoot "install-state.json"
+if (-not (Test-Path -LiteralPath $StatePath -PathType Leaf)) {
+    throw "Install state is missing. Refusing to guess which ZCode hooks to remove."
+}
+$State = Get-Content -LiteralPath $StatePath -Raw -Encoding utf8 | ConvertFrom-Json -ErrorAction Stop
+if (-not $ConfigPath) { $ConfigPath = [string](Get-Value $State "configPath") }
+if (-not $ConfigPath) { throw "Config path is missing from install state. Pass -ConfigPath explicitly." }
+$ConfigPath = [System.IO.Path]::GetFullPath($ConfigPath)
+if (-not (Test-Path -LiteralPath $ConfigPath -PathType Leaf)) { throw "ZCode config was not found: $ConfigPath" }
+$HandlerPath = [string](Get-Value $State "handlerPath")
+if ((Normalize-PathValue $HandlerPath) -ne (Normalize-PathValue (Join-Path $InstallRoot "hook_handler.py"))) {
+    throw "Install state handler path does not match the selected install root."
+}
+
+$ConfigBytes = [System.IO.File]::ReadAllBytes($ConfigPath)
+try { $Config = [System.Text.Encoding]::UTF8.GetString($ConfigBytes) | ConvertFrom-Json -ErrorAction Stop }
+catch { throw "ZCode config is not valid JSON: $ConfigPath" }
+$hooks = Get-Value $Config "hooks"
+if ($null -ne $hooks) {
+    $events = Get-Value $hooks "events"
+    if ($null -ne $events) {
+        foreach ($spec in $ManagedSpecs) {
+            $rules = @(Get-Value $events $spec.Event)
+            if ($rules.Count -eq 0) { continue }
+            $remaining = @($rules | Where-Object { -not (Test-ManagedRule $_ $spec $HandlerPath) })
+            $createdEvents = @((Get-Value $State "createdEvents"))
+            if ($remaining.Count -eq 0 -and $createdEvents -contains $spec.Event) {
+                Remove-Value $events $spec.Event
+            }
+            else {
+                Set-Value $events $spec.Event $remaining
+            }
+        }
+    }
+
+    if ($RestoreEnabledState -and [bool](Get-Value $State "enabledWasFalse")) {
+        $hasAnyRules = $false
+        $remainingEvents = Get-Value $hooks "events"
+        if ($null -ne $remainingEvents) {
+            foreach ($property in $remainingEvents.PSObject.Properties) {
+                if (@($property.Value).Count -gt 0) { $hasAnyRules = $true; break }
+            }
+        }
+        if (-not $hasAnyRules) { Set-Value $hooks "enabled" $false }
+    }
+
+    $eventsAfter = Get-Value $hooks "events"
+    $hasEventProperties = $null -ne $eventsAfter -and $eventsAfter.PSObject.Properties.Count -gt 0
+    $onlyInstallerStructure = [bool](Get-Value $State "createdHooks") -and -not $hasEventProperties
+    if ($onlyInstallerStructure) { Remove-Value $Config "hooks" }
+}
+
+$backupDir = Join-Path (Split-Path -Parent $ConfigPath) ".zcode-status-light-backups"
+$timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+New-Item -ItemType Directory -Path $backupDir -Force | Out-Null
+$configBackup = Join-Path $backupDir ("config-before-uninstall-{0}.json" -f $timestamp)
+[System.IO.File]::WriteAllBytes($configBackup, $ConfigBytes)
+$written = $false
+try {
+    Write-JsonAtomically $Config $ConfigPath
+    $written = $true
+    $roundTrip = Get-Content -LiteralPath $ConfigPath -Raw -Encoding utf8 | ConvertFrom-Json -ErrorAction Stop
+    foreach ($spec in $ManagedSpecs) {
+        $roundHooks = Get-Value $roundTrip "hooks"
+        $roundEvents = Get-Value $roundHooks "events"
+        $rules = @(Get-Value $roundEvents $spec.Event)
+        if (@($rules | Where-Object { Test-ManagedRule $_ $spec $HandlerPath }).Count -ne 0) {
+            throw "Post-write hook verification failed for $($spec.Event)."
+        }
+    }
+}
+catch {
+    if ($written) {
+        try { Restore-RawConfig $ConfigBytes $ConfigPath } catch { Write-Warning "Could not restore the previous ZCode config automatically." }
+    }
+    throw
+}
+
+Stop-InstalledProcesses (Join-Path $InstallRoot "ZCodeStatusLight.exe")
+$runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
+try {
+    $runValue = (Get-ItemProperty -Path $runKey -Name "ZCodeStatusLight" -ErrorAction Stop).ZCodeStatusLight
+    if ((Normalize-PathValue ([string]$runValue)) -eq (Normalize-PathValue (Join-Path $InstallRoot "ZCodeStatusLight.exe"))) {
+        Remove-ItemProperty -Path $runKey -Name "ZCodeStatusLight" -ErrorAction Stop
+    }
+}
+catch [System.Management.Automation.ItemNotFoundException] {
+}
+catch {
+    Write-Warning "Could not inspect or remove the matching autostart value: $($_.Exception.Message)"
+}
+
+if ($PurgeUserData) {
+    $configBackupDir = Join-Path (Split-Path -Parent $ConfigPath) ".zcode-status-light-backups"
+    Remove-Item -LiteralPath $configBackupDir -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCU:\Software\ZCodeStatusLight" -Recurse -Force -ErrorAction SilentlyContinue
+    $localAppData = $env:LOCALAPPDATA
+    if (-not $localAppData) { $localAppData = $HOME }
+    $logDir = Join-Path $localAppData "zcode-status"
+    Remove-Item -LiteralPath $logDir -Recurse -Force -ErrorAction SilentlyContinue
+}
+Remove-Item -LiteralPath $InstallRoot -Recurse -Force
+Write-Host "Uninstalled ZCodeStatusLight. A ZCode config backup was saved to $configBackup. Interface preferences and diagnostic logs were preserved unless -PurgeUserData was used."
