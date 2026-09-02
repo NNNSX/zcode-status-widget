@@ -15,6 +15,9 @@ test_artifacts/
 
 # Development-only desktop automation and captures
 *.png
+!apps/desktop/assets/*.png
+!apps/desktop/assets/*.ico
+apps/desktop/assets/hook/*.exe
 autostart_click.ps1
 burst_dpi.ps1
 click_once.ps1
@@ -28,3 +31,12 @@ tray_click.ps1
 # Local state
 *.bak
 *.tmp
+
+# Electron dependencies and generated Windows installers
+apps/desktop/node_modules/
+apps/desktop/out/
+apps/desktop/dist/
+apps/desktop/artifacts/
+
+# Local-only packages prepared for GitHub Release upload
+artifacts/
