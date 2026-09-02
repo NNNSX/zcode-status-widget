@@ -39,11 +39,11 @@
 
 ## 安装
 
-1. 从 [GitHub Releases](https://github.com/NNNSX/zcode-status-widget/releases) 下载 `ZCode Status Light Setup 0.2.0-alpha.4.exe` 和 `SHA256SUMS.txt`。
+1. 从 [GitHub Releases](https://github.com/NNNSX/zcode-status-widget/releases) 下载 `ZCode.Status.Light.Setup.0.2.0-alpha.4.exe` 和 `SHA256SUMS.txt`。
 2. 在下载目录通过 PowerShell 校验安装器：
 
 ```powershell
-Get-FileHash '.\ZCode Status Light Setup 0.2.0-alpha.4.exe' -Algorithm SHA256
+Get-FileHash '.\ZCode.Status.Light.Setup.0.2.0-alpha.4.exe' -Algorithm SHA256
 Get-Content .\SHA256SUMS.txt
 ```
 
