@@ -1,11 +1,15 @@
 # 第三方组件声明
 
-本项目首发构建链路使用以下第三方软件：
+当前公开版本使用 Electron、TypeScript、Vite、Vitest、ESLint 和 Electron Builder 构建 Windows 桌面应用，并使用 lucide 提供界面图标。原生 Hook 助手由 `apps/hook-helper/ZCodeStatusHook.cs` 编译，不依赖外部 Python 运行时。
 
 | 组件 | 用途 | 许可证 |
 |---|---|---|
-| [PyInstaller](https://pyinstaller.org/) | 打包 Windows 单文件 EXE | GPL-2.0-or-later，附 bootloader exception |
-| [pystray](https://github.com/moses-palmer/pystray) | Windows 系统托盘图标和菜单 | LGPL-3.0-or-later |
-| [Pillow](https://python-pillow.github.io/) | 生成托盘图标位图 | HPND License |
+| [Electron](https://www.electronjs.org/) | Windows 桌面运行时 | MIT |
+| [Vite](https://vite.dev/) | Renderer 构建工具 | MIT |
+| [TypeScript](https://www.typescriptlang.org/) | 类型检查与编译 | Apache-2.0 |
+| [Vitest](https://vitest.dev/) | 自动化测试 | MIT |
+| [ESLint](https://eslint.org/) | 静态检查 | MIT |
+| [Electron Builder](https://www.electron.build/) | Windows NSIS 安装器构建 | MIT |
+| [lucide](https://lucide.dev/) | 界面图标 | ISC |
 
-完整许可证文本、适用条件和源代码获取方式以各组件的上游发布包为准。`hook_handler.py` 只使用 Python 标准库，不依赖上述组件。
+实际依赖版本和传递依赖以 `apps/desktop/package-lock.json` 为准。各组件的完整许可证文本、适用条件和源代码获取方式以其上游发布包为准。

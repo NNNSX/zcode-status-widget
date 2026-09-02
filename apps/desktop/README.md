@@ -4,7 +4,6 @@
 
 ## Hook 集成
 
-- Electron 版与已安装的 Python 状态灯共用独占回环端口和 `HKCU\Software\ZCodeStatusLight` 设置键；一次只能运行其中一个实现。
 - 安装包会包含已编译的 `ZCodeStatusHook.exe`。ZCode 调用 Hook 时不需要 Python、PowerShell、Node 或外部服务。
 - 首次启动时，设置页的“连接 ZCode Hook”默认只检查 `%USERPROFILE%\.zcode\cli\config.json`。非默认位置必须由用户明确选择实际的 `config.json`；程序不扫描用户目录，也不会猜测或新建配置文件。
 - 点击“配置 Hook”后，主进程会显示目标路径、六条计划添加的 `process` 规则、备份目录，以及“仅发送到 `http://127.0.0.1:57310/event`，不访问外网”的边界。未确认前不会写入文件。
@@ -24,7 +23,7 @@ npm test
 npm run dev
 ```
 
-若另一个运行时占用生产端口，可仅在开发环境设置替代端口：
+开发服务器默认只监听回环地址。如需避免本机已有状态灯实例占用生产端口，可仅在开发环境设置替代端口：
 
 ```powershell
 $env:ZCODE_STATUS_PORT = "57311"
