@@ -6,7 +6,7 @@
 
 `ZCodeStatusLight` 是一个仅在本机运行的 Windows 悬浮状态灯。它把 ZCode 会话状态显示在屏幕角落：不替代 ZCode，不上传会话数据，不建立云端服务。
 
-当前发布版本为 Electron 桌面版 `0.2.0-alpha.4`。源码位于 `apps/desktop/`，原生 Hook 助手源码位于 `apps/hook-helper/`。GitHub tag 会自动生成当前源码的 Source code ZIP/TAR；Windows 安装器、`.blockmap` 和 SHA-256 校验文件作为 Release 资产提供。
+当前发布版本为 Electron 桌面版 `0.2.0-alpha.6`。源码位于 `apps/desktop/`，原生 Hook 助手源码位于 `apps/hook-helper/`。GitHub tag 会自动生成当前源码的 Source code ZIP/TAR；Windows 安装器、`.blockmap` 和 SHA-256 校验文件作为 Release 资产提供。
 
 ## 状态语义
 
@@ -32,18 +32,19 @@
 ## 系统要求
 
 - Windows 10 或 Windows 11。
-- 已安装 ZCode，并使用用户配置文件 `~/.zcode/cli/config.json`。
+- 已安装 ZCode。默认 Hook 候选为 `%USERPROFILE%\.zcode\cli\config.json`，但新系统首次安装时该文件可能尚未生成。
+- `%USERPROFILE%\.zcode\v2\config.json` 是 provider 配置，不是 Hook 配置；状态灯会拒绝写入该文件。
 - Electron 安装器已内置运行时，不要求用户另行安装 Node.js 或其他脚本运行时。
 
 安装器尚未进行 Authenticode 签名。Windows SmartScreen 可能提示“未知发布者”；请只从对应 GitHub Release 下载，并先验证 SHA-256。
 
 ## 安装
 
-1. 从 [GitHub Releases](https://github.com/NNNSX/zcode-status-widget/releases) 下载 `ZCode.Status.Light.Setup.0.2.0-alpha.4.exe` 和 `SHA256SUMS.txt`。
+1. 从 [GitHub Releases](https://github.com/NNNSX/zcode-status-widget/releases) 下载 `ZCode Status Light Setup 0.2.0-alpha.6.exe` 和 `SHA256SUMS.txt`。
 2. 在下载目录通过 PowerShell 校验安装器：
 
 ```powershell
-Get-FileHash '.\ZCode.Status.Light.Setup.0.2.0-alpha.4.exe' -Algorithm SHA256
+Get-FileHash '.\ZCode Status Light Setup 0.2.0-alpha.6.exe' -Algorithm SHA256
 Get-Content .\SHA256SUMS.txt
 ```
 
@@ -56,7 +57,7 @@ Get-Content .\SHA256SUMS.txt
 
 ## Hook 配置边界
 
-设置页只会默认检查 `%USERPROFILE%\.zcode\cli\config.json`。非默认位置必须由用户明确选择实际的 `config.json`；程序不会递归扫描目录、猜测路径或新建配置文件。
+设置页只会默认检查 `%USERPROFILE%\.zcode\cli\config.json`。该文件在新系统上可能尚未生成；程序不会创建、递归扫描或猜测 Hook 配置路径。`%USERPROFILE%\.zcode\v2\config.json` 仅包含 ZCode provider 配置，不能用于承载 Hook，状态灯会拒绝写入。请先通过 ZCode 当前配置流程获得实际承载 `hooks` 的 `config.json`，再在设置页选择“选择 Hook config.json”。
 
 配置前会显示目标路径、六条计划添加的 `process` 规则、仅发送到 `http://127.0.0.1:57310/event` 的回环地址及备份位置。未经确认不会写入文件。
 
@@ -68,7 +69,9 @@ Get-Content .\SHA256SUMS.txt
 - `PostToolUseFailure`
 - `Stop`
 
-每条受管规则都必须同时匹配助手路径、事件 token、四个固定参数和 5000 ms 超时。重复受管规则会去重；不匹配的第三方规则一律保留。
+每条受管规则都必须同时匹配助手路径、事件 token、四个固定参数和 5000 ms 超时。重复受管规则会去重；不匹配的第三方规则一律保留。审批 `PermissionRequest` 即使没有轮次标识也会更新当前会话并触发等待提醒；完成态和完成提醒只在 `Stop` 携带与当前轮相同的可验证轮次标识时生效，避免迟到的旧事件误标记新任务完成。
+
+全局提醒是短时、本机、点击穿透的 Electron 窗口。提醒显示期间会使用较高的窗口层级并周期性重新提升，以减少被 Fences 等桌面整理或置顶软件遮挡的概率；Windows 不允许应用对所有第三方置顶窗口作绝对层级保证。
 
 写入前会备份原始字节到配置目录的 `.zcode-status-light-backups`，随后临时写入、原子替换并回读验证。操作期间检测到外部改写时会停止而不会覆盖外部内容。应用只记录受管路径和助手标识，不保存完整配置、提示词、会话 ID、错误正文或凭据。
 
@@ -79,8 +82,7 @@ Get-Content .\SHA256SUMS.txt
 - 从开始菜单启动 **ZCode Status Light**。
 - 左键托盘图标打开设置；右键托盘图标可重置位置或退出。
 - 无边框设置窗口可从最顶部拖动带或标题区移动。
-- 面板右键菜单可打开设置、切换置顶或退出。
-- 开机自启仅由设置窗口中的“开机自动启动”控制。
+- 当前没有面板右键菜单或 Electron 开机自启开关；请使用托盘菜单管理显示、设置、重置位置、提醒演示和退出。
 - 透明度为 20% 到 100%；低于 100% 时 Windows 不渲染 DWM 圆角。
 - 完成会话保留时间可设为 1 至 30 分钟。
 - Todo 进度列与时间列可分别显示或隐藏。
@@ -96,15 +98,15 @@ Get-Content .\SHA256SUMS.txt
 ## 隐私与安全
 
 - 事件仅由 `ZCodeStatusHook.exe` 发送到本机回环地址 `127.0.0.1:57310/event`。
-- 软件没有网络上传、遥测、账号、数据库或云同步功能。
-- 会话状态仅在悬浮窗进程内存中保存，进程退出后丢弃。
+- Electron 集成状态保存在 `app.getPath("userData")\ZCodeStatusLight\electron-integration-state.json`；Windows 常见位置为 `%APPDATA%\zcode-status-light-desktop\ZCodeStatusLight\electron-integration-state.json`，实际以 Electron 返回值为准。安装器默认保留该 userData；根目录 `uninstall.ps1 -PurgeUserData` 只属于 legacy Python 运行时，不能清理 Electron 数据。需要彻底清除时，请先退出应用，再按实际 `app.getPath("userData")` 路径手工删除。
 - 不要将日志、截图、ZCode 配置、备份或集成状态文件发布到公开位置，其中可能含本机路径或其他本地信息。
 
 ## 排障
 
 - 面板不显示：确认 **ZCode Status Light** 正在运行，然后重新启动 ZCode 或新开会话。
 - 新实例立即退出：`127.0.0.1:57310` 已被另一个状态灯实例占用；一次只运行一个实例。
-- Hooks 没有事件：在设置页检查 Hook 状态，确认 ZCode 已重新加载 `config.json`，并查看 ZCode 自己的 Hook 触发日志。
+- Hooks 没有事件：确认设置页选择的是实际承载 `hooks` 的 CLI 配置，不是 `%USERPROFILE%\.zcode\v2\config.json` provider 配置；配置后重新启动 ZCode 或新开会话。
+- 没有完成绿灯或完成提示：确认 ZCode 的 `Stop` Hook 已重新加载，并检查事件是否携带当前轮次标识；状态灯会拒绝缺少或不匹配轮次标识的 `Stop`，避免旧事件结束新任务。
 - 面板位置异常：托盘菜单选择“重置位置”。
 - 安装器提示未知发布者：只在安装器文件名和 SHA-256 与 Release 校验文件一致时继续。
 
@@ -127,7 +129,7 @@ npm run dist:win
 ## 已知限制
 
 - 只支持 Windows，不支持 macOS 或 Linux。
-- `0.2.0-alpha.4` 是预发布版本，建议先在非关键工作流验证安装、设置窗口拖动与 Hook 配置。
+- `0.2.0-alpha.6` 是预发布版本，建议先在非关键工作流验证安装、设置窗口拖动与 Hook 配置。
 - 当前安装器未做 Authenticode 签名，SmartScreen 可能提示未知发布者。
 - 不会自动迁移其他状态灯实现的旧 Hook 或开机自启状态；切换运行时前请退出旧程序，并在设置页明确确认新的 Hook 配置。
 

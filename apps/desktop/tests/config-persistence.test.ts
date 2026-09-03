@@ -5,19 +5,22 @@ import { normalizeConfig } from "../src/shared/config";
 describe("configuration persistence queue", () => {
   it("persists only the newest configuration from a burst of updates", async () => {
     vi.useFakeTimers();
-    const saved: number[] = [];
-    const queue = new ConfigPersistenceQueue(async (config) => {
-      saved.push(config.opacity);
-    }, 100);
+    try {
+      const saved: number[] = [];
+      const queue = new ConfigPersistenceQueue(async (config) => {
+        saved.push(config.opacity);
+      }, 100);
 
-    queue.schedule(normalizeConfig({ opacity: 40 }));
-    queue.schedule(normalizeConfig({ opacity: 65 }));
-    queue.schedule(normalizeConfig({ opacity: 85 }));
-    await vi.advanceTimersByTimeAsync(100);
-    await queue.flush();
+      queue.schedule(normalizeConfig({ opacity: 40 }));
+      queue.schedule(normalizeConfig({ opacity: 65 }));
+      queue.schedule(normalizeConfig({ opacity: 85 }));
+      await vi.advanceTimersByTimeAsync(100);
+      await queue.flush();
 
-    expect(saved).toEqual([85]);
-    vi.useRealTimers();
+      expect(saved).toEqual([85]);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("serializes a newer update behind an active persistence operation", async () => {
@@ -38,5 +41,18 @@ describe("configuration persistence queue", () => {
     await first;
 
     expect(persisted).toEqual([400, 500]);
+  });
+
+  it("reports persistence failures after draining the pending queue", async () => {
+    const persisted: number[] = [];
+    const queue = new ConfigPersistenceQueue(async (config) => {
+      persisted.push(config.opacity);
+      throw new Error(`failed-${config.opacity}`);
+    }, 0);
+
+    queue.schedule(normalizeConfig({ opacity: 55 }));
+    await expect(queue.flush()).rejects.toThrow("一个或多个配置保存操作失败");
+    expect(persisted).toEqual([55]);
+    expect(queue.getLastError()).toBeInstanceOf(AggregateError);
   });
 });

@@ -355,7 +355,34 @@ describe("HookIntegrationManager", () => {
     const fixture = await createFixture();
     const manager = managerFor(fixture);
 
-    await expect(manager.configure()).rejects.toThrow("未找到 ZCode 配置文件");
+    await expect(manager.configure()).rejects.toThrow("未找到默认 Hook 配置");
     await expect(readFile(fixture.configPath, "utf8")).rejects.toThrow();
+  });
+
+  it("rejects provider-only configuration without modifying it", async () => {
+    const fixture = await createFixture();
+    const source = JSON.stringify({ provider: { endpoint: "https://provider.example" } });
+    await writeFile(fixture.configPath, source, "utf8");
+    const manager = managerFor(fixture);
+
+    await expect(manager.inspect()).resolves.toMatchObject({
+      status: "invalid",
+      message: expect.stringContaining("provider 配置"),
+    });
+    await expect(manager.configure()).rejects.toThrow("provider 配置");
+    await expect(readFile(fixture.configPath, "utf8")).resolves.toBe(source);
+  });
+
+  it("rejects the canonical ZCode provider path before reading or writing it", async () => {
+    const fixture = await createFixture();
+    const providerPath = path.join(os.homedir(), ".zcode", "v2", "config.json");
+    const manager = managerFor(fixture);
+
+    await expect(manager.inspect(providerPath)).resolves.toMatchObject({
+      configPath: path.resolve(providerPath),
+      status: "invalid",
+      message: expect.stringContaining("provider 配置"),
+    });
+    await expect(manager.configure(providerPath)).rejects.toThrow("provider 配置");
   });
 });

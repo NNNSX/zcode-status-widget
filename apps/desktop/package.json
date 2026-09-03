@@ -1,6 +1,6 @@
 {
   "name": "zcode-status-light-desktop",
-  "version": "0.2.0-alpha.4",
+  "version": "0.2.0-alpha.6",
   "private": true,
   "description": "Electron desktop runtime for ZCode Status Light.",
   "author": "ZCodeStatusLight contributors",
@@ -20,10 +20,12 @@
     "dev:electron": "wait-on tcp:127.0.0.1:5174 && npm run build:main && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5174 electron .",
     "build": "npm run build:main && vite build",
     "dist:win": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\\build-windows.ps1",
+    "package:release": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\\package-release.ps1",
     "build:main": "tsc -p tsconfig.main.json",
     "typecheck": "tsc --noEmit -p tsconfig.renderer.json && tsc --noEmit -p tsconfig.main.json",
     "lint": "eslint .",
-    "test": "vitest run",
+    "test:hook-helper": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\\test-hook-helper.ps1",
+    "test": "npm run test:hook-helper && vitest run",
     "test:watch": "vitest",
     "preview": "vite preview --host 127.0.0.1 --port 5175 --strictPort"
   },

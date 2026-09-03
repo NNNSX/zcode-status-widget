@@ -35,6 +35,7 @@ interface SessionRecord {
   lastEventTimestamp: number | undefined;
   completedDurationMs: number | undefined;
   activeTurnId: string;
+  roundIdentityLocked: boolean;
   roundClosed: boolean;
   errorCount: number;
   lastError: string;
@@ -109,6 +110,18 @@ export class SessionReducer {
     if (name === "user_prompt_submit" && existing && timestamp !== undefined && existing.lastEventTimestamp !== undefined && timestamp <= existing.lastEventTimestamp) {
       return { accepted: false, effects };
     }
+    if (
+      name === "stop"
+      && (
+        !existing
+        || existing.roundClosed
+        || !existing.activeTurnId
+        || !turnId
+        || turnId !== existing.activeTurnId
+      )
+    ) {
+      return { accepted: false, effects };
+    }
     const session = existing ?? this.createSession(key, now);
     if (!session) {
       return { accepted: false, effects };
@@ -119,12 +132,13 @@ export class SessionReducer {
 
     if (name === "user_prompt_submit") {
       session.activeTurnId = turnId;
+      session.roundIdentityLocked = true;
       session.roundClosed = false;
     } else {
-      if (session.activeTurnId && turnId !== session.activeTurnId) {
+      if (session.activeTurnId && turnId && turnId !== session.activeTurnId) {
         return { accepted: false, effects };
       }
-      if (!session.activeTurnId && turnId) {
+      if (!session.activeTurnId && turnId && !session.roundIdentityLocked) {
         session.activeTurnId = turnId;
       }
       if (session.roundClosed) {
@@ -189,7 +203,10 @@ export class SessionReducer {
     if (session.state === "working" && previousState === "waiting") {
       effects.push({ kind: "cancel-attention", sessionId: key });
     }
-    if (previousState !== session.state && (session.state === "waiting" || session.state === "done")) {
+    if (
+      (previousState !== session.state && (session.state === "waiting" || session.state === "done"))
+      || (name === "permission_request" && session.state === "waiting" && lastTool.toLowerCase() !== "bash")
+    ) {
       effects.push({
         kind: "show-attention",
         sessionId: key,
@@ -255,6 +272,7 @@ export class SessionReducer {
       lastEventTimestamp: undefined,
       completedDurationMs: undefined,
       activeTurnId: "",
+      roundIdentityLocked: false,
       roundClosed: false,
       errorCount: 0,
       lastError: "",

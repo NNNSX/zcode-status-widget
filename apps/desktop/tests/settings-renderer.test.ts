@@ -35,20 +35,29 @@ describe("settings renderer", () => {
       requiresEnableConfirmation: false,
       ruleCount: 6,
     };
-    const hookSetups = [
-      {
-        configPath: "C:\\Users\\test\\.zcode\\cli\\config.json",
-        databasePath: "C:\\Users\\test\\.zcode\\cli\\db\\db.sqlite",
-        status: "disabled" as const,
-        message: "ZCode Hooks 已被明确关闭。",
-        isConfigured: false,
-        requiresEnableConfirmation: true,
-        ruleCount: 6,
-      },
-      configuredHookSetup,
-      readyHookSetup,
-    ];
-    const getHookSetup = vi.fn(async () => hookSetups.shift() ?? readyHookSetup);
+    const providerHookSetup = {
+      configPath: "C:\\Users\\test\\.zcode\\v2\\config.json",
+      databasePath: "C:\\Users\\test\\.zcode\\v2\\db\\db.sqlite",
+      status: "invalid" as const,
+      message: "所选文件是 ZCode provider 配置，不能写入 Hook。",
+      isConfigured: false,
+      requiresEnableConfirmation: false,
+      ruleCount: 6,
+    };
+    const disabledHookSetup = {
+      configPath: "C:\\Users\\test\\.zcode\\cli\\config.json",
+      databasePath: "C:\\Users\\test\\.zcode\\cli\\db\\db.sqlite",
+      status: "disabled" as const,
+      message: "ZCode Hooks 已被明确关闭。",
+      isConfigured: false,
+      requiresEnableConfirmation: true,
+      ruleCount: 6,
+    };
+    const getHookSetup = vi.fn()
+      .mockResolvedValueOnce(providerHookSetup)
+      .mockResolvedValueOnce(configuredHookSetup)
+      .mockResolvedValueOnce(readyHookSetup);
+    const chooseHookConfig = vi.fn(async () => disabledHookSetup);
     const configureHooks = vi.fn(async () => configuredHookSetup);
     const unconfigureHooks = vi.fn(async () => readyHookSetup);
     const beginSettingsDrag = vi.fn();
@@ -75,7 +84,7 @@ describe("settings renderer", () => {
         saveSettings,
         previewSettings,
         getHookSetup,
-        chooseHookConfig: async () => getHookSetup(),
+        chooseHookConfig,
         configureHooks,
         unconfigureHooks,
         quit: async () => undefined,
@@ -152,6 +161,13 @@ describe("settings renderer", () => {
       expect(getHookSetup).toHaveBeenCalledOnce();
       const configureHooksButton = dom.window.document.querySelector<HTMLButtonElement>("[data-action='configure-hooks']");
       const unconfigureHooksButton = dom.window.document.querySelector<HTMLButtonElement>("[data-action='unconfigure-hooks']");
+      const chooseHookConfigButton = dom.window.document.querySelector<HTMLButtonElement>("[data-action='choose-hook-config']");
+      expect(dom.window.document.querySelector("#hook-setup-status")?.textContent).toContain("provider 配置");
+      expect(configureHooksButton?.disabled).toBe(true);
+      expect(chooseHookConfigButton?.textContent).toContain("Hook config.json");
+      chooseHookConfigButton?.click();
+      await Promise.resolve();
+      await Promise.resolve();
       expect(configureHooksButton?.textContent).toContain("确认启用");
       expect(unconfigureHooksButton?.disabled).toBe(true);
       configureHooksButton?.click();

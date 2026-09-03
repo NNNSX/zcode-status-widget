@@ -25,6 +25,7 @@ declare global {
       onPanelSnapshot(listener: (snapshot: PanelSnapshot) => void): () => void;
       onSettingsChanged(listener: (config: AppConfig) => void): () => void;
       getAttentionContent(): Promise<AttentionContent>;
+      onAttentionContent(listener: (content: AttentionContent) => void): () => void;
       openSettings(): Promise<void>;
       showAttention(): Promise<void>;
       showPanel(): Promise<void>;

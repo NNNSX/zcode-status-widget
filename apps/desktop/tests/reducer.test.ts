@@ -60,6 +60,42 @@ describe("session reducer", () => {
     expect(reducer.apply({ event: "stop", session_id: "session-1", turn_id: "turn-1" }, start + 8_000).accepted).toBe(false);
   });
 
+  it("accepts approval events without a turn id and re-prompts for repeated approvals", () => {
+    const reducer = new SessionReducer();
+    const now = 2_500_000;
+    reducer.apply({ event: "user_prompt_submit", session_id: "legacy-approval", turn_id: "turn-1" }, now);
+
+    const first = reducer.apply({
+      event: "permission_request",
+      session_id: "legacy-approval",
+      last_tool: "filesystem",
+    }, now + 100);
+    const repeated = reducer.apply({
+      event: "permission_request",
+      session_id: "legacy-approval",
+      last_tool: "filesystem",
+    }, now + 200);
+
+    expect(first.accepted).toBe(true);
+    expect(first.effects).toMatchObject([{ kind: "show-attention", attention: { kind: "waiting" } }]);
+    expect(repeated.accepted).toBe(true);
+    expect(repeated.effects).toMatchObject([{ kind: "show-attention", attention: { kind: "waiting" } }]);
+
+    const resumed = reducer.apply({
+      event: "permission_bash",
+      session_id: "legacy-approval",
+    }, now + 300);
+    expect(resumed.effects).toContainEqual({ kind: "cancel-attention", sessionId: "legacy-approval" });
+
+    const afterResume = reducer.apply({
+      event: "permission_request",
+      session_id: "legacy-approval",
+      last_tool: "filesystem",
+    }, now + 400);
+    expect(afterResume.accepted).toBe(true);
+    expect(afterResume.effects).toMatchObject([{ kind: "show-attention", attention: { kind: "waiting" } }]);
+  });
+
   it("keeps Bash approvals working and tool failures out of the session lamp", () => {
     const reducer = new SessionReducer();
     const now = 2_000_000;
@@ -94,6 +130,35 @@ describe("session reducer", () => {
 
     expect(resumed.effects).toContainEqual({ kind: "cancel-attention", sessionId: "todo-resume" });
     expect(reducer.displaySessions(now + 200, 5, displayOptions)[0]).toMatchObject({ state: "working" });
+  });
+
+  it("rejects Stop events without a verified current round identity", () => {
+    const reducer = new SessionReducer();
+    const start = 6_000_000;
+
+    expect(reducer.apply({ event: "stop", session_id: "missing" }, start).accepted).toBe(false);
+    expect(reducer.displaySessions(start, 5, displayOptions)).toHaveLength(0);
+
+    reducer.apply({ event: "user_prompt_submit", session_id: "identity", turn_id: "turn-a" }, start + 100);
+    expect(reducer.apply({ event: "stop", session_id: "identity" }, start + 200).accepted).toBe(false);
+    expect(reducer.displaySessions(start + 200, 5, displayOptions)[0]).toMatchObject({ state: "working" });
+
+    reducer.apply({ event: "user_prompt_submit", session_id: "identity", prompt_preview: "缺少轮次标识的新任务" }, start + 300);
+    expect(reducer.apply({ event: "todo_update", session_id: "identity", turn_id: "turn-a" }, start + 400).accepted).toBe(true);
+    expect(reducer.apply({ event: "stop", session_id: "identity", turn_id: "turn-a" }, start + 500).accepted).toBe(false);
+    expect(reducer.displaySessions(start + 500, 5, displayOptions)[0]).toMatchObject({
+      state: "working",
+      task: "缺少轮次标识的新任务",
+    });
+  });
+
+  it("keeps no-turn prompts compatible with working and waiting states", () => {
+    const reducer = new SessionReducer();
+    const now = 7_000_000;
+
+    expect(reducer.apply({ event: "user_prompt_submit", session_id: "legacy", prompt_preview: "兼容任务" }, now).accepted).toBe(true);
+    expect(reducer.apply({ event: "permission_request", session_id: "legacy", last_tool: "filesystem" }, now + 100).accepted).toBe(true);
+    expect(reducer.displaySessions(now + 100, 5, displayOptions)[0]).toMatchObject({ state: "waiting" });
   });
 
   it("uses a root workspace name in preference to transient event directories and honors done TTL", () => {

@@ -196,10 +196,10 @@ const renderSettings = (root: HTMLElement): void => {
           <span>连接 ZCode Hook</span>
           <span>仅本机回环</span>
         </div>
-        <p class="hook-config-path" id="hook-config-path">正在检查默认配置...</p>
-        <p class="hook-status" id="hook-setup-status">不会在未确认时修改 ZCode 配置。</p>
+        <p class="hook-config-path" id="hook-config-path">正在检查默认 Hook 配置...</p>
+        <p class="hook-status" id="hook-setup-status">默认 CLI 配置可能尚未生成；不要选择 ~/.zcode/v2/config.json provider 配置。</p>
         <div class="hook-actions">
-          <button class="command-button command-button--quiet" type="button" data-action="choose-hook-config"><span>选择 config.json</span></button>
+          <button class="command-button command-button--quiet" type="button" data-action="choose-hook-config"><span>选择 Hook config.json</span></button>
           <button class="command-button" type="button" data-action="configure-hooks"><span>配置 Hook</span></button>
           <button class="command-button command-button--danger" type="button" data-action="unconfigure-hooks"><span>移除 Hook</span></button>
         </div>
@@ -489,6 +489,7 @@ const renderAttention = (root: HTMLElement): void => {
     createIcons({ icons: { BellRing, CircleCheck, X } });
   };
   void window.zcodeStatus.getAttentionContent().then(update);
+  window.zcodeStatus.onAttentionContent(update);
 };
 
 const root = document.querySelector<HTMLElement>("#app");

@@ -87,7 +87,16 @@ vi.mock("electron", () => ({
   BrowserWindow: FakeWindow,
   screen: {
     getAllDisplays: () => availableDisplays,
-    getDisplayMatching: () => displays.secondary,
+    getDisplayNearestPoint: (point: { x: number; y: number }) => {
+      const containing = availableDisplays.find((display) => (
+        point.x >= display.bounds.x
+        && point.x < display.bounds.x + display.bounds.width
+        && point.y >= display.bounds.y
+        && point.y < display.bounds.y + display.bounds.height
+      ));
+      return containing ?? availableDisplays[0] ?? displays.primary;
+    },
+    getDisplayMatching: () => availableDisplays[0] ?? displays.primary,
     getPrimaryDisplay: () => displays.primary,
     on: vi.fn((event: string, listener: Listener) => {
       screenListeners.set(event, listener);
@@ -105,6 +114,7 @@ describe("WindowManager", () => {
     vi.useFakeTimers();
     try {
       resetScreen();
+      availableDisplays = [displays.primary, displays.secondary];
       FakeWindow.instances.splice(0);
       const { WindowManager } = await import("../src/main/window-manager");
       const manager = new WindowManager();
@@ -222,6 +232,8 @@ describe("WindowManager", () => {
   });
 
   it("shows edge attention across the display containing the panel without focusing it", async () => {
+    resetScreen();
+    availableDisplays = [displays.primary, displays.secondary];
     FakeWindow.instances.splice(0);
     const { WindowManager } = await import("../src/main/window-manager");
     const manager = new WindowManager();
@@ -247,7 +259,8 @@ describe("WindowManager", () => {
     }
     expect(attention.getBounds()).toEqual({ x: -1600, y: 0, width: 1600, height: 900 });
     expect(attention.showInactive).toHaveBeenCalledOnce();
-    expect(attention.moveTop).toHaveBeenCalledOnce();
+    expect(attention.setAlwaysOnTop).toHaveBeenCalledWith(true, "pop-up-menu");
+    expect(attention.moveTop).toHaveBeenCalled();
     expect(attention.setIgnoreMouseEvents).toHaveBeenCalledWith(true, { forward: true });
     expect(attention.focus).not.toHaveBeenCalled();
     expect(attention.loadURL).toHaveBeenCalledWith(expect.stringContaining("surface=attention&presentation=edge"));
@@ -255,6 +268,7 @@ describe("WindowManager", () => {
 
   it("moves settings from trusted header drag messages only", async () => {
     resetScreen();
+    availableDisplays = [displays.primary, displays.secondary];
     FakeWindow.instances.splice(0);
     const { WindowManager } = await import("../src/main/window-manager");
     const manager = new WindowManager();
@@ -269,7 +283,7 @@ describe("WindowManager", () => {
     const initial = settings.getBounds();
     manager.beginSettingsDrag(settings.webContents.id, 300, 200);
     manager.moveSettingsDrag(settings.webContents.id, 344, 238);
-    expect(settings.setPosition).toHaveBeenCalledWith(initial.x + 44, initial.y + 38);
+    expect(settings.setPosition).toHaveBeenCalledWith(1564, initial.y + 38);
 
     manager.endSettingsDrag(settings.webContents.id);
     manager.moveSettingsDrag(settings.webContents.id, 390, 260);
@@ -284,10 +298,16 @@ describe("WindowManager", () => {
     vi.useFakeTimers();
     try {
       resetScreen();
+      availableDisplays = [displays.primary, displays.secondary];
       FakeWindow.instances.splice(0);
       const { WindowManager } = await import("../src/main/window-manager");
       const manager = new WindowManager();
       await manager.createPanel(DEFAULT_CONFIG);
+      const panel = FakeWindow.instances[0];
+      if (!panel) {
+        throw new Error("Panel window was not created.");
+      }
+      panel.setBounds({ x: -900, y: 500, width: 380, height: 47 });
       await manager.openSettings();
       const settings = FakeWindow.instances[1];
       if (!settings) {
@@ -309,10 +329,16 @@ describe("WindowManager", () => {
     vi.useFakeTimers();
     try {
       resetScreen();
+      availableDisplays = [displays.primary, displays.secondary];
       FakeWindow.instances.splice(0);
       const { WindowManager } = await import("../src/main/window-manager");
       const manager = new WindowManager();
       await manager.createPanel(DEFAULT_CONFIG);
+      const panel = FakeWindow.instances[0];
+      if (!panel) {
+        throw new Error("Panel window was not created.");
+      }
+      panel.setBounds({ x: -900, y: 500, width: 380, height: 47 });
       await manager.showAttention({
         sessionId: "display-session",
         kind: "waiting",
@@ -356,6 +382,45 @@ describe("WindowManager", () => {
     expect(attention.close).toHaveBeenCalledOnce();
   });
 
+  it("reasserts an active attention window and refreshes repeated content without recreating it", async () => {
+    vi.useFakeTimers();
+    try {
+      resetScreen();
+      FakeWindow.instances.splice(0);
+      const { WindowManager } = await import("../src/main/window-manager");
+      const manager = new WindowManager();
+      await manager.showAttention({
+        sessionId: "repeat-session",
+        kind: "waiting",
+        title: "请完成审批",
+        workspace: "ZCode",
+        summary: "",
+      }, 800, "center");
+      const attention = FakeWindow.instances[0];
+      if (!attention) {
+        throw new Error("Attention window was not created.");
+      }
+      const initialRaises = attention.setAlwaysOnTop.mock.calls.length;
+      vi.advanceTimersByTime(250);
+      expect(attention.setAlwaysOnTop.mock.calls.length).toBeGreaterThan(initialRaises);
+
+      await manager.showAttention({
+        sessionId: "repeat-session",
+        kind: "waiting",
+        title: "请完成审批",
+        workspace: "ZCode",
+        summary: "1/2",
+      }, 800, "center");
+      expect(FakeWindow.instances).toHaveLength(1);
+      vi.advanceTimersByTime(799);
+      expect(attention.close).not.toHaveBeenCalled();
+      vi.advanceTimersByTime(1);
+      expect(attention.close).toHaveBeenCalledOnce();
+    } finally {
+      vi.useRealTimers();
+      resetScreen();
+    }
+  });
   it("replaces an active edge reminder and only lets its latest timer close the layer", async () => {
     vi.useFakeTimers();
     try {

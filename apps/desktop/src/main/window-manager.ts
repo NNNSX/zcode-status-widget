@@ -26,6 +26,8 @@ import {
 const preloadPath = path.join(__dirname, "..", "preload", "index.js");
 const productionRendererPath = path.join(__dirname, "..", "..", "dist", "renderer", "index.html");
 const DISPLAY_LAYOUT_SETTLE_MS = 100;
+const ATTENTION_REASSERT_INTERVAL_MS = 250;
+const ATTENTION_TOPMOST_LEVEL = "pop-up-menu" as const;
 
 const defaultAttention: AttentionContent = {
   sessionId: "demo",
@@ -68,6 +70,7 @@ export class WindowManager {
   private onPanelPositionChanged: ((position: PanelPosition) => void) | undefined;
   private onSettingsClosed: (() => void) | undefined;
   private attentionTimer: NodeJS.Timeout | undefined;
+  private attentionReassertTimer: NodeJS.Timeout | undefined;
   private attentionGeneration = 0;
   private attentionSessionId: string | undefined;
   private attentionPlacement: "center" | "corner" | "edge" | undefined;
@@ -78,15 +81,39 @@ export class WindowManager {
     readonly windowX: number;
     readonly windowY: number;
   } | undefined;
+  private panelCreation: Promise<void> | undefined;
+  private panelLifecycleGeneration = 0;
 
   public async createPanel(config?: AppConfig): Promise<void> {
+    const activeCreation = this.panelCreation;
+    if (activeCreation) {
+      await activeCreation;
+      if (config) {
+        this.applyConfig(config);
+      }
+      return;
+    }
     if (this.panel && !this.panel.isDestroyed()) {
       if (config) {
         this.applyConfig(config);
       }
       return;
     }
+    const creation = this.createPanelUnlocked(config, this.panelLifecycleGeneration);
+    this.panelCreation = creation;
+    try {
+      await creation;
+    } finally {
+      if (this.panelCreation === creation) {
+        this.panelCreation = undefined;
+      }
+    }
+  }
 
+  private async createPanelUnlocked(config: AppConfig | undefined, generation: number): Promise<void> {
+    if (generation !== this.panelLifecycleGeneration) {
+      throw new Error("Panel creation was cancelled.");
+    }
     const display = screen.getPrimaryDisplay();
     const { workArea } = display;
     const window = new BrowserWindow({
@@ -126,6 +153,9 @@ export class WindowManager {
     this.panel = window;
     try {
       await this.loadSurface(window, "panel");
+      if (generation !== this.panelLifecycleGeneration || this.panel !== window || window.isDestroyed()) {
+        throw new Error("Panel creation was cancelled.");
+      }
       this.publishSnapshot(this.latestSnapshot);
       this.applyConfig(config ?? this.lastAppliedConfig ?? DEFAULT_CONFIG);
     } catch (error) {
@@ -150,7 +180,7 @@ export class WindowManager {
     }
 
     const parent = this.panel && !this.panel.isDestroyed() ? this.panel : undefined;
-    const display = parent ? screen.getDisplayMatching(parent.getBounds()) : screen.getPrimaryDisplay();
+    const display = parent ? this.displayForBounds(parent.getBounds()) : screen.getPrimaryDisplay();
     const bounds = settingsBoundsForWorkArea(display.workArea);
     const window = new BrowserWindow({
       ...settingsWindowContract,
@@ -222,8 +252,12 @@ export class WindowManager {
       return;
     }
     window.setPosition(
-      Math.round(drag.windowX + pointerX - drag.pointerX),
-      Math.round(drag.windowY + pointerY - drag.pointerY),
+      ...this.clampedWindowOrigin({
+        x: Math.round(drag.windowX + pointerX - drag.pointerX),
+        y: Math.round(drag.windowY + pointerY - drag.pointerY),
+        width: window.getBounds().width,
+        height: window.getBounds().height,
+      }),
     );
   }
 
@@ -309,10 +343,26 @@ export class WindowManager {
     durationMs = 1800,
     placement: "center" | "corner" | "edge" = "center",
   ): Promise<void> {
+    const activeAttention = this.attention;
+    if (
+      activeAttention
+      && !activeAttention.isDestroyed()
+      && this.attentionSessionId === content.sessionId
+      && this.attentionPlacement === placement
+      && this.attentionContent.kind === content.kind
+    ) {
+      this.attentionContent = content;
+      this.publishAttentionContent();
+      this.raiseAttention(activeAttention);
+      this.scheduleAttentionClose(activeAttention, this.attentionGeneration, durationMs);
+      return;
+    }
+
     this.attentionContent = content;
     this.attentionSessionId = content.sessionId;
     this.attentionPlacement = placement;
     this.clearAttentionTimer();
+    this.clearAttentionReassertTimer();
     const generation = this.attentionGeneration + 1;
     this.attentionGeneration = generation;
     if (this.attention && !this.attention.isDestroyed()) {
@@ -320,7 +370,7 @@ export class WindowManager {
     }
 
     const panelBounds = this.panel && !this.panel.isDestroyed() ? this.panel.getBounds() : undefined;
-    const display = panelBounds ? screen.getDisplayMatching(panelBounds) : screen.getPrimaryDisplay();
+    const display = panelBounds ? this.displayForBounds(panelBounds) : screen.getPrimaryDisplay();
     const presentation: AttentionPresentation = placement === "edge" ? "edge" : "card";
     const bounds = placement === "edge"
       ? display.bounds
@@ -350,7 +400,7 @@ export class WindowManager {
     }
 
     preventExternalNavigation(window);
-    window.setAlwaysOnTop(true, "floating");
+    window.setAlwaysOnTop(true, ATTENTION_TOPMOST_LEVEL);
     window.on("closed", () => {
       if (restoreSettingsTopmost && settingsWindow && !settingsWindow.isDestroyed()) {
         settingsWindow.setAlwaysOnTop(true, "floating");
@@ -361,6 +411,7 @@ export class WindowManager {
         this.attentionSessionId = undefined;
         this.attentionPlacement = undefined;
         this.clearAttentionTimer();
+        this.clearAttentionReassertTimer();
       }
     });
     this.attention = window;
@@ -371,14 +422,18 @@ export class WindowManager {
       throw error;
     }
     if (!window.isDestroyed() && this.attention === window && this.attentionGeneration === generation) {
+      this.publishAttentionContent();
       window.showInactive();
       window.setIgnoreMouseEvents(true, { forward: true });
-      this.restoreZOrder();
-      this.attentionTimer = setTimeout(() => {
-        if (this.attention === window && !window.isDestroyed()) {
-          window.close();
+      this.raiseAttention(window);
+      this.attentionReassertTimer = setInterval(() => {
+        if (this.attention !== window || window.isDestroyed()) {
+          this.clearAttentionReassertTimer();
+          return;
         }
-      }, durationMs);
+        this.raiseAttention(window);
+      }, ATTENTION_REASSERT_INTERVAL_MS);
+      this.scheduleAttentionClose(window, generation, durationMs);
     }
   }
 
@@ -388,6 +443,7 @@ export class WindowManager {
     }
     this.attentionGeneration += 1;
     this.clearAttentionTimer();
+    this.clearAttentionReassertTimer();
     const window = this.attention;
     this.attention = undefined;
     this.attentionSessionId = undefined;
@@ -398,6 +454,8 @@ export class WindowManager {
   }
 
   public destroyAll(): void {
+    this.panelLifecycleGeneration += 1;
+    this.panelCreation = undefined;
     this.closeAttention();
     this.clearPanelMoveTimer();
     this.clearDisplayLayoutTimer();
@@ -432,21 +490,20 @@ export class WindowManager {
       settings.moveTop();
     }
     if (attention && !attention.isDestroyed() && attention.isVisible()) {
-      attention.setAlwaysOnTop(true, "floating");
+      attention.setAlwaysOnTop(true, ATTENTION_TOPMOST_LEVEL);
       attention.moveTop();
     }
   }
 
   private cleanupFailedPanel(window: BrowserWindow): void {
-    if (this.panel !== window) {
-      return;
+    if (this.panel === window) {
+      this.panel = undefined;
+      this.clearPanelMoveTimer();
+      this.clearDisplayLayoutTimer();
+      this.unsubscribeFromDisplayLayoutChanges();
+      this.userPanelMoveActive = false;
+      this.userPanelMovePending = false;
     }
-    this.panel = undefined;
-    this.clearPanelMoveTimer();
-    this.clearDisplayLayoutTimer();
-    this.unsubscribeFromDisplayLayoutChanges();
-    this.userPanelMoveActive = false;
-    this.userPanelMovePending = false;
     if (!window.isDestroyed()) {
       window.destroy();
     }
@@ -468,6 +525,7 @@ export class WindowManager {
       this.attentionSessionId = undefined;
       this.attentionPlacement = undefined;
       this.clearAttentionTimer();
+      this.clearAttentionReassertTimer();
     }
     if (!window.isDestroyed()) {
       window.destroy();
@@ -489,6 +547,23 @@ export class WindowManager {
       return { ...this.latestSnapshot, showIdle: true };
     }
     return this.latestSnapshot;
+  }
+
+  private displayForBounds(bounds: ReturnType<BrowserWindow["getBounds"]>) {
+    const center = {
+      x: bounds.x + Math.round(bounds.width / 2),
+      y: bounds.y + Math.round(bounds.height / 2),
+    };
+    const nearest = screen.getDisplayNearestPoint?.(center);
+    return nearest ?? screen.getDisplayMatching(bounds);
+  }
+
+  private clampedWindowOrigin(
+    bounds: ReturnType<BrowserWindow["getBounds"]>,
+  ): [number, number] {
+    const display = this.displayForBounds(bounds);
+    const origin = clampOrigin(display.workArea, bounds, bounds.x, bounds.y);
+    return [origin.x, origin.y];
   }
 
   private displayForConfig(config: AppConfig) {
@@ -520,7 +595,7 @@ export class WindowManager {
         return;
       }
       const finalBounds = window.getBounds();
-      const display = screen.getDisplayMatching(finalBounds);
+      const display = this.displayForBounds(finalBounds);
       this.userPanelMoveActive = false;
       this.userPanelMovePending = false;
       this.lastAppliedPanelBounds = finalBounds;
@@ -532,12 +607,13 @@ export class WindowManager {
   }
 
   private handleDisplayLayoutChange(): void {
-    this.clearPanelMoveTimer();
-    this.userPanelMoveActive = false;
-    this.userPanelMovePending = false;
     this.clearDisplayLayoutTimer();
     this.displayLayoutTimer = setTimeout(() => {
       this.displayLayoutTimer = undefined;
+      if (this.userPanelMoveActive || this.userPanelMovePending) {
+        this.handleDisplayLayoutChange();
+        return;
+      }
       if (this.panel && !this.panel.isDestroyed() && this.lastAppliedConfig) {
         this.applyConfig(this.lastAppliedConfig);
       }
@@ -551,8 +627,7 @@ export class WindowManager {
     if (!window || window.isDestroyed()) {
       return;
     }
-    const panelBounds = this.panel && !this.panel.isDestroyed() ? this.panel.getBounds() : undefined;
-    const display = panelBounds ? screen.getDisplayMatching(panelBounds) : screen.getPrimaryDisplay();
+    const display = this.displayForBounds(window.getBounds());
     const bounds = settingsBoundsForWorkArea(display.workArea);
     if (!this.sameBounds(window.getBounds(), bounds)) {
       window.setBounds(bounds);
@@ -565,11 +640,14 @@ export class WindowManager {
     if (!window || window.isDestroyed() || !placement) {
       return;
     }
+    const attentionBounds = window.getBounds();
+    const display = this.displayForBounds(attentionBounds);
     const panelBounds = this.panel && !this.panel.isDestroyed() ? this.panel.getBounds() : undefined;
-    const display = panelBounds ? screen.getDisplayMatching(panelBounds) : screen.getPrimaryDisplay();
+    const panelDisplay = panelBounds ? this.displayForBounds(panelBounds) : undefined;
+    const panelForOrigin = panelDisplay?.id === display.id ? panelBounds : undefined;
     const bounds = placement === "edge"
       ? display.bounds
-      : { ...attentionWindowContract, ...attentionOrigin(display.workArea, ATTENTION_BOUNDS, placement, panelBounds) };
+      : { ...attentionWindowContract, ...attentionOrigin(display.workArea, ATTENTION_BOUNDS, placement, panelForOrigin) };
     if (!this.sameBounds(window.getBounds(), bounds)) {
       window.setBounds(bounds);
     }
@@ -611,11 +689,39 @@ export class WindowManager {
     }
   }
 
+  private scheduleAttentionClose(window: BrowserWindow, generation: number, durationMs: number): void {
+    this.clearAttentionTimer();
+    this.attentionTimer = setTimeout(() => {
+      if (this.attention === window && this.attentionGeneration === generation && !window.isDestroyed()) {
+        window.close();
+      }
+    }, Math.max(1, Math.trunc(durationMs)));
+  }
+
+  private raiseAttention(window: BrowserWindow): void {
+    if (window.isDestroyed() || !window.isVisible()) {
+      return;
+    }
+    window.setAlwaysOnTop(true, ATTENTION_TOPMOST_LEVEL);
+    window.moveTop();
+  }
+
+  private clearAttentionReassertTimer(): void {
+    if (this.attentionReassertTimer) {
+      clearInterval(this.attentionReassertTimer);
+      this.attentionReassertTimer = undefined;
+    }
+  }
+
   private clearAttentionTimer(): void {
     if (this.attentionTimer) {
       clearTimeout(this.attentionTimer);
       this.attentionTimer = undefined;
     }
+  }
+
+  private publishAttentionContent(): void {
+    this.sendToSurface(this.attention, "zcode-status:attention-content", this.attentionContent);
   }
 
   private sendToSurface(window: BrowserWindow | undefined, channel: string, payload: unknown): void {

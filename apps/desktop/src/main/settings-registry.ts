@@ -80,8 +80,8 @@ export class SettingsRegistry {
     if (process.platform !== "win32") {
       return;
     }
-    try {
-      for (const [key, name] of Object.entries(registryName)) {
+    const results = await Promise.allSettled(
+      Object.entries(registryName).map(async ([key, name]) => {
         const value = config[key as keyof AppConfig];
         const serialized = serializeRegistryValue(key as keyof AppConfig, value);
         await execFile("reg", ["add", SETTINGS_REGISTRY_KEY, "/v", name, "/t", "REG_SZ", "/d", serialized, "/f"], {
@@ -89,9 +89,13 @@ export class SettingsRegistry {
           encoding: "utf8",
           timeout: REGISTRY_COMMAND_TIMEOUT_MS,
         });
-      }
-    } catch {
-      // Registry persistence must not make the widget unavailable.
+      }),
+    );
+    const failures = results
+      .filter((result): result is PromiseRejectedResult => result.status === "rejected")
+      .map((result) => result.reason);
+    if (failures.length > 0) {
+      throw new AggregateError(failures, "Windows 设置保存失败。");
     }
   }
 }

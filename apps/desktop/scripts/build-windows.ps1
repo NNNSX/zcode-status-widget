@@ -6,10 +6,13 @@ $helperSource = Join-Path $appsRoot "hook-helper\ZCodeStatusHook.cs"
 $helperOutput = Join-Path $projectRoot "assets\hook\ZCodeStatusHook.exe"
 $csharpCompiler = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
 $outputRoot = Join-Path $projectRoot "artifacts\windows"
-$temporaryOutput = Join-Path $env:TEMP "zcode-status-light-build-$PID"
+$temporaryOutput = Join-Path $env:TEMP "zcode-status-light-build-$([guid]::NewGuid().ToString('N'))"
 $builder = Join-Path $projectRoot "node_modules\.bin\electron-builder.cmd"
 $electronCache = Join-Path $env:LOCALAPPDATA "electron\Cache"
 $builderCache = Join-Path $env:LOCALAPPDATA "electron-builder\Cache"
+
+# This package is intentionally unsigned; avoid probing for a certificate and downloading winCodeSign.
+$env:CSC_IDENTITY_AUTO_DISCOVERY = "false"
 
 if (Test-Path -LiteralPath $electronCache) {
   $env:ELECTRON_CACHE = $electronCache
@@ -40,6 +43,9 @@ if (Test-Path -LiteralPath $builderCache) {
 }
 
 New-Item -ItemType Directory -Force -Path $outputRoot | Out-Null
+if (Test-Path -LiteralPath $temporaryOutput) {
+  Remove-Item -LiteralPath $temporaryOutput -Recurse -Force
+}
 New-Item -ItemType Directory -Force -Path $temporaryOutput | Out-Null
 
 try {
@@ -66,18 +72,21 @@ try {
     throw "Electron Builder failed with exit code $LASTEXITCODE."
   }
 
-  $installer = Get-ChildItem -LiteralPath $temporaryOutput -File -Filter "*.exe" |
-    Where-Object { $_.Name -notlike "*__uninstaller*" } |
-    Select-Object -First 1
-  if (-not $installer) {
-    throw "Electron Builder did not create an NSIS installer."
+  $package = Get-Content -LiteralPath (Join-Path $projectRoot "package.json") -Raw | ConvertFrom-Json
+  $expectedInstallerName = "$($package.build.productName) Setup $($package.version).exe"
+  $installers = @(Get-ChildItem -LiteralPath $temporaryOutput -File -Filter "*.exe" |
+    Where-Object { $_.Name -eq $expectedInstallerName })
+  if ($installers.Count -ne 1) {
+    throw "Expected exactly one installer named '$expectedInstallerName', found $($installers.Count)."
   }
+  $installer = $installers[0]
 
   Copy-Item -LiteralPath $installer.FullName -Destination (Join-Path $outputRoot $installer.Name) -Force
   $blockMap = "$($installer.FullName).blockmap"
-  if (Test-Path -LiteralPath $blockMap) {
-    Copy-Item -LiteralPath $blockMap -Destination (Join-Path $outputRoot "$($installer.Name).blockmap") -Force
+  if (-not (Test-Path -LiteralPath $blockMap -PathType Leaf)) {
+    throw "Electron Builder did not create the installer blockmap: $blockMap"
   }
+  Copy-Item -LiteralPath $blockMap -Destination (Join-Path $outputRoot "$($installer.Name).blockmap") -Force
 
   Write-Host "Created installer: $(Join-Path $outputRoot $installer.Name)"
 } finally {

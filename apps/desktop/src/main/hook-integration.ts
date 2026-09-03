@@ -48,6 +48,23 @@ export const defaultZcodeConfigPath = (homeDirectory: string): string => (
   path.join(homeDirectory, ".zcode", "cli", "config.json")
 );
 
+export const providerConfigPath = (homeDirectory: string): string => (
+  path.join(homeDirectory, ".zcode", "v2", "config.json")
+);
+
+export const isProviderOnlyConfig = (source: unknown): boolean => {
+  if (!source || typeof source !== "object" || Array.isArray(source)) {
+    return false;
+  }
+  const config = source as Record<string, unknown>;
+  return Boolean(
+    config.provider
+    && typeof config.provider === "object"
+    && !Array.isArray(config.provider)
+    && config.hooks === undefined,
+  );
+};
+
 export const sessionDatabasePath = (configPath: string): string => (
   path.join(path.dirname(configPath), "db", "db.sqlite")
 );

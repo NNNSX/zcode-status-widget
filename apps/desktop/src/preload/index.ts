@@ -40,6 +40,11 @@ contextBridge.exposeInMainWorld("zcodeStatus", {
     return () => ipcRenderer.removeListener("zcode-status:settings-changed", handler);
   },
   getAttentionContent: (): Promise<AttentionContent> => ipcRenderer.invoke("zcode-status:get-attention-content"),
+  onAttentionContent: (listener: (content: AttentionContent) => void): (() => void) => {
+    const handler = (_event: Electron.IpcRendererEvent, content: AttentionContent): void => listener(content);
+    ipcRenderer.on("zcode-status:attention-content", handler);
+    return () => ipcRenderer.removeListener("zcode-status:attention-content", handler);
+  },
   openSettings: (): Promise<void> => ipcRenderer.invoke("zcode-status:open-settings"),
   showAttention: (): Promise<void> => ipcRenderer.invoke("zcode-status:show-attention"),
   showPanel: (): Promise<void> => ipcRenderer.invoke("zcode-status:show-panel"),

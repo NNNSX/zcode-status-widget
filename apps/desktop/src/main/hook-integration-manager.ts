@@ -7,7 +7,9 @@ import {
   defaultZcodeConfigPath,
   hookRuleSpecs,
   isManagedHookRule,
+  isProviderOnlyConfig,
   mergeHookConfig,
+  providerConfigPath,
   removeManagedHookRules,
   sessionDatabasePath,
   validateHookConfig,
@@ -97,16 +99,39 @@ export class HookIntegrationManager {
   }
 
   public async inspect(requestedPath?: string): Promise<HookSetupSnapshot> {
-    const configPath = this.resolveConfigPath(requestedPath ?? await this.suggestedConfigPath());
+    let configPath: string;
+    try {
+      configPath = this.resolveConfigPath(requestedPath ?? await this.suggestedConfigPath());
+    } catch (error) {
+      const fallbackPath = path.resolve(requestedPath?.trim() || this.defaultConfigPath);
+      return this.snapshot(fallbackPath, sessionDatabasePath(fallbackPath), "invalid", this.messageFor(error), false, false);
+    }
     const databasePath = sessionDatabasePath(configPath);
     if (!await isRegularFile(configPath)) {
-      return this.snapshot(configPath, databasePath, "missing", "未找到 ZCode 配置文件。请先启动 ZCode，或选择实际的 config.json。", false, false);
+      return this.snapshot(
+        configPath,
+        databasePath,
+        "missing",
+        "未找到默认 Hook 配置。新系统的 ~/.zcode/v2/config.json 仅用于 provider 配置，不能写入 Hook；请先在 ZCode 中生成实际 Hook 配置，或选择实际承载 hooks 的 config.json。",
+        false,
+        false,
+      );
     }
 
     let config: Record<string, unknown>;
     let hooks: Record<string, unknown> | undefined;
     try {
       const parsed = parseConfig(await readFile(configPath), configPath);
+      if (isProviderOnlyConfig(parsed.config)) {
+        return this.snapshot(
+          configPath,
+          databasePath,
+          "invalid",
+          "所选文件是 ZCode provider 配置，不能写入 Hook。请返回并选择实际承载 hooks 的 config.json。",
+          false,
+          false,
+        );
+      }
       config = parsed.config;
       hooks = validateHookConfig(config).hooks;
     } catch (error) {
@@ -430,10 +455,14 @@ export class HookIntegrationManager {
 
   private resolveConfigPath(requestedPath?: string): string {
     const candidate = requestedPath?.trim() || this.defaultConfigPath;
-    if (path.basename(candidate).toLocaleLowerCase() !== "config.json") {
+    const resolved = path.resolve(candidate);
+    if (path.basename(resolved).toLocaleLowerCase() !== "config.json") {
       throw new Error("只能选择 ZCode 的 config.json 文件。");
     }
-    return path.resolve(candidate);
+    if (pathKey(resolved) === pathKey(providerConfigPath(os.homedir()))) {
+      throw new Error("~/.zcode/v2/config.json 是 ZCode provider 配置，不能写入 Hook。请选择实际承载 hooks 的 config.json。");
+    }
+    return resolved;
   }
 
   private snapshot(

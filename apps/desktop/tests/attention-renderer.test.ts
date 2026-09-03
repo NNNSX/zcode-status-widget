@@ -5,12 +5,13 @@ import type { AttentionContent } from "../src/shared/protocol";
 const previousWindow = global.window;
 const previousDocument = global.document;
 
-const attention = (content: AttentionContent, presentation: "card" | "edge" = "card"): void => {
+const attention = (content: AttentionContent, presentation: "card" | "edge" = "card"): { emitContent: (next: AttentionContent) => void } => {
   const dom = new JSDOM("<!doctype html><body><main id=\"app\"></main></body>", {
     url: `http://localhost/?surface=attention&presentation=${presentation}`,
   });
   global.window = dom.window as unknown as Window & typeof globalThis;
   global.document = dom.window.document;
+  let emitContent: (next: AttentionContent) => void = () => undefined;
   Object.assign(dom.window, {
     zcodeStatus: {
       getSurface: () => "attention",
@@ -19,6 +20,10 @@ const attention = (content: AttentionContent, presentation: "card" | "edge" = "c
       onPanelSnapshot: () => () => undefined,
       onSettingsChanged: () => () => undefined,
       getAttentionContent: async () => content,
+      onAttentionContent: (listener: (next: AttentionContent) => void) => {
+        emitContent = listener;
+        return () => { emitContent = () => undefined; };
+      },
       openSettings: async () => undefined,
       showAttention: async () => undefined,
       showPanel: async () => undefined,
@@ -34,6 +39,7 @@ const attention = (content: AttentionContent, presentation: "card" | "edge" = "c
       quit: async () => undefined,
     },
   });
+  return { emitContent: (next) => emitContent(next) };
 };
 
 afterEach(() => {
@@ -107,6 +113,30 @@ describe("attention renderer", () => {
     expect(root?.dataset.kind).toBe("done");
     expect(root?.querySelector(".attention-live")?.textContent).toBe("任务已完成：本轮任务完成");
   });
+  it("updates card content when the main process publishes a repeated reminder", async () => {
+    const bridge = attention({
+      sessionId: "repeat-session",
+      kind: "waiting",
+      title: "第一次审批",
+      workspace: "旧工作区",
+      summary: "1/2",
+    });
+
+    await import("../src/renderer/main");
+    await Promise.resolve();
+    bridge.emitContent({
+      sessionId: "repeat-session",
+      kind: "waiting",
+      title: "第二次审批",
+      workspace: "新工作区",
+      summary: "2/3",
+    });
+
+    expect(document.querySelector(".attention-title")?.textContent).toBe("第二次审批");
+    expect(document.querySelector(".attention-workspace")?.textContent).toBe("新工作区");
+    expect(document.querySelector(".attention-summary")?.textContent).toBe("2/3");
+  });
+
   it("uses the done icon and omits the separator when no summary is available", async () => {
     attention({
       sessionId: "done-session",

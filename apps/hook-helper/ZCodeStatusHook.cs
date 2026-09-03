@@ -18,6 +18,8 @@ internal static class Program
     private const int PromptPreviewLength = 60;
     private const int TaskPreviewLength = 80;
     private const int SessionDbMaxDepth = 16;
+    private const int MaxInputBytes = 64 * 1024;
+    private static readonly UTF8Encoding StrictUtf8 = new UTF8Encoding(false, true);
 
     [DllImport("winsqlite3.dll", CallingConvention = CallingConvention.Cdecl)]
     private static extern int sqlite3_open_v2(byte[] filename, out IntPtr database, int flags, IntPtr vfs);
@@ -55,7 +57,11 @@ internal static class Program
                     ?? String.Empty;
             }
 
-            var data = ReadInput();
+            IDictionary<string, object> data;
+            if (!TryReadInput(out data))
+            {
+                return;
+            }
             Send(BuildPayload(eventToken, sessionId, projectDirectory, sessionDbPath, data));
         }
         catch
@@ -73,26 +79,82 @@ internal static class Program
         return Regex.Replace(args[index], @"\$\{[^}]*\}", String.Empty).Trim();
     }
 
-    private static IDictionary<string, object> ReadInput()
+    private static bool TryReadInput(out IDictionary<string, object> data)
     {
+        data = new Dictionary<string, object>();
         if (!Console.IsInputRedirected)
         {
-            return new Dictionary<string, object>();
+            return true;
         }
         try
         {
-            var raw = Console.In.ReadToEnd();
-            if (String.IsNullOrWhiteSpace(raw))
+            byte[] raw;
+            using (var input = Console.OpenStandardInput())
             {
-                return new Dictionary<string, object>();
+                raw = ReadInputBytes(input);
             }
-            var parsed = new JavaScriptSerializer().DeserializeObject(raw) as IDictionary<string, object>;
-            return parsed ?? new Dictionary<string, object>();
+            return TryDecodeInput(raw, out data);
         }
         catch
         {
-            return new Dictionary<string, object>();
+            return false;
         }
+    }
+
+    internal static bool TryDecodeInput(byte[] raw, out IDictionary<string, object> data)
+    {
+        data = new Dictionary<string, object>();
+        if (raw == null || raw.Length > MaxInputBytes)
+        {
+            return false;
+        }
+        try
+        {
+            var offset = HasUtf8Bom(raw) ? 3 : 0;
+            var text = StrictUtf8.GetString(raw, offset, raw.Length - offset);
+            if (String.IsNullOrWhiteSpace(text))
+            {
+                return true;
+            }
+            var parsed = new JavaScriptSerializer().DeserializeObject(text) as IDictionary<string, object>;
+            if (parsed == null)
+            {
+                return false;
+            }
+            data = parsed;
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static byte[] ReadInputBytes(Stream input)
+    {
+        using (var output = new MemoryStream())
+        {
+            var buffer = new byte[4096];
+            while (true)
+            {
+                var count = input.Read(buffer, 0, buffer.Length);
+                if (count == 0)
+                {
+                    break;
+                }
+                if (output.Length + count > MaxInputBytes)
+                {
+                    return null;
+                }
+                output.Write(buffer, 0, count);
+            }
+            return output.ToArray();
+        }
+    }
+
+    private static bool HasUtf8Bom(byte[] bytes)
+    {
+        return bytes.Length >= 3 && bytes[0] == 0xef && bytes[1] == 0xbb && bytes[2] == 0xbf;
     }
 
     private static IDictionary<string, object> BuildPayload(
@@ -280,9 +342,28 @@ internal static class Program
         return Clip(FirstString(data, "tool_name", "toolName"), 40);
     }
 
-    private static string ExtractTurnId(IDictionary<string, object> data)
+    internal static string ExtractTurnId(IDictionary<string, object> data)
     {
-        return Clip(FirstString(data, "turn_id", "turnId"), 128);
+        var value = FirstString(data, "turn_id", "turnId");
+        if (!String.IsNullOrWhiteSpace(value))
+        {
+            return Clip(value, 128);
+        }
+        IDictionary<string, object> toolInput;
+        if (TryDictionary(data, "tool_input", out toolInput))
+        {
+            value = FirstString(toolInput, "turn_id", "turnId");
+            if (!String.IsNullOrWhiteSpace(value))
+            {
+                return Clip(value, 128);
+            }
+        }
+        IDictionary<string, object> message;
+        if (TryDictionary(data, "message", out message))
+        {
+            value = FirstString(message, "turn_id", "turnId");
+        }
+        return Clip(value, 128);
     }
 
     private static string ExtractError(IDictionary<string, object> data)

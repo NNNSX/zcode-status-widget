@@ -12,6 +12,7 @@ import { EventServer, MAX_EVENTS_PER_TICK } from "./event-server";
 import { SettingsRegistry } from "./settings-registry";
 import { createTray } from "./tray";
 import { WindowManager } from "./window-manager";
+import { APP_USER_MODEL_ID } from "./app-identity";
 
 const launchArguments = new Set(process.argv.slice(1));
 const setupHooksOnLaunch = launchArguments.has("--setup-hooks");
@@ -35,11 +36,13 @@ let selectedHookConfigPath: string | undefined;
 let config: AppConfig = DEFAULT_CONFIG;
 let previewConfig: AppConfig | undefined;
 let isQuitting = false;
+let startupReady = false;
+let startupFailed = false;
 let tray: Tray | undefined;
 let refreshTimer: NodeJS.Timeout | undefined;
 let consumptionScheduled = false;
 
-const EXIT_GRACE_PERIOD_MS = 2_500;
+const EXIT_GRACE_PERIOD_MS = 5_000;
 
 const settleBeforeExit = async (): Promise<void> => {
   await Promise.race([
@@ -67,10 +70,10 @@ const inspectHookSetup = async () => getHookIntegration().inspect(selectedHookCo
 const chooseHookConfig = async (): Promise<Awaited<ReturnType<typeof inspectHookSetup>>> => {
   const suggestedPath = selectedHookConfigPath ?? await getHookIntegration().suggestedConfigPath();
   const result = await dialog.showOpenDialog({
-    title: "选择 ZCode config.json",
+    title: "选择 ZCode Hook config.json",
     defaultPath: suggestedPath,
     properties: ["openFile"],
-    filters: [{ name: "ZCode config.json", extensions: ["json"] }],
+    filters: [{ name: "ZCode Hook config.json", extensions: ["json"] }],
   });
   if (!result.canceled && result.filePaths[0]) {
     selectedHookConfigPath = result.filePaths[0];
@@ -322,14 +325,20 @@ const registerIpc = (): void => {
 
 if (singleInstance) {
   app.on("second-instance", () => {
-    windows.showPanel(config);
+    if (startupReady && !isQuitting && !startupFailed) {
+      windows.showPanel(config);
+    }
   });
 
   app.whenReady().then(async () => {
+    app.setAppUserModelId(APP_USER_MODEL_ID);
     if (unconfigureHooksOnLaunch) {
       let exitCode = 0;
       try {
-        await getHookIntegration().unconfigure();
+        const removed = await getHookIntegration().unconfigure();
+        if (!removed) {
+          throw new Error("当前 Hook 集成记录不可用或不属于此安装实例，已拒绝移除。");
+        }
       } catch (error) {
         exitCode = 1;
         if (!silentLaunch) {
@@ -344,36 +353,39 @@ if (singleInstance) {
       return;
     }
 
-    app.setAppUserModelId("com.zcode.statuslight.desktop");
     config = await settingsRegistry.load();
     registerIpc();
-    await windows.createPanel(config);
-    tray = createTray(windows, {
-      togglePanel: () => windows.togglePanel(effectiveConfig()),
-      openSettings: () => void windows.openSettings(),
-      resetPosition: () => { resetSavedPosition(); },
-      showAttention: showAttentionForConfig,
-    });
-    eventServer.on("enqueued", scheduleConsumption);
     try {
+      await windows.createPanel(config);
+      tray = createTray(windows, {
+        togglePanel: () => windows.togglePanel(effectiveConfig()),
+        openSettings: () => void windows.openSettings(),
+        resetPosition: () => { resetSavedPosition(); },
+        showAttention: showAttentionForConfig,
+      });
+      eventServer.on("enqueued", scheduleConsumption);
       await eventServer.start();
+      startupReady = true;
+      refreshTimer = setInterval(publish, 1_000);
+      publish();
+      if (setupHooksOnLaunch || !(await inspectHookSetup()).isConfigured) {
+        await windows.openSettings();
+      }
     } catch (error) {
+      startupFailed = true;
       const code = error && typeof error === "object" && "code" in error ? String(error.code) : "";
       const port = eventPort ?? 57310;
       const message = code === "EADDRINUSE"
         ? `端口 ${port} 已被其他状态灯实例占用。请先退出旧版 Python 状态灯或另一桌面实例。`
-        : `状态事件服务无法监听 127.0.0.1:${port}。`;
-      await dialog.showMessageBox({ type: "error", title: "ZCode 会话状态", message });
+        : "状态灯启动失败，窗口和事件服务未能完成初始化。";
+      if (!silentLaunch) {
+        await dialog.showMessageBox({ type: "error", title: "ZCode 会话状态", message });
+      }
       tray?.destroy();
       tray = undefined;
+      await eventServer.stop().catch(() => undefined);
       windows.destroyAll();
-      app.quit();
-      return;
-    }
-    refreshTimer = setInterval(publish, 1_000);
-    publish();
-    if (setupHooksOnLaunch || !(await inspectHookSetup()).isConfigured) {
-      await windows.openSettings();
+      app.exit(1);
     }
   });
 
@@ -397,7 +409,7 @@ if (singleInstance) {
   });
 
   app.on("window-all-closed", () => {
-    if (!isQuitting) {
+    if (startupReady && !startupFailed && !isQuitting) {
       void windows.createPanel(effectiveConfig()).catch(() => undefined);
     }
   });
