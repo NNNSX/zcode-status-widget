@@ -10,11 +10,9 @@ enum HookSupport {
            let resources = bundle.resourceURL {
             return resources.appendingPathComponent("hook/ZCodeStatusHook").path
         }
-        // 开发态：本文件位于 Sources/App/，产物在 ../../../.build/debug/。
-        let sourceDirectory = (#filePath as NSString).deletingLastPathComponent
-        let projectRoot = (sourceDirectory as NSString).deletingLastPathComponent
-            + "/../.build/debug/ZCodeStatusHook"
-        return (projectRoot as NSString).standardizingPath
+        // 开发态：裸可执行与 helper 产物同在 .build/debug/。不能用 #filePath 定位源码目录——
+        // 它在编译期展开为构建机的绝对路径（含用户名），会被写进发布二进制。
+        return bundle.bundleURL.appendingPathComponent("ZCodeStatusHook").path
     }
 
     static func appDataPath() -> String {
