@@ -1,12 +1,14 @@
 # ZCode 状态灯
 
 [![Windows](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D4)](#系统要求)
+[![macOS](https://img.shields.io/badge/platform-macOS%2013%2B-111111)](#系统要求macOS)
 [![Electron](https://img.shields.io/badge/runtime-Electron%2044-47848F)](#系统要求)
+[![Swift](https://img.shields.io/badge/runtime-Swift%20%2F%20AppKit-F05138)](#系统要求macos)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 `ZCodeStatusLight` 是一个仅在本机运行的 Windows 悬浮状态灯。它把 ZCode 会话状态显示在屏幕角落：不替代 ZCode，不上传会话数据，不建立云端服务。
 
-当前发布版本为 Electron 桌面版 `0.2.0-alpha.6`。源码位于 `apps/desktop/`，原生 Hook 助手源码位于 `apps/hook-helper/`。GitHub tag 会自动生成当前源码的 Source code ZIP/TAR；Windows 安装器、`.blockmap` 和 SHA-256 校验文件作为 Release 资产提供。
+当前发布版本：Windows Electron 桌面版 `0.2.0-alpha.6`（源码 `apps/desktop/`，Hook 助手 `apps/hook-helper/`）；macOS 原生版 `0.3.0-alpha.1`（Swift/AppKit，源码 `apps/macos-native/`，安装见[ macOS 版](#系统要求macos)）。GitHub tag 会自动生成当前源码的 Source code ZIP/TAR；Windows 安装器、`.blockmap` 和 SHA-256 校验文件作为 Release 资产提供。
 
 ## 状态语义
 
@@ -28,6 +30,20 @@
 - 无活跃会话时显示三颗暗灯和“暂无活跃会话”，也可在设置中关闭空闲常驻。
 - 仅监听 `127.0.0.1:57310`，不会暴露网络端口。
 - 输入不超过 64 KiB，队列最多 256 条，每次界面刷新最多处理 32 条。
+
+## 系统要求（macOS）
+
+- macOS 13 或更新版本，Apple Silicon（arm64）。
+- 已安装 ZCode。默认 Hook 候选为 `~/.zcode/cli/config.json`；`~/.zcode/v2/config.json` 是 provider 配置，状态灯会拒绝写入。
+- 事件服务器只监听 `127.0.0.1:57310`，不访问外网。
+
+### 安装（macOS）
+
+1. 从 [GitHub Releases](https://github.com/NNNSX/zcode-status-widget/releases) 下载 `ZCodeStatusLight-v0.3.0-alpha.1-macos-arm64.dmg` 与 `SHA256SUMS.txt`，校验一致后安装。
+2. 安装包为 ad-hoc 签名，首次打开若提示无法验证：`xattr -cr /Applications/ZCodeStatusLight.app` 后再启动。
+3. 应用为菜单栏常驻（无 Dock 图标）。首次使用在设置页确认 Hook 连接；可选 `apps/macos-native/scripts/install-launchagent.sh` 开机自启与崩溃自动重启。
+
+构建与开发说明见 `apps/macos-native/README.md`。
 
 ## 系统要求
 

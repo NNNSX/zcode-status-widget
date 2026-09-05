@@ -40,3 +40,7 @@ apps/desktop/artifacts/
 
 # Local-only packages prepared for GitHub Release upload
 artifacts/
+
+# SwiftPM build output (macOS native)
+apps/macos-native/.build/
+.DS_Store

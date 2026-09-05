@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZCode Status Light macOS 0.3.0-alpha.1 人工测试清单</title>
+<style>
+  :root {
+    --bg: #101418; --card: #191d23; --card2: #1f242c; --line: #2a313b;
+    --text: #e8ecf2; --muted: #9da6b5; --accent: #f2c14e;
+    --red: #e5484d; --green: #46b881; --yellow: #f2c14e; --blue: #6cb6ff;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 0 80px; background: var(--bg); color: var(--text);
+    font: 15px/1.65 -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  header { padding: 32px 0 8px; }
+  h1 { font-size: 24px; margin: 0 0 6px; }
+  .meta { color: var(--muted); font-size: 13px; }
+  .meta b { color: var(--text); font-weight: 600; }
+  .progress-bar {
+    margin: 18px 0 6px; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden;
+  }
+  .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--green), #7fd6a8); transition: width .3s; }
+  .progress-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .progress-text { font-size: 13px; color: var(--muted); }
+  .progress-text .num { color: var(--text); font-weight: 600; }
+  button.tool {
+    background: var(--card2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 6px; padding: 4px 12px; font-size: 12.5px; cursor: pointer;
+  }
+  button.tool:hover { border-color: var(--accent); }
+
+  details.prep {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 18px; margin: 18px 0;
+  }
+  details.prep summary { cursor: pointer; font-weight: 600; color: var(--accent); }
+  details.prep h3 { font-size: 15px; margin: 18px 0 6px; }
+  details.prep p, details.prep li { font-size: 14px; color: var(--text); }
+
+  h2.group {
+    font-size: 18px; margin: 36px 0 4px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--line); display: flex; align-items: baseline; gap: 10px;
+  }
+  h2.group .tag { font-size: 12px; color: var(--muted); font-weight: 400; }
+  .group-summary { color: var(--muted); font-size: 13px; margin: 6px 0 14px; }
+
+  .test {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 18px 12px; margin: 12px 0;
+  }
+  .test.pass { border-color: rgba(70,184,129,.55); }
+  .test.fail { border-color: rgba(229,72,77,.65); }
+  .test-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .test-id { font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 700; }
+  .test-title { font-weight: 650; font-size: 15.5px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 28px; margin-top: 8px; }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
+  .col h4 {
+    margin: 4px 0 4px; font-size: 12.5px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .06em; font-weight: 600;
+  }
+  .col ol, .col ul { margin: 0; padding-left: 20px; font-size: 14px; }
+  .col li { margin: 3px 0; }
+  .col.expected li::marker { color: var(--green); }
+  code, .cmd { font-family: var(--mono); font-size: 12.5px; }
+  p code, li code { background: var(--card2); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; }
+  .cmdblock {
+    position: relative; background: #0c0f13; border: 1px solid var(--line);
+    border-radius: 8px; padding: 10px 14px; margin: 8px 0; overflow-x: auto;
+  }
+  .cmdblock pre { margin: 0; font-family: var(--mono); font-size: 12px; line-height: 1.7; color: #c8d3e0; white-space: pre; }
+  .cmdblock .copy {
+    position: absolute; top: 6px; right: 6px; font-size: 11px; padding: 2px 10px;
+    background: var(--card2); color: var(--muted); border: 1px solid var(--line);
+    border-radius: 5px; cursor: pointer;
+  }
+  .cmdblock .copy:hover { color: var(--text); border-color: var(--accent); }
+  .verdict { display: flex; align-items: center; gap: 18px; margin-top: 10px; flex-wrap: wrap; }
+  .verdict label { display: flex; align-items: center; gap: 6px; font-size: 13.5px; cursor: pointer; user-select: none; }
+  .verdict input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--green); cursor: pointer; }
+  .verdict .failbox { accent-color: var(--red); }
+  .verdict input[type=text] {
+    flex: 1; min-width: 200px; background: var(--card2); border: 1px solid var(--line);
+    border-radius: 6px; color: var(--text); padding: 5px 10px; font-size: 13px;
+  }
+  .verdict input[type=text]::placeholder { color: #5c6675; }
+  .hint { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 2px; vertical-align: -1px; }
+  .dot.r { background: var(--red); } .dot.y { background: var(--yellow); } .dot.g { background: var(--green); }
+  .key { color: var(--accent); }
+  footer { margin-top: 48px; color: var(--muted); font-size: 12.5px; text-align: center; }
+  @media print {
+    body { background: #fff; color: #000; }
+    .test, details.prep { border-color: #bbb; background: #fff; }
+    .cmdblock .copy, button.tool { display: none; }
+    .col h4, .meta, .hint, .group-summary { color: #555; }
+    h2.group { border-color: #999; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>ZCode Status Light — macOS 0.3.0-alpha.1 人工测试清单</h1>
+  <div class="meta">
+    对照 <b>apps/macos-native</b> 原生版（Swift/AppKit）。勾选状态自动保存在本浏览器（localStorage），可分多次测。
+    自动化已覆盖的部分（单元测试 78 个、helper 自测 34 个、curl 端到端）不在此重复，本清单聚焦<b>需要人眼和真实环境</b>的项。
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="pfill"></div></div>
+  <div class="progress-row">
+    <span class="progress-text">通过 <span class="num" id="ppass">0</span> / <span class="num" id="ptotal">0</span>　·　失败 <span class="num" id="pfail" style="color:var(--red)">0</span>　·　未测 <span class="num" id="ptodo">0</span></span>
+    <button class="tool" onclick="resetAll()">重置全部进度</button>
+    <button class="tool" onclick="window.print()">打印</button>
+  </div>
+</header>
+
+<details class="prep" open>
+  <summary>准备（开始前读一遍）</summary>
+  <h3>1. 安装被测版本</h3>
+  <p>方式 A（推荐，测打包产物）：双击 <code>artifacts/macos/ZCodeStatusLight-v0.3.0-alpha.1-macos-arm64.dmg</code>，把 ZCodeStatusLight 拖入 Applications，从启动台打开。</p>
+  <p>方式 B（开发版）：终端执行 <code>apps/macos-native/.build/debug/ZCodeStatusLight</code>。</p>
+  <p>若 macOS 提示"已损坏，无法打开"（常见于下载分发的 ad-hoc 签名包）：执行 <code>xattr -cr /Applications/ZCodeStatusLight.app</code> 后重开。本机直接构建的包一般不会触发。</p>
+  <h3>2. 事件模拟（大部分状态测试不需要真实 ZCode 会话）</h3>
+  <p>打开"终端"，把下面整块存成脚本 <code>/tmp/zsl-demo.sh</code>（<span class="key">chmod +x /tmp/zsl-demo.sh</span>），后面 C/D 组直接调用其中的函数：</p>
+  <div class="cmdblock"><button class="copy" onclick="copyCmd(this)">复制</button><pre>#!/bin/bash
+# 用法: zsl-demo.sh yellow|red|green|bash|session2|done2
+E='http://127.0.0.1:57310/event'
+post() { curl -s -m 2 -X POST "$E" -H 'Content-Type: application/json' -d "$1" -o /dev/null -w "%{http_code}\n"; }
+case "$1" in
+  yellow)   post '{"event":"user_prompt_submit","session_id":"t1","project":"演示项目","project_dir":"/tmp/demo","prompt_preview":"正在演示任务","turn_id":"turn-1"}' ;;
+  red)      post '{"event":"permission_request","session_id":"t1","project":"演示项目","project_dir":"/tmp/demo","last_tool":"Edit","turn_id":"turn-1"}' ;;
+  bash)     post '{"event":"permission_request","session_id":"t1","project":"演示项目","project_dir":"/tmp/demo","last_tool":"Bash","turn_id":"turn-1"}' ;;
+  green)    post '{"event":"stop","session_id":"t1","project":"演示项目","project_dir":"/tmp/demo","turn_id":"turn-1"}' ;;
+  session2) post '{"event":"user_prompt_submit","session_id":"t2","project":"另一个项目","project_dir":"/tmp/other","prompt_preview":"第二个会话","turn_id":"turn-2"}' ;;
+  done2)    post '{"event":"permission_request","session_id":"t2","project":"另一个项目","project_dir":"/tmp/other","last_tool":"Edit","turn_id":"turn-2"}'
+            post '{"event":"stop","session_id":"t2","project":"另一个项目","project_dir":"/tmp/other","turn_id":"turn-2"}' ;;
+esac</pre></div>
+  <p class="hint">每条命令都应输出 <b>204</b>。若输出 000（连接失败）说明 App 没在运行。同一轮测试要结束会话时，stop 必须携带与 user_prompt_submit 相同的 turn_id，否则会被协议拒绝（这是规格行为，不是 bug）。</p>
+  <h3>3. 常用路径</h3>
+  <ul>
+    <li>设置文件：<code>~/Library/Application Support/ZCodeStatusLight/settings.json</code></li>
+    <li>ZCode Hook 配置：<code>~/.zcode/cli/config.json</code>（F 组会修改它，App 会先自动备份）</li>
+    <li>Hook 备份目录：<code>~/.zcode/cli/.zcode-status-light-backups/</code></li>
+    <li>彻底重置测试状态：托盘退出 App → 删除设置文件目录 → 重启</li>
+  </ul>
+  <h3>4. 建议顺序</h3>
+  <p>A → B → C → D → E → F（F 会真实写 Hook 配置，放后面）→ G（需第二台显示器）→ H。全程约 40–60 分钟。</p>
+</details>
+
+<!-- ===================== A ===================== -->
+<h2 class="group">A. 安装与首次启动 <span class="tag">4 项</span></h2>
+<p class="group-summary">验证打包产物能正常装载、常驻托盘且不干扰系统。</p>
+
+<div class="test" id="a1">
+  <div class="test-head"><span class="test-id">A1</span><span class="test-title">dmg 安装与启动</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>双击 dmg，把 ZCodeStatusLight 拖入 Applications 文件夹</li>
+      <li>从启动台（或 Finder 双击）打开 ZCodeStatusLight</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>App 启动无报错、无崩溃</li>
+      <li>菜单栏右侧出现状态灯托盘图标（圆点图标）</li>
+      <li>Dock 中<b>不出现</b> App 图标</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录（失败时填写）"></div>
+</div>
+
+<div class="test" id="a2">
+  <div class="test-head"><span class="test-id">A2</span><span class="test-title">无 Dock 图标、不进 Cmd+Tab</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>App 运行中，按 <span class="key">Cmd+Tab</span> 切换应用</li>
+      <li>观察应用切换条与 Dock</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>Cmd+Tab 切换列表里没有 ZCode Status Light</li>
+      <li>Dock 没有图标（后台常驻型应用形态）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="a3">
+  <div class="test-head"><span class="test-id">A3</span><span class="test-title">悬浮面板默认出现（右下角）</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>App 启动后直接观察屏幕（无需任何事件）</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>主屏右下角（Dock 上方）出现深色半透明小面板，约 380×47</li>
+      <li>无会话时三个灯均为暗色（"空闲"状态），面板显示空闲提示行</li>
+      <li>面板悬浮在其他窗口之上</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="a4">
+  <div class="test-head"><span class="test-id">A4</span><span class="test-title">首次启动自动打开设置（Hook 未配置时）</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>全新安装（从未配置过 Hook）状态下启动 App</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>设置窗口自动打开，停靠在主屏右上角，约 356×760</li>
+      <li>"连接 ZCode Hook"区块显示未配置状态的中文提示（黄色系文字），配置按钮可用</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<!-- ===================== B ===================== -->
+<h2 class="group">B. 托盘 <span class="tag">2 项</span></h2>
+<p class="group-summary">图标在两种菜单栏外观下都清晰；菜单入口完整。</p>
+
+<div class="test" id="b1">
+  <div class="test-head"><span class="test-id">B1</span><span class="test-title">图标浅色 / 深色菜单栏均清晰</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>系统设置 → 外观 → 切换"浅色"和"深色"（或亮/暗壁纸改变菜单栏底色）</li>
+      <li>观察托盘图标</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>两种外观下图标自动反色，均清晰可辨</li>
+      <li>图标为单色 template 风格，不出现黑底黑图或白底白图</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="b2">
+  <div class="test-head"><span class="test-id">B2</span><span class="test-title">托盘菜单 5 个功能项</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>点托盘图标展开菜单</li>
+      <li>依次点每一项</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>菜单含：显示/隐藏状态面板、打开设置、重置位置、显示提醒演示、退出（分隔线后）</li>
+      <li>"显示/隐藏"可来回切换面板；"打开设置"打开设置窗；"重置位置"面板回右下默认位；"显示提醒演示"弹一次提醒演示；"退出"App 结束</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<!-- ===================== C ===================== -->
+<h2 class="group">C. 面板与三色状态 <span class="tag">8 项</span></h2>
+<p class="group-summary">用 curl 模拟事件驱动状态机；每步都应输出 204。若某步输出非 204，先解决再继续。</p>
+
+<div class="test" id="c1">
+  <div class="test-head"><span class="test-id">C1</span><span class="test-title">红灯：等待非 Bash 审批</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li><code>/tmp/zsl-demo.sh yellow</code>（先置为执行中）</li>
+      <li><code>/tmp/zsl-demo.sh red</code></li>
+      <li>观察面板灯色与文字</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li><span class="dot r"></span>红灯亮起，急促闪烁（约 0.5 秒周期）</li>
+      <li>面板行显示"等待审批"类文案与已持续时长（秒表跳动）</li>
+      <li>同时弹出全局提醒卡片（D 组细看样式，此处只确认出现）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="c2">
+  <div class="test-head"><span class="test-id">C2</span><span class="test-title">黄灯：执行中 / Bash 审批回落黄灯</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li><code>/tmp/zsl-demo.sh yellow</code></li>
+      <li>观察后，在红灯状态下执行 <code>/tmp/zsl-demo.sh bash</code></li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>yellow：<span class="dot y"></span>黄灯以约 1 秒周期闪烁，行显示任务摘要</li>
+      <li>bash（Bash 审批视为自动放行）：灯从红回黄；<b>不弹</b>提醒卡片，已有等待卡片会立即收起</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="c3">
+  <div class="test-head"><span class="test-id">C3</span><span class="test-title">绿灯：本轮完成 + 停留时长</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li><code>/tmp/zsl-demo.sh green</code>（在 yellow 之后执行）</li>
+      <li>观察面板</li>
+      <li>等 1 分钟后再次观察</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li><span class="dot g"></span>绿灯转为缓慢呼吸（约 2.4 秒周期），行显示本轮用时</li>
+      <li>绿灯行默认保留 5 分钟后自动消失（此步 1 分钟时仍在即可）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="c4">
+  <div class="test-head"><span class="test-id">C4</span><span class="test-title">多会话多行</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li><code>/tmp/zsl-demo.sh session2</code> 再 <code>/tmp/zsl-demo.sh done2</code></li>
+      <li>观察面板</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>面板出现两行：演示项目（绿）与另一个项目（红，后更新排在上面）</li>
+      <li>每行有各自工作区名、状态灯、时长；面板高度随行数增加</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="c5">
+  <div class="test-head"><span class="test-id">C5</span><span class="test-title">拖动面板 + 落定记忆 + 重启还原</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>按住面板拖到屏幕左上角，松手后停约 1 秒</li>
+      <li>托盘退出 App，重新打开</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>拖动跟手，无边框残影</li>
+      <li>重启后面板出现在左上角（记忆角落与边距，不是回右下）</li>
+      <li>设置文件 settings.json 中 corner 变为 top-left（可选验证）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="c6">
+  <div class="test-head"><span class="test-id">C6</span><span class="test-title">点面板不抢焦点</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>打开"终端"或其他应用窗口，使其处于激活状态</li>
+      <li>用鼠标点按状态面板几下，再点面板上的会话行</li>
+      <li>观察原窗口标题栏与键盘输入目标</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>原窗口保持激活（标题栏不变灰），继续打字输入仍在原窗口</li>
+      <li>面板点击不把 ZCode Status Light 带入前台</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="c7">
+  <div class="test-head"><span class="test-id">C7</span><span class="test-title">显示/隐藏与空闲开关</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>托盘 →"显示/隐藏状态面板"两次（无会话状态下）</li>
+      <li>打开设置，关闭"无会话时显示空闲状态"，观察后再打开</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>托盘开关可隐藏/再显示面板</li>
+      <li>关闭空闲显示且无会话时面板消失；有会话事件（yellow）后立即重新出现</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="c8">
+  <div class="test-head"><span class="test-id">C8</span><span class="test-title">中文内容显示</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>执行 yellow（含中文 prompt_preview"正在演示任务"、项目名"演示项目"）</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>中文正常显示，无乱码、无方框</li>
+      <li>过长任务摘要被截断加省略号，不换行撑爆面板</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<!-- ===================== D ===================== -->
+<h2 class="group">D. 全局提醒 <span class="tag">11 项</span></h2>
+<p class="group-summary">四种模式的视觉与行为。默认模式可在设置"全局提醒方式"里切换（切换即时生效，无需保存）。</p>
+
+<div class="test" id="d1">
+  <div class="test-head"><span class="test-id">D1</span><span class="test-title">中央卡片 — 等待审批（默认模式）</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>设置中"全局提醒方式"选"中央"（默认）</li>
+      <li><code>/tmp/zsl-demo.sh yellow</code> 然后 <code>/tmp/zsl-demo.sh red</code></li>
+      <li>紧盯屏幕中央</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>屏幕正中出现约 304×122 的深色圆角卡片，带阴影</li>
+      <li>左侧红色圆点图标；两行字：小字"等待用户操作"（红）+ 大字"请完成审批"；下方灰色小字为工作区名</li>
+      <li>入场约 0.2 秒淡入上浮动画；约 1.8 秒后自动消失</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="d2">
+  <div class="test-head"><span class="test-id">D2</span><span class="test-title">中央卡片 — 任务完成（绿色系）</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li><code>/tmp/zsl-demo.sh session2</code> 然后 <code>/tmp/zsl-demo.sh done2</code></li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>中央卡片同位置出现，但配色为绿色系：绿色圆点、"任务已完成"（绿）+ "本轮任务完成"</li>
+      <li>下方小字含工作区名与本轮用时</li>
+      <li>约 1.8 秒后自动消失</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="d3">
+  <div class="test-head"><span class="test-id">D3</span><span class="test-title">角落卡片模式（corner-overlay）</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>设置"全局提醒方式"选"角落"（详情文字应显示"在状态面板附近提示"）</li>
+      <li><code>/tmp/zsl-demo.sh yellow</code> + <code>/tmp/zsl-demo.sh red</code></li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>卡片不出现在屏幕中央，而是出现在状态面板旁边（面板左上侧，与面板隔一小段间距）</li>
+      <li>把面板拖到别的角落再触发一次，卡片跟随面板位置</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="d4">
+  <div class="test-head"><span class="test-id">D4</span><span class="test-title">边缘扫光模式（panel-pulse）— 红色等待</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>设置"全局提醒方式"选"边缘"</li>
+      <li><code>/tmp/zsl-demo.sh yellow</code> + <code>/tmp/zsl-demo.sh red</code></li>
+      <li>观察屏幕四条边</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>四边出现红色系细亮条与内侧光晕，亮点沿边线循环扫动</li>
+      <li>不遮挡内容、鼠标可穿透；约 1.8 秒后消失</li>
+      <li>顶部/底部与左侧/右侧扫动方向相反（对照设计）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="d5">
+  <div class="test-head"><span class="test-id">D5</span><span class="test-title">边缘扫光 — 绿色完成</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>保持"边缘"模式，<code>/tmp/zsl-demo.sh green</code></li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>边缘扫光变为绿色系，亮度/宽度比红色版收敛（约 2px vs 3px）</li>
+      <li>循环速度略慢于红色版；约 1.8 秒后消失</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="d6">
+  <div class="test-head"><span class="test-id">D6</span><span class="test-title">关闭模式：完全无提醒</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>设置"全局提醒方式"选"关闭"</li>
+      <li><code>/tmp/zsl-demo.sh yellow</code> + <code>/tmp/zsl-demo.sh red</code></li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>不出现任何卡片/扫光；面板红灯照常变化</li>
+      <li>切换到关闭瞬间，屏幕上还挂着的旧提醒立即消失</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="d7">
+  <div class="test-head"><span class="test-id">D7</span><span class="test-title">提醒时长自定义</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>设置"提醒展示时长"拉到 800 毫秒</li>
+      <li>触发 red（提醒出现）并用秒表/数秒感受停留时长</li>
+      <li>再拉到 5000 毫秒重复一次</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>800 时明显短促（约 1 秒内消失）；5000 时停留明显变长</li>
+      <li>设置即时生效，不需要保存</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="d8">
+  <div class="test-head"><span class="test-id">D8</span><span class="test-title">重复提醒复用窗口（内容刷新）</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>切回"中央"模式，<code>/tmp/zsl-demo.sh red</code></li>
+      <li>卡片还在时（1.8 秒内）再执行一次 <code>/tmp/zsl-demo.sh red</code></li>
+      <li>观察卡片是否闪烁重建</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>卡片不重建、不重播入场动画，原地保持</li>
+      <li>停留计时重置（第二次触发后约 1.8 秒才消失）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="d9">
+  <div class="test-head"><span class="test-id">D9</span><span class="test-title">提醒不抢键盘焦点</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>打开"终端"输入一段长句到一半</li>
+      <li>卡片出现（red）期间继续打字</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>打字不中断、不丢键，输入焦点始终在终端</li>
+      <li>卡片出现/消失全程无焦点跳动</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="d10">
+  <div class="test-head"><span class="test-id">D10</span><span class="test-title">提醒点击穿透</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>把一个可点击的窗口（如 Finder/浏览器）置于卡片下方区域</li>
+      <li>卡片显示期间直接点击卡片覆盖的位置</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>点击落到下层窗口（正常触发下层元素），卡片不响应、不消失</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="d11">
+  <div class="test-head"><span class="test-id">D11</span><span class="test-title">两个提醒演示入口</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>托盘 →"显示提醒演示"</li>
+      <li>设置窗右下角的"预览提醒"图标按钮</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>两处都能按当前提醒模式弹出一次演示（waiting 样式）并自动消失</li>
+      <li>off 模式下两处都不弹</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<!-- ===================== E ===================== -->
+<h2 class="group">E. 设置窗口 <span class="tag">6 项</span></h2>
+<p class="group-summary">预览实时性、取消回滚、保存持久化。</p>
+
+<div class="test" id="e1">
+  <div class="test-head"><span class="test-id">E1</span><span class="test-title">面板宽度 / 透明度实时预览</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>打开设置，拖"面板宽度"滑块从 320 到 640</li>
+      <li>拖"面板透明度"从 100% 到 20%</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>拖动过程中面板宽度即时变化，文字不换行错乱</li>
+      <li>透明度即时变化（20% 时接近全透明仍可辨认）</li>
+      <li>滑块旁数值显示"N px" / "N%"</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="e2">
+  <div class="test-head"><span class="test-id">E2</span><span class="test-title">取消 / 直接关闭 → 回滚</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>把宽度拖到 640、透明度 40%（不点保存）</li>
+      <li>点右上角关闭按钮（或"取消"）关掉设置窗</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>面板立即恢复到修改前的宽度和透明度（预览回滚）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="e3">
+  <div class="test-head"><span class="test-id">E3</span><span class="test-title">保存并关闭 → 重启仍生效</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>改宽度 520、透明度 80%、"显示 Todo 进度"关、"完成保留时间" 2 分钟</li>
+      <li>点"保存并关闭"</li>
+      <li>托盘退出 App 重启</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>重启后面板宽度 520、透明度 80% 保持</li>
+      <li>settings.json 内容与所存一致（可选：cat 查看）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="e4">
+  <div class="test-head"><span class="test-id">E4</span><span class="test-title">Todo 进度 / 时间列开关</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>开/关"显示 Todo 进度"与"显示时间"，分别观察面板行</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>关闭后对应列消失，行内其余内容位置正常</li>
+      <li>重新打开恢复显示（有 Todo 数据时显示 x/y）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="e5">
+  <div class="test-head"><span class="test-id">E5</span><span class="test-title">设置窗拖动不出工作区</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>按住设置窗顶栏拖向屏幕四边（含菜单栏下方、Dock 上方）</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>窗口可拖动，但任何方向都不会超出可用工作区（不全出屏、不压进菜单栏）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="e6">
+  <div class="test-head"><span class="test-id">E6</span><span class="test-title">设置内"重置位置"</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>先把面板拖到左上角</li>
+      <li>设置窗点"重置位置"</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>面板回到右下默认位置（预览即时生效）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<!-- ===================== F ===================== -->
+<h2 class="group">F. Hook 真实集成 <span class="tag">6 项 · 会修改 ~/.zcode/cli/config.json</span></h2>
+<p class="group-summary">这一组在真实 ZCode 环境上验证。每一步写入前 App 都会先备份，全部完成后建议把 Hook 移除恢复原状（或保留使用）。</p>
+
+<div class="test" id="f1">
+  <div class="test-head"><span class="test-id">F1</span><span class="test-title">未配置状态与确认对话框内容</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>打开设置，查看"连接 ZCode Hook"区块</li>
+      <li>点配置按钮（标题随状态变化，未配置时类似"配置 Hook"）</li>
+      <li>仔细读确认对话框后先点"取消"</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>区块显示未配置提示（黄色系）与 config 路径 <code>~/.zcode/cli/config.json</code>，右上角"仅本机回环"标记</li>
+      <li>确认对话框标题"确认修改此 ZCode 配置吗？"，正文包含：目标配置路径、6 条规则、"发送范围：仅 http://127.0.0.1:&#8230;/event，不访问外网。"、备份位置</li>
+      <li>取消后 config.json 内容不变（diff 验证可选）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="f2">
+  <div class="test-head"><span class="test-id">F2</span><span class="test-title">确认安装：写入 + 备份</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>再次点配置 → 这次点"备份并配置"</li>
+      <li>终端执行 <code>cat ~/.zcode/cli/config.json</code></li>
+      <li>执行 <code>ls ~/.zcode/cli/.zcode-status-light-backups/</code></li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>config.json 出现 hooks 配置：UserPromptSubmit、PermissionRequest（Bash / 非 Bash 两条）、PostToolUse(TodoWrite)、PostToolUseFailure、Stop 共 6 条规则</li>
+      <li>每条 command 指向 <code>/Applications/ZCodeStatusLight.app/Contents/Resources/hook/ZCodeStatusHook</code>（开发版则指向 .build 目录），timeoutMs 5000</li>
+      <li>备份目录出现一个时间戳命名的 config 备份 JSON</li>
+      <li>设置区块变为绿色"已配置"类状态</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="f3">
+  <div class="test-head"><span class="test-id">F3</span><span class="test-title">真实 ZCode 会话端到端</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>在任意项目目录启动 ZCode（本客户端即可），随便提一个问题</li>
+      <li>观察面板；让会话触发一次非 Bash 工具审批（如编辑文件）</li>
+      <li>等回答结束</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>面板出现该项目会话行，工作区名 = 项目名，黄灯跟随执行</li>
+      <li>审批等待时红灯 + 全局提醒弹出；完成时绿灯 + 完成提醒</li>
+      <li>全程 ZCode 本身工作不受影响，helper 不产生可见输出</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="f4">
+  <div class="test-head"><span class="test-id">F4</span><span class="test-title">多会话真实并发（可选）</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>再开一个不同目录的 ZCode 会话同时活动</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>面板两行分别跟随两个会话，工作区名可区分</li>
+      <li>其中之一等待审批时提醒卡片内容对应那个会话</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="f5">
+  <div class="test-head"><span class="test-id">F5</span><span class="test-title">移除 Hook：还原 + 备份保留</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>设置 →"移除 Hook" → 确认对话框"确认移除本应用配置的 ZCode Hook 吗？" → 点"备份并移除"</li>
+      <li>再次 <code>cat ~/.zcode/cli/config.json</code></li>
+      <li>新开一个 ZCode 会话提问</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>6 条受管规则被移除；你原有的其他 hooks 配置（如有）原样保留</li>
+      <li>备份目录新增移除前的备份文件</li>
+      <li>区块回到未配置状态；新会话不再出现在面板</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="f6">
+  <div class="test-head"><span class="test-id">F6</span><span class="test-title">外部修改保护（可选）</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>手动往 config.json 加一条自定义 hook（或改动格式）</li>
+      <li>设置里再执行一次"配置 Hook"</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>安装合并后你的自定义 hook 仍在（只增不删受管规则以外的内容）</li>
+      <li>若 JSON 被改成非法内容，区块显示错误提示且拒绝写入</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<!-- ===================== G ===================== -->
+<h2 class="group">G. 多显示器与 Retina <span class="tag">4 项 · 需外接显示器</span></h2>
+
+<div class="test" id="g1">
+  <div class="test-head"><span class="test-id">G1</span><span class="test-title">面板拖到副屏并记忆</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>外接显示器后，把面板拖到副屏某角落</li>
+      <li>托盘退出并重启 App</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>重启后面板出现在副屏同一角落</li>
+      <li>提醒卡片（角落模式）跟随副屏面板所在屏幕</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="g2">
+  <div class="test-head"><span class="test-id">G2</span><span class="test-title">设置窗跨屏</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>打开设置窗，拖到副屏，再拖回主屏边缘</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>两屏之间拖动流畅，位置正确</li>
+      <li>在任一屏都不会拖出该屏工作区</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="g3">
+  <div class="test-head"><span class="test-id">G3</span><span class="test-title">拔掉副屏回退</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>面板留在副屏时直接拔掉副屏线</li>
+      <li>观察面板去向</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>面板自动回到主屏（对应角落），不丢失在虚空中</li>
+      <li>设置窗若在副屏同样回到主屏</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="g4">
+  <div class="test-head"><span class="test-id">G4</span><span class="test-title">Retina 清晰度</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>Retina 屏上把面板与提醒卡片放大观察（或截图放大）</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>面板与卡片文字锐利不发虚，圆角/阴影边缘无锯齿</li>
+      <li>App 图标（Finder 里看 .app）三色圆点清晰</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<!-- ===================== H ===================== -->
+<h2 class="group">H. 稳定性与收尾 <span class="tag">4 项</span></h2>
+
+<div class="test" id="h1">
+  <div class="test-head"><span class="test-id">H1</span><span class="test-title">完成保留时间 TTL 生效</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>设置"完成保留时间"改为 1 分钟并保存</li>
+      <li><code>/tmp/zsl-demo.sh green</code> 后等约 70 秒</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>绿灯行在约 1 分钟后从面板消失（不需要重启 App）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="h2">
+  <div class="test-head"><span class="test-id">H2</span><span class="test-title">二次启动端口占用提示</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>App 已在运行时，再从启动台/Finder 打开一次</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>弹出错误对话框，提示端口 57310 被占用/已有实例</li>
+      <li>第二个实例退出，第一个实例不受影响</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="h3">
+  <div class="test-head"><span class="test-id">H3</span><span class="test-title">退出干净</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>托盘 → 退出</li>
+      <li>终端执行 <code>pgrep -fl ZCodeStatusLight || echo 无残留</code></li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>面板、设置窗、托盘图标全部消失</li>
+      <li>命令输出"无残留"</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<div class="test" id="h4">
+  <div class="test-head"><span class="test-id">H4</span><span class="test-title">长时挂机（可选，收尾时开着）</span></div>
+  <div class="cols">
+    <div class="col"><h4>步骤</h4><ol>
+      <li>保持 App 运行 30 分钟以上（期间可正常使用电脑）</li>
+    </ol></div>
+    <div class="col expected"><h4>预期</h4><ul>
+      <li>无崩溃、无 CPU 异常占用（活动监视器抽查）</li>
+      <li>30 分钟无任何事件后会话行被清理（面板回空闲）</li>
+    </ul></div>
+  </div>
+  <div class="verdict"><label><input type="checkbox">通过</label><input type="text" placeholder="异常现象记录"></div>
+</div>
+
+<footer>
+  ZCode Status Light macOS 0.3.0-alpha.1 · 人工测试清单 · 勾选进度保存在浏览器本地 · 2026-09-04
+</footer>
+</div>
+
+<script>
+const KEY = 'zsl-manual-test-0.3.0-alpha.1';
+let state = {};
+try { state = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { state = {}; }
+
+function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+
+function paint(testEl) {
+  const id = testEl.id;
+  const s = state[id] || {};
+  const cb = testEl.querySelector('input[type=checkbox]');
+  const note = testEl.querySelector('input[type=text]');
+  cb.checked = !!s.pass;
+  note.value = s.note || '';
+  testEl.classList.toggle('pass', !!s.pass);
+  testEl.classList.toggle('fail', !!s.fail);
+}
+
+document.querySelectorAll('.test').forEach(el => {
+  const id = el.id;
+  el.querySelector('input[type=checkbox]').addEventListener('change', e => {
+    state[id] = state[id] || {};
+    state[id].pass = e.target.checked;
+    if (e.target.checked) state[id].fail = false;
+    save(); paint(el); refresh();
+  });
+  el.querySelector('input[type=text]').addEventListener('input', e => {
+    state[id] = state[id] || {};
+    state[id].note = e.target.value;
+    state[id].fail = e.target.value.trim().length > 0 && !state[id].pass;
+    save(); paint(el); refresh();
+  });
+  paint(el);
+});
+
+function refresh() {
+  const tests = document.querySelectorAll('.test');
+  let pass = 0, fail = 0;
+  tests.forEach(t => { if (t.classList.contains('pass')) pass++; if (t.classList.contains('fail')) fail++; });
+  const total = tests.length;
+  document.getElementById('ppass').textContent = pass;
+  document.getElementById('pfail').textContent = fail;
+  document.getElementById('ptotal').textContent = total;
+  document.getElementById('ptodo').textContent = total - pass - fail;
+  document.getElementById('pfill').style.width = total ? (pass / total * 100) + '%' : '0';
+}
+refresh();
+
+function resetAll() {
+  if (!confirm('清空全部勾选与备注？')) return;
+  state = {}; save();
+  document.querySelectorAll('.test').forEach(paint); refresh();
+}
+
+function copyCmd(btn) {
+  const text = btn.parentElement.querySelector('pre').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '已复制';
+    setTimeout(() => btn.textContent = '复制', 1500);
+  });
+}
+</script>
+</body>
+</html>
