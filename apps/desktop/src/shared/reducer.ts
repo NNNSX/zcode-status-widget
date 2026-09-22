@@ -104,10 +104,10 @@ export class SessionReducer {
     const turnId = stringValue(event.turn_id);
     const timestamp = eventTimestamp(event.ts);
     const existing = this.sessions.get(key);
-    if (name === "user_prompt_submit" && existing && turnId && existing.activeTurnId === turnId && !existing.roundClosed) {
+    if (name === "user_prompt_submit" && existing && turnId && existing.activeTurnId === turnId) {
       return { accepted: false, effects };
     }
-    if (name === "user_prompt_submit" && existing && timestamp !== undefined && existing.lastEventTimestamp !== undefined && timestamp <= existing.lastEventTimestamp) {
+    if (name === "user_prompt_submit" && existing && timestamp !== undefined && existing.lastEventTimestamp !== undefined && timestamp < existing.lastEventTimestamp) {
       return { accepted: false, effects };
     }
     if (

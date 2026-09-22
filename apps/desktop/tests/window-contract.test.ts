@@ -3,6 +3,7 @@ import {
   attentionOrigin,
   attentionWindowContract,
   clampOrigin,
+  clampPanelScale,
   clampPanelWidth,
   panelHeightForRows,
   panelWindowContract,
@@ -42,6 +43,13 @@ describe("window contracts", () => {
     expect(clampPanelWidth(999)).toBe(640);
   });
 
+  it("keeps the panel scale between 50 and 150 percent", () => {
+    expect(clampPanelScale(10)).toBe(50);
+    expect(clampPanelScale(75.4)).toBe(75);
+    expect(clampPanelScale(100)).toBe(100);
+    expect(clampPanelScale(999)).toBe(150);
+  });
+
   it("fits the panel tightly to session rows and caps it to its work area", () => {
     expect(panelHeightForRows(1)).toBe(47);
     expect(panelHeightForRows(3)).toBe(107);
@@ -55,12 +63,18 @@ describe("window contracts", () => {
     expect(settingsHeightForWorkArea(500)).toBe(468);
   });
 
-  it("uses the panel display work area for complete settings bounds", () => {
+  it("centers the settings window inside the panel display work area", () => {
     expect(settingsBoundsForWorkArea({ x: -1200, y: 0, width: 1200, height: 600 })).toEqual({
-      x: -372,
+      x: -778,
       y: 16,
       width: 356,
       height: 568,
+    });
+    expect(settingsBoundsForWorkArea({ x: 0, y: 0, width: 1920, height: 1040 })).toEqual({
+      x: 782,
+      y: 140,
+      width: 356,
+      height: 760,
     });
   });
 

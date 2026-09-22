@@ -5,7 +5,7 @@ import type { AttentionContent } from "../src/shared/protocol";
 const previousWindow = global.window;
 const previousDocument = global.document;
 
-const attention = (content: AttentionContent, presentation: "card" | "edge" = "card"): { emitContent: (next: AttentionContent) => void } => {
+const attention = (content: AttentionContent, presentation: "card" | "edge" | "fullscreen" = "card"): { emitContent: (next: AttentionContent) => void } => {
   const dom = new JSDOM("<!doctype html><body><main id=\"app\"></main></body>", {
     url: `http://localhost/?surface=attention&presentation=${presentation}`,
   });
@@ -112,6 +112,42 @@ describe("attention renderer", () => {
     expect(root?.classList.contains("surface--attention-edge")).toBe(true);
     expect(root?.dataset.kind).toBe("done");
     expect(root?.querySelector(".attention-live")?.textContent).toBe("任务已完成：本轮任务完成");
+  });
+
+  it("renders the fullscreen effect layer with particles canvas and centered status text", async () => {
+    const bridge = attention({
+      sessionId: "fx-session",
+      kind: "waiting",
+      title: "请完成审批",
+      workspace: "ZCode 工作区",
+      summary: "2/3",
+    }, "fullscreen");
+
+    await import("../src/renderer/main");
+    await Promise.resolve();
+
+    const root = document.querySelector<HTMLElement>("#app");
+    expect(root?.classList.contains("surface--attention-fx")).toBe(true);
+    expect(root?.dataset.kind).toBe("waiting");
+    expect(root?.querySelector("canvas.attention-fx")).not.toBeNull();
+    expect(root?.querySelectorAll(".attention-edge")).toHaveLength(4);
+    const copy = root?.querySelector<HTMLElement>(".attention-fx-copy");
+    expect(copy?.getAttribute("aria-live")).toBe("polite");
+    expect(root?.querySelector(".attention-fx-eyebrow")?.textContent).toBe("等待用户操作");
+    expect(root?.querySelector(".attention-fx-title")?.textContent).toBe("请完成审批");
+    expect(root?.querySelector(".attention-fx-workspace")?.textContent).toBe("ZCode 工作区");
+    expect(root?.querySelector(".attention-fx-summary")?.textContent).toBe("2/3");
+    bridge.emitContent({
+      sessionId: "fx-session",
+      kind: "done",
+      title: "本轮任务完成",
+      workspace: "ZCode 工作区",
+      summary: "",
+    });
+    expect(root?.dataset.kind).toBe("done");
+    expect(root?.querySelector(".attention-fx-eyebrow")?.textContent).toBe("任务已完成");
+    expect(root?.querySelector(".attention-fx-title")?.textContent).toBe("本轮任务完成");
+    expect(root?.querySelector(".attention-fx-separator")).toBeNull();
   });
   it("updates card content when the main process publishes a repeated reminder", async () => {
     const bridge = attention({

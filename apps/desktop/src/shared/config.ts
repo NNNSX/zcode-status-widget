@@ -1,6 +1,6 @@
 export type PanelCorner = "bottom-right" | "bottom-left" | "top-right" | "top-left";
 
-export type AttentionMode = "off" | "panel-pulse" | "corner-overlay" | "center-overlay";
+export type AttentionMode = "off" | "panel-pulse" | "corner-overlay" | "center-overlay" | "fullscreen-fx";
 
 export interface AppConfig {
   readonly corner: PanelCorner;
@@ -12,13 +12,18 @@ export interface AppConfig {
   readonly showTodoProgress: boolean;
   readonly showDuration: boolean;
   readonly panelWidth: number;
+  readonly scale: number;
   readonly doneTtlMinutes: number;
   readonly attentionMode: AttentionMode;
   readonly attentionDurationMs: number;
+  readonly launchOnStartup: boolean;
+  readonly showPanel: boolean;
 }
 
 export const PANEL_WIDTH_MIN = 320;
 export const PANEL_WIDTH_MAX = 640;
+export const PANEL_SCALE_MIN = 50;
+export const PANEL_SCALE_MAX = 150;
 export const DONE_TTL_MINUTES_MIN = 1;
 export const DONE_TTL_MINUTES_MAX = 30;
 export const ATTENTION_DURATION_MS_MIN = 800;
@@ -34,13 +39,16 @@ export const DEFAULT_CONFIG: AppConfig = {
   showTodoProgress: true,
   showDuration: true,
   panelWidth: 380,
+  scale: 100,
   doneTtlMinutes: 5,
   attentionMode: "center-overlay",
   attentionDurationMs: 1800,
+  launchOnStartup: false,
+  showPanel: true,
 };
 
 const corners = new Set<PanelCorner>(["bottom-right", "bottom-left", "top-right", "top-left"]);
-const attentionModes = new Set<AttentionMode>(["off", "panel-pulse", "corner-overlay", "center-overlay"]);
+const attentionModes = new Set<AttentionMode>(["off", "panel-pulse", "corner-overlay", "center-overlay", "fullscreen-fx"]);
 const legacyAttentionModes: Readonly<Record<string, AttentionMode>> = {
   panel_pulse: "panel-pulse",
   corner_overlay: "corner-overlay",
@@ -119,6 +127,12 @@ export const normalizeConfig = (candidate: ConfigInput = {}): AppConfig => {
       PANEL_WIDTH_MIN,
       PANEL_WIDTH_MAX,
     ),
+    scale: integerInRange(
+      candidate.scale,
+      DEFAULT_CONFIG.scale,
+      PANEL_SCALE_MIN,
+      PANEL_SCALE_MAX,
+    ),
     doneTtlMinutes: integerInRange(
       candidate.doneTtlMinutes,
       DEFAULT_CONFIG.doneTtlMinutes,
@@ -132,5 +146,7 @@ export const normalizeConfig = (candidate: ConfigInput = {}): AppConfig => {
       ATTENTION_DURATION_MS_MIN,
       ATTENTION_DURATION_MS_MAX,
     ),
+    launchOnStartup: booleanValue(candidate.launchOnStartup, DEFAULT_CONFIG.launchOnStartup),
+    showPanel: booleanValue(candidate.showPanel, DEFAULT_CONFIG.showPanel),
   };
 };

@@ -2,7 +2,7 @@ import type { AppConfig } from "../shared/config";
 
 export interface AttentionRequest {
   readonly durationMs: number;
-  readonly kind: "none" | "edge" | "overlay";
+  readonly kind: "none" | "edge" | "fullscreen" | "overlay";
   readonly placement?: "center" | "corner";
 }
 
@@ -12,6 +12,8 @@ export const attentionRequestForConfig = (config: AppConfig, durationMs = config
       return { kind: "none", durationMs };
     case "panel-pulse":
       return { kind: "edge", durationMs };
+    case "fullscreen-fx":
+      return { kind: "fullscreen", durationMs };
     case "corner-overlay":
       return { kind: "overlay", durationMs, placement: "corner" };
     case "center-overlay":

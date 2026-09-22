@@ -34,4 +34,21 @@ describe("settings registry compatibility", () => {
     expect(serializeRegistryValue("displayId", "42")).toBe("42");
     expect(serializeRegistryValue("panelWidth", 420)).toBe("420");
   });
+
+  it("round-trips launch_on_startup as an opt-in boolean", () => {
+    expect(serializeRegistryValue("launchOnStartup", true)).toBe("1");
+    expect(normalizeConfig({ launchOnStartup: "1" })).toMatchObject({ launchOnStartup: true });
+    expect(normalizeConfig({ launchOnStartup: "0" })).toMatchObject({ launchOnStartup: false });
+    expect(normalizeConfig({})).toMatchObject({ launchOnStartup: false });
+  });
+
+  it("defaults the panel switch on and clamps the scale range", () => {
+    expect(normalizeConfig({})).toMatchObject({ showPanel: true, scale: 100 });
+    expect(normalizeConfig({ showPanel: "0" })).toMatchObject({ showPanel: false });
+    expect(normalizeConfig({ scale: "75" })).toMatchObject({ scale: 75 });
+    expect(normalizeConfig({ scale: 200 })).toMatchObject({ scale: 150 });
+    expect(normalizeConfig({ scale: 10 })).toMatchObject({ scale: 50 });
+    expect(serializeRegistryValue("scale", 80)).toBe("80");
+    expect(serializeRegistryValue("showPanel", false)).toBe("0");
+  });
 });

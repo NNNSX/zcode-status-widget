@@ -14,7 +14,7 @@ const managedRuleCount = (config: Record<string, unknown>): number => {
   const events = hooks?.events ?? {};
   return hookRuleSpecs.reduce((total, spec) => {
     const rules = events[spec.event] ?? [];
-    return total + Number(rules.some((rule) => isManagedHookRule(rule, spec, executablePath, databasePath)));
+    return total + rules.filter((rule) => isManagedHookRule(rule, spec, executablePath, databasePath)).length;
   }, 0);
 };
 
@@ -71,7 +71,7 @@ describe("Hook integration config", () => {
     expect((result.config.hooks as { enabled: boolean }).enabled).toBe(true);
   });
 
-  it("removes only exact managed rules and leaves similar or third-party rules intact", () => {
+  it("also removes rules pointing at this helper when their database path was changed", () => {
     const configured = mergeHookConfig({ hooks: { enabled: true, events: {} } }, executablePath, databasePath).config;
     const events = (configured.hooks as { events: Record<string, unknown[]> }).events;
     const stopRules = events.Stop ?? [];
@@ -81,30 +81,44 @@ describe("Hook integration config", () => {
       { hooks: [{ type: "process", command: "third-party.exe", args: [], timeoutMs: 1000 }] },
     ];
 
-    const removed = removeManagedHookRules(configured, executablePath, databasePath);
+    const removed = removeManagedHookRules(configured, executablePath);
     const remainingStopRules = (removed.hooks as { events: Record<string, unknown[]> }).events.Stop ?? [];
 
     expect(managedRuleCount(removed)).toBe(0);
-    expect(remainingStopRules).toHaveLength(2);
+    expect(remainingStopRules).toHaveLength(1);
+    expect(remainingStopRules[0]).toEqual({ hooks: [{ type: "process", command: "third-party.exe", args: [], timeoutMs: 1000 }] });
   });
 
-  it("does not claim rules with extra arguments and leaves them untouched during removal", () => {
+  it("keeps foreign-token rules that merely reuse the helper command", () => {
     const configured = mergeHookConfig({ hooks: { enabled: true, events: {} } }, executablePath, databasePath).config;
     const events = (configured.hooks as { events: Record<string, unknown[]> }).events;
     const stop = events.Stop?.[0] as { hooks: [{ args: unknown[] }] };
-    const similar = structuredClone(stop) as { hooks: [{ args: unknown[] }] };
-    similar.hooks[0].args.push("third-party-option");
-    events.Stop = [stop, similar];
+    const foreign = structuredClone(stop) as { hooks: [{ args: string[] }] };
+    foreign.hooks[0].args[0] = "foreign-tool";
+    foreign.hooks[0].args.push("extra-option");
+    events.Stop = [stop, foreign];
 
-    expect(isManagedHookRule(similar, hookRuleSpecs.find((spec) => spec.event === "Stop")!, executablePath, databasePath)).toBe(false);
-    const removed = removeManagedHookRules(configured, executablePath, databasePath);
+    const removed = removeManagedHookRules(configured, executablePath);
 
-    expect((removed.hooks as { events: Record<string, unknown[]> }).events.Stop).toEqual([similar]);
+    expect((removed.hooks as { events: Record<string, unknown[]> }).events.Stop).toEqual([foreign]);
+  });
+
+  it("replaces a user-modified managed rule instead of appending a duplicate", () => {
+    const first = mergeHookConfig({ hooks: { enabled: true, events: {} } }, executablePath, databasePath).config;
+    const events = (first.hooks as { events: Record<string, unknown[]> }).events;
+    const stop = events.Stop?.[0] as { hooks: [{ timeoutMs: number; command: string }] };
+    stop.hooks[0].timeoutMs = 3000;
+
+    const second = mergeHookConfig(first, executablePath, databasePath).config;
+    const stopRules = (second.hooks as { events: Record<string, unknown[]> }).events.Stop ?? [];
+
+    expect(stopRules).toHaveLength(1);
+    expect(managedRuleCount(second)).toBe(6);
   });
 
   it("rejects non-array event rules instead of overwriting them", () => {
     expect(() => mergeHookConfig({ hooks: { events: { Stop: {} } } }, executablePath, databasePath)).toThrow("hooks.events.Stop 必须是数组");
-    expect(() => removeManagedHookRules({ hooks: { events: { Stop: "invalid" } } }, executablePath, databasePath)).toThrow("hooks.events.Stop 必须是数组");
+    expect(() => removeManagedHookRules({ hooks: { events: { Stop: "invalid" } } }, executablePath)).toThrow("hooks.events.Stop 必须是数组");
   });
 
   it("rejects non-object configuration and malformed hooks sections", () => {

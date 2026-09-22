@@ -1,6 +1,6 @@
 {
   "name": "zcode-status-light-desktop",
-  "version": "0.2.0-alpha.6",
+  "version": "0.2.0-alpha.7",
   "private": true,
   "description": "Electron desktop runtime for ZCode Status Light.",
   "author": "ZCodeStatusLight contributors",

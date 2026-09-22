@@ -9,5 +9,6 @@
       MessageBox MB_ICONSTOP|MB_OK "无法安全移除 ZCode 状态 Hook。卸载已中止，安装目录和 Hook 助手将被保留。"
       Abort
     ${EndIf}
+    DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "ZCode Status Light"
   ${EndIf}
 !macroend

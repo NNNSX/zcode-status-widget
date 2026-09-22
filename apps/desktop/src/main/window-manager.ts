@@ -9,6 +9,7 @@ import {
   attentionOrigin,
   attentionWindowContract,
   clampOrigin,
+  clampPanelScale,
   clampPanelWidth,
   PANEL_BOUNDS,
   panelHeightForRows,
@@ -27,6 +28,7 @@ const preloadPath = path.join(__dirname, "..", "preload", "index.js");
 const productionRendererPath = path.join(__dirname, "..", "..", "dist", "renderer", "index.html");
 const DISPLAY_LAYOUT_SETTLE_MS = 100;
 const ATTENTION_REASSERT_INTERVAL_MS = 250;
+const PANEL_MOVE_WATCHDOG_MS = 10_000;
 const ATTENTION_TOPMOST_LEVEL = "pop-up-menu" as const;
 
 const defaultAttention: AttentionContent = {
@@ -53,6 +55,15 @@ const preventExternalNavigation = (window: BrowserWindow): void => {
   });
 };
 
+// A crashed renderer would otherwise leave a permanent blank always-on-top window.
+const attachCrashGuard = (window: BrowserWindow): void => {
+  window.webContents.on("render-process-gone", () => {
+    if (!window.isDestroyed()) {
+      window.destroy();
+    }
+  });
+};
+
 export class WindowManager {
   private panel: BrowserWindow | undefined;
   private settings: BrowserWindow | undefined;
@@ -64,6 +75,7 @@ export class WindowManager {
   private displayLayoutTimer: NodeJS.Timeout | undefined;
   private userPanelMovePending = false;
   private userPanelMoveActive = false;
+  private userPanelMoveWatchdog: NodeJS.Timeout | undefined;
   private lastAppliedConfig: AppConfig | undefined;
   private lastAppliedPanelBounds: ReturnType<BrowserWindow["getBounds"]> | undefined;
   private readonly onDisplayLayoutChange = (): void => this.handleDisplayLayoutChange();
@@ -73,7 +85,7 @@ export class WindowManager {
   private attentionReassertTimer: NodeJS.Timeout | undefined;
   private attentionGeneration = 0;
   private attentionSessionId: string | undefined;
-  private attentionPlacement: "center" | "corner" | "edge" | undefined;
+  private attentionPlacement: "center" | "corner" | "edge" | "fullscreen" | undefined;
   private settingsDrag: {
     readonly webContentsId: number;
     readonly pointerX: number;
@@ -134,6 +146,7 @@ export class WindowManager {
     });
 
     preventExternalNavigation(window);
+    attachCrashGuard(window);
     window.setAlwaysOnTop(true, "floating");
     this.lastAppliedPanelBounds = window.getBounds();
     window.on("will-move", () => this.beginUserPanelMove(window));
@@ -143,6 +156,7 @@ export class WindowManager {
         return;
       }
       this.clearPanelMoveTimer();
+      this.clearPanelMoveWatchdog();
       this.clearDisplayLayoutTimer();
       this.unsubscribeFromDisplayLayoutChanges();
       this.userPanelMoveActive = false;
@@ -201,6 +215,7 @@ export class WindowManager {
     });
 
     preventExternalNavigation(window);
+    attachCrashGuard(window);
     window.setAlwaysOnTop(true, "floating");
     window.on("closed", () => {
       if (this.settings === window) {
@@ -305,14 +320,17 @@ export class WindowManager {
     if (!this.panel || this.panel.isDestroyed()) {
       return;
     }
+    const scale = clampPanelScale(config.scale) / 100;
     const display = this.displayForConfig(config);
     const { workArea } = display;
-    const width = clampPanelWidth(config.panelWidth);
+    const width = Math.round(clampPanelWidth(config.panelWidth) * scale);
     const sessionRows = config.showIdle || this.latestSnapshot.sessions.length
       ? Math.max(1, this.latestSnapshot.sessions.length)
       : 0;
     const availableHeight = Math.max(PANEL_BOUNDS.height, workArea.height);
-    const height = sessionRows ? panelHeightForRows(sessionRows, availableHeight) : PANEL_BOUNDS.height;
+    const height = sessionRows
+      ? Math.round(panelHeightForRows(sessionRows, availableHeight / scale) * scale)
+      : Math.round(PANEL_BOUNDS.height * scale);
     const rawBounds = {
       x: config.corner.includes("right")
         ? workArea.x + workArea.width - width - config.marginX
@@ -330,7 +348,13 @@ export class WindowManager {
       this.panel.setBounds(bounds);
     }
     this.panel.setOpacity(config.opacity / 100);
-    if (shouldShowPanel(config.showIdle, this.latestSnapshot.sessions.length > 0, this.panelVisibilityOverride)) {
+    if (!this.panel.webContents.isDestroyed()) {
+      this.panel.webContents.setZoomFactor(scale);
+    }
+    if (
+      config.showPanel
+      && shouldShowPanel(config.showIdle, this.latestSnapshot.sessions.length > 0, this.panelVisibilityOverride)
+    ) {
       this.revealPanel();
     } else {
       this.panel.hide();
@@ -341,7 +365,7 @@ export class WindowManager {
   public async showAttention(
     content = defaultAttention,
     durationMs = 1800,
-    placement: "center" | "corner" | "edge" = "center",
+    placement: "center" | "corner" | "edge" | "fullscreen" = "center",
   ): Promise<void> {
     const activeAttention = this.attention;
     if (
@@ -371,8 +395,12 @@ export class WindowManager {
 
     const panelBounds = this.panel && !this.panel.isDestroyed() ? this.panel.getBounds() : undefined;
     const display = panelBounds ? this.displayForBounds(panelBounds) : screen.getPrimaryDisplay();
-    const presentation: AttentionPresentation = placement === "edge" ? "edge" : "card";
-    const bounds = placement === "edge"
+    const presentation: AttentionPresentation = placement === "edge"
+      ? "edge"
+      : placement === "fullscreen"
+        ? "fullscreen"
+        : "card";
+    const bounds = placement === "edge" || placement === "fullscreen"
       ? display.bounds
       : { ...attentionWindowContract, ...attentionOrigin(display.workArea, ATTENTION_BOUNDS, placement, panelBounds) };
     const window = new BrowserWindow({
@@ -400,6 +428,7 @@ export class WindowManager {
     }
 
     preventExternalNavigation(window);
+    attachCrashGuard(window);
     window.setAlwaysOnTop(true, ATTENTION_TOPMOST_LEVEL);
     window.on("closed", () => {
       if (restoreSettingsTopmost && settingsWindow && !settingsWindow.isDestroyed()) {
@@ -458,6 +487,7 @@ export class WindowManager {
     this.panelCreation = undefined;
     this.closeAttention();
     this.clearPanelMoveTimer();
+    this.clearPanelMoveWatchdog();
     this.clearDisplayLayoutTimer();
     this.unsubscribeFromDisplayLayoutChanges();
     this.userPanelMoveActive = false;
@@ -499,6 +529,7 @@ export class WindowManager {
     if (this.panel === window) {
       this.panel = undefined;
       this.clearPanelMoveTimer();
+      this.clearPanelMoveWatchdog();
       this.clearDisplayLayoutTimer();
       this.unsubscribeFromDisplayLayoutChanges();
       this.userPanelMoveActive = false;
@@ -577,6 +608,23 @@ export class WindowManager {
     }
     this.userPanelMoveActive = true;
     this.clearPanelMoveTimer();
+    this.restartPanelMoveWatchdog();
+  }
+
+  private restartPanelMoveWatchdog(): void {
+    this.clearPanelMoveWatchdog();
+    this.userPanelMoveWatchdog = setTimeout(() => {
+      this.userPanelMoveWatchdog = undefined;
+      this.userPanelMoveActive = false;
+      this.userPanelMovePending = false;
+    }, PANEL_MOVE_WATCHDOG_MS);
+  }
+
+  private clearPanelMoveWatchdog(): void {
+    if (this.userPanelMoveWatchdog) {
+      clearTimeout(this.userPanelMoveWatchdog);
+      this.userPanelMoveWatchdog = undefined;
+    }
   }
 
   private handlePanelMove(window: BrowserWindow): void {
@@ -589,6 +637,7 @@ export class WindowManager {
     }
     this.userPanelMovePending = true;
     this.clearPanelMoveTimer();
+    this.restartPanelMoveWatchdog();
     this.panelMoveTimer = setTimeout(() => {
       this.panelMoveTimer = undefined;
       if (window !== this.panel || window.isDestroyed()) {
@@ -598,6 +647,7 @@ export class WindowManager {
       const display = this.displayForBounds(finalBounds);
       this.userPanelMoveActive = false;
       this.userPanelMovePending = false;
+      this.clearPanelMoveWatchdog();
       this.lastAppliedPanelBounds = finalBounds;
       this.onPanelPositionChanged?.({
         ...placementForBounds(display.workArea, finalBounds),
@@ -645,7 +695,7 @@ export class WindowManager {
     const panelBounds = this.panel && !this.panel.isDestroyed() ? this.panel.getBounds() : undefined;
     const panelDisplay = panelBounds ? this.displayForBounds(panelBounds) : undefined;
     const panelForOrigin = panelDisplay?.id === display.id ? panelBounds : undefined;
-    const bounds = placement === "edge"
+    const bounds = placement === "edge" || placement === "fullscreen"
       ? display.bounds
       : { ...attentionWindowContract, ...attentionOrigin(display.workArea, ATTENTION_BOUNDS, placement, panelForOrigin) };
     if (!this.sameBounds(window.getBounds(), bounds)) {

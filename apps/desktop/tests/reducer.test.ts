@@ -152,6 +152,20 @@ describe("session reducer", () => {
     });
   });
 
+  it("ignores a late prompt replay for a round that already closed", () => {
+    const reducer = new SessionReducer();
+    const start = 6_500_000;
+
+    reducer.apply({ event: "user_prompt_submit", session_id: "closed", turn_id: "turn-x", prompt_preview: "唯一任务" }, start);
+    reducer.apply({ event: "stop", session_id: "closed", turn_id: "turn-x" }, start + 1_000);
+    expect(reducer.displaySessions(start + 1_000, 5, displayOptions)[0]).toMatchObject({ state: "done" });
+
+    const replay = reducer.apply({ event: "user_prompt_submit", session_id: "closed", turn_id: "turn-x" }, start + 1_500);
+    expect(replay.accepted).toBe(false);
+    expect(replay.effects).toHaveLength(0);
+    expect(reducer.displaySessions(start + 1_500, 5, displayOptions)[0]).toMatchObject({ state: "done" });
+  });
+
   it("keeps no-turn prompts compatible with working and waiting states", () => {
     const reducer = new SessionReducer();
     const now = 7_000_000;

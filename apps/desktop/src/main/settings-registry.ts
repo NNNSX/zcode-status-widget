@@ -16,9 +16,12 @@ const registryName: Readonly<Record<keyof AppConfig, string>> = {
   showTodoProgress: "show_todo_progress",
   showDuration: "show_duration",
   panelWidth: "panel_width",
+  scale: "scale",
   doneTtlMinutes: "done_ttl_minutes",
   attentionMode: "attention_mode",
   attentionDurationMs: "attention_duration_ms",
+  launchOnStartup: "launch_on_startup",
+  showPanel: "show_panel",
 };
 
 export const parseRegistryValues = (output: string): Record<string, string> => output.split(/\r?\n/).reduce<Record<string, string>>((values, line) => {
@@ -40,8 +43,12 @@ export const serializeRegistryValue = (key: keyof AppConfig, value: AppConfig[ke
 };
 
 export class SettingsRegistry {
+  /** True when the last load() could not read the registry and fell back to defaults. */
+  public lastLoadDegraded = false;
+
   public async load(): Promise<AppConfig> {
     if (process.platform !== "win32") {
+      this.lastLoadDegraded = false;
       return DEFAULT_CONFIG;
     }
     try {
@@ -51,6 +58,7 @@ export class SettingsRegistry {
         timeout: REGISTRY_COMMAND_TIMEOUT_MS,
       });
       const values = parseRegistryValues(stdout);
+      this.lastLoadDegraded = false;
       return normalizeConfig({
         corner: values.corner,
         marginX: values.margin_x,
@@ -61,11 +69,15 @@ export class SettingsRegistry {
         showTodoProgress: values.show_todo_progress,
         showDuration: values.show_duration,
         panelWidth: values.panel_width,
+        scale: values.scale,
         doneTtlMinutes: values.done_ttl_minutes,
         attentionMode: values.attention_mode,
         attentionDurationMs: values.attention_duration_ms,
+        launchOnStartup: values.launch_on_startup,
+        showPanel: values.show_panel,
       });
     } catch {
+      this.lastLoadDegraded = true;
       return DEFAULT_CONFIG;
     }
   }

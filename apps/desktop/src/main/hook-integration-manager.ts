@@ -1,4 +1,4 @@
-import { access, mkdir, open, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, open, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { constants } from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -20,6 +20,7 @@ const backupDirectoryName = ".zcode-status-light-backups";
 const stateFileName = "electron-integration-state.json";
 const LOCK_RETRY_MS = 80;
 const LOCK_TIMEOUT_MS = 2_000;
+const LOCK_STALE_MS = 15_000;
 const hookHelperFileName = "zcodestatushook.exe";
 const utf8 = new TextDecoder("utf-8", { fatal: true });
 
@@ -222,9 +223,11 @@ export class HookIntegrationManager {
 
   private async unconfigureUnlocked(): Promise<boolean> {
     const initialState = await this.readState();
+    if (!initialState) {
+      return this.unconfigureWithoutState();
+    }
     if (
-      !initialState
-      || pathKey(initialState.executablePath) !== pathKey(this.executablePath)
+      pathKey(initialState.executablePath) !== pathKey(this.executablePath)
       || !await isRegularFile(initialState.configPath)
     ) {
       return false;
@@ -245,7 +248,7 @@ export class HookIntegrationManager {
       }
       const parsed = parseConfig(raw, state.configPath);
       const source = parsed.config;
-      const next = removeManagedHookRules(source, state.executablePath, state.databasePath);
+      const next = removeManagedHookRules(source, state.executablePath);
       let writtenConfig: Uint8Array | undefined;
       try {
         if (JSON.stringify(next) !== JSON.stringify(source)) {
@@ -272,6 +275,43 @@ export class HookIntegrationManager {
     });
   }
 
+  // Degraded cleanup for a lost or corrupt integration state file: rules pointing at this
+  // exact install's helper are provably ours, so remove them from the default config instead
+  // of blocking uninstall forever. A state file that names another install still blocks.
+  private async unconfigureWithoutState(): Promise<boolean> {
+    const configPath = this.defaultConfigPath;
+    if (!await isRegularFile(configPath)) {
+      return false;
+    }
+    return this.withConfigLock(configPath, async () => {
+      const raw = await readFile(configPath);
+      const parsed = parseConfig(raw, configPath);
+      const next = removeManagedHookRules(parsed.config, this.executablePath);
+      if (JSON.stringify(next) === JSON.stringify(parsed.config)) {
+        return false;
+      }
+      await this.backup(configPath, raw, "before-unconfigure");
+      let writtenConfig: Uint8Array | undefined;
+      try {
+        await this.assertUnchanged(configPath, raw, "配置文件");
+        writtenConfig = await this.writeConfigAtomically(configPath, next, parsed.hasBom);
+        await this.assertUnchanged(configPath, writtenConfig, "配置文件");
+        if (this.countManagedRules(await readFile(configPath), configPath) !== 0) {
+          throw new Error("写入后仍检测到本程序管理的状态 Hook。");
+        }
+        return true;
+      } catch (error) {
+        const recovery = await this.recoverTransaction({
+          configPath,
+          configRaw: raw,
+          writtenConfig,
+          stateRaw: undefined,
+        });
+        throw this.transactionError(error, recovery);
+      }
+    });
+  }
+
   private mergeForCurrentExecutable(
     source: Record<string, unknown>,
     databasePath: string,
@@ -280,7 +320,7 @@ export class HookIntegrationManager {
   ): { readonly config: Record<string, unknown>; readonly enabledWasFalse: boolean } {
     const migrated = state && this.isManagedHelperPath(state.executablePath) && this.isManagedHelperPath(this.executablePath)
       && pathKey(state.executablePath) !== pathKey(this.executablePath)
-      ? removeManagedHookRules(source, state.executablePath, state.databasePath)
+      ? removeManagedHookRules(source, state.executablePath)
       : source;
     return mergeHookConfig(migrated, this.executablePath, databasePath, enableDisabledHooks);
   }
@@ -351,8 +391,16 @@ export class HookIntegrationManager {
         handle = await open(lockPath, "wx");
       } catch (error) {
         const code = error && typeof error === "object" && "code" in error ? String(error.code) : "";
-        if (code !== "EEXIST" || Date.now() >= deadline) {
+        if (code !== "EEXIST") {
           throw new Error("ZCode 配置正在被其他状态灯操作修改；请稍后重试。");
+        }
+        if (await this.staleConfigLock(lockPath) && await rm(lockPath, { force: true }).then(() => true).catch(() => false)) {
+          continue;
+        }
+        if (Date.now() >= deadline) {
+          throw new Error(
+            "ZCode 配置正在被其他状态灯操作修改；请稍后重试。若反复出现，请退出所有状态灯实例后删除配置目录下的 .zcode-status-light.lock。",
+          );
         }
         await delay(LOCK_RETRY_MS);
       }
@@ -362,6 +410,15 @@ export class HookIntegrationManager {
     } finally {
       await handle.close().catch(() => undefined);
       await rm(lockPath, { force: true }).catch(() => undefined);
+    }
+  }
+
+  private async staleConfigLock(lockPath: string): Promise<boolean> {
+    try {
+      const stats = await stat(lockPath);
+      return Date.now() - stats.mtimeMs > LOCK_STALE_MS;
+    } catch {
+      return false;
     }
   }
 

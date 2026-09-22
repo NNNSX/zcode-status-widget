@@ -8,7 +8,7 @@
 
 `ZCodeStatusLight` 是一个仅在本机运行的 Windows 悬浮状态灯。它把 ZCode 会话状态显示在屏幕角落：不替代 ZCode，不上传会话数据，不建立云端服务。
 
-当前发布版本：Windows Electron 桌面版 `0.2.0-alpha.6`（源码 `apps/desktop/`，Hook 助手 `apps/hook-helper/`）；macOS 原生版 `0.3.0-alpha.1`（Swift/AppKit，源码 `apps/macos-native/`，安装见[ macOS 版](#系统要求macos)）。GitHub tag 会自动生成当前源码的 Source code ZIP/TAR；Windows 安装器、`.blockmap` 和 SHA-256 校验文件作为 Release 资产提供。
+当前发布版本：Windows Electron 桌面版 `0.2.0-alpha.7`（源码 `apps/desktop/`，Hook 助手 `apps/hook-helper/`）；macOS 原生版 `0.3.0-alpha.1`（Swift/AppKit，源码 `apps/macos-native/`，安装见[ macOS 版](#系统要求macos)）。GitHub tag 会自动生成当前源码的 Source code ZIP/TAR；Windows 安装器、`.blockmap` 和 SHA-256 校验文件作为 Release 资产提供。
 
 ## 状态语义
 
@@ -26,7 +26,7 @@
 
 - 横向红、黄、绿三灯与状态动效。
 - 多会话列表、独立 Todo 进度列、状态时间列与悬停详情。
-- 拖动定位、系统托盘、位置记忆、透明度、面板宽度、完成会话保留时间和状态提醒。
+- 拖动定位、系统托盘、位置记忆、透明度、面板宽度、面板缩放（50%–150%）、开机自动启动、悬浮面板总开关、完成会话保留时间和状态提醒。
 - 无活跃会话时显示三颗暗灯和“暂无活跃会话”，也可在设置中关闭空闲常驻。
 - 仅监听 `127.0.0.1:57310`，不会暴露网络端口。
 - 输入不超过 64 KiB，队列最多 256 条，每次界面刷新最多处理 32 条。
@@ -56,11 +56,11 @@
 
 ## 安装
 
-1. 从 [GitHub Releases](https://github.com/NNNSX/zcode-status-widget/releases) 下载 `ZCode Status Light Setup 0.2.0-alpha.6.exe` 和 `SHA256SUMS.txt`。
+1. 从 [GitHub Releases](https://github.com/NNNSX/zcode-status-widget/releases) 下载 `ZCode Status Light Setup 0.2.0-alpha.7.exe` 和 `SHA256SUMS.txt`。
 2. 在下载目录通过 PowerShell 校验安装器：
 
 ```powershell
-Get-FileHash '.\ZCode Status Light Setup 0.2.0-alpha.6.exe' -Algorithm SHA256
+Get-FileHash '.\ZCode Status Light Setup 0.2.0-alpha.7.exe' -Algorithm SHA256
 Get-Content .\SHA256SUMS.txt
 ```
 
@@ -96,14 +96,16 @@ Get-Content .\SHA256SUMS.txt
 ## 使用
 
 - 从开始菜单启动 **ZCode Status Light**。
-- 左键托盘图标打开设置；右键托盘图标可重置位置或退出。
+- 左键托盘图标显示/隐藏状态面板（持久保存，重启后保持）；右键托盘菜单可打开设置、重置位置、提醒演示或退出。
 - 无边框设置窗口可从最顶部拖动带或标题区移动。
-- 当前没有面板右键菜单或 Electron 开机自启开关；请使用托盘菜单管理显示、设置、重置位置、提醒演示和退出。
+- 设置页可开启“开机自动启动”：写入当前用户的 Run 登录项，卸载时自动移除。
+- 设置页可整体关闭“显示悬浮面板”：关闭后仅保留全局提醒和托盘，适合只需要提醒、不想常驻悬浮窗的场景。
+- 设置窗口在所在屏幕工作区居中打开。
 - 透明度为 20% 到 100%；低于 100% 时 Windows 不渲染 DWM 圆角。
 - 完成会话保留时间可设为 1 至 30 分钟。
 - Todo 进度列与时间列可分别显示或隐藏。
-- 面板宽度可设为 320 至 640 像素，步长 20 像素。
-- 状态提醒可选择关闭、面板脉冲、角落提示或中央提示，时长可设为 800 至 5000 毫秒。
+- 面板宽度可设为 320 至 640 像素，步长 20 像素；面板缩放可设为 50% 至 150%（步长 5%），窗口尺寸与内容整体等比缩放。
+- 状态提醒可选择关闭、面板脉冲、角落提示、中央提示或全屏特效（全屏粒子与强化边缘光晕的强视觉提醒），时长可设为 800 至 5000 毫秒；全屏特效尊重系统“减少动态效果”设置，开启时自动退化为纯边缘光晕。
 
 ## 卸载
 
@@ -145,10 +147,9 @@ npm run dist:win
 ## 已知限制
 
 - 只支持 Windows，不支持 macOS 或 Linux。
-- `0.2.0-alpha.6` 是预发布版本，建议先在非关键工作流验证安装、设置窗口拖动与 Hook 配置。
+- `0.2.0-alpha.7` 是预发布版本，建议先在非关键工作流验证安装、设置窗口拖动与 Hook 配置。
 - 当前安装器未做 Authenticode 签名，SmartScreen 可能提示未知发布者。
 - 不会自动迁移其他状态灯实现的旧 Hook 或开机自启状态；切换运行时前请退出旧程序，并在设置页明确确认新的 Hook 配置。
 
 ## 许可证
-
 本项目采用 [MIT License](LICENSE)。打包依赖的许可证说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

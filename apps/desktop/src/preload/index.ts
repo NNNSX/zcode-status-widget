@@ -7,13 +7,16 @@ export type RendererSurface = "panel" | "settings" | "attention";
 
 type AppConfigInput = {
   readonly panelWidth?: number;
+  readonly scale?: number;
   readonly opacity?: number;
   readonly showIdle?: boolean;
   readonly showTodoProgress?: boolean;
   readonly showDuration?: boolean;
+  readonly launchOnStartup?: boolean;
+  readonly showPanel?: boolean;
   readonly corner?: "bottom-right" | "bottom-left" | "top-right" | "top-left";
   readonly doneTtlMinutes?: number;
-  readonly attentionMode?: "off" | "panel-pulse" | "corner-overlay" | "center-overlay";
+  readonly attentionMode?: "off" | "panel-pulse" | "corner-overlay" | "center-overlay" | "fullscreen-fx";
   readonly attentionDurationMs?: number;
 };
 

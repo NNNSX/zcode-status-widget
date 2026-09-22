@@ -38,7 +38,12 @@ export const settingsHeightForWorkArea = (workAreaHeight: number): number => {
 export const settingsBoundsForWorkArea = (workArea: ScreenBounds): ScreenBounds => {
   const width = Math.min(SETTINGS_BOUNDS.width, Math.max(1, workArea.width));
   const height = settingsHeightForWorkArea(workArea.height);
-  const origin = clampOrigin(workArea, { width, height }, workArea.x + workArea.width - width - 16, workArea.y + 16);
+  const origin = clampOrigin(
+    workArea,
+    { width, height },
+    workArea.x + Math.round((workArea.width - width) / 2),
+    workArea.y + Math.round((workArea.height - height) / 2),
+  );
   return { ...origin, width, height };
 };
 
@@ -159,9 +164,17 @@ export const clampPanelWidth = (value: number): number => {
   return Math.min(PANEL_BOUNDS.maxWidth, Math.max(PANEL_BOUNDS.minWidth, rounded));
 };
 
+export const PANEL_SCALE_MIN_PERCENT = 50;
+export const PANEL_SCALE_MAX_PERCENT = 150;
+
+export const clampPanelScale = (value: number): number => {
+  const rounded = Math.round(value);
+  return Math.min(PANEL_SCALE_MAX_PERCENT, Math.max(PANEL_SCALE_MIN_PERCENT, rounded));
+};
+
 export type RendererSurface = "panel" | "settings" | "attention";
 
-export type AttentionPresentation = "card" | "edge";
+export type AttentionPresentation = "card" | "edge" | "fullscreen";
 
 export const rendererUrl = (
   baseUrl: string,

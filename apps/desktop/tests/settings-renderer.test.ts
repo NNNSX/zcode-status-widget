@@ -136,7 +136,7 @@ describe("settings renderer", () => {
       const settingsContent = dom.window.document.querySelector<HTMLElement>(".settings-content");
       const settingsActions = dom.window.document.querySelector<HTMLElement>(".settings-actions");
       expect(settingsContent).not.toBeNull();
-      expect(settingsContent?.querySelectorAll(".settings-section")).toHaveLength(5);
+      expect(settingsContent?.querySelectorAll(".settings-section")).toHaveLength(6);
       expect(settingsActions?.parentElement).toBe(dom.window.document.querySelector("#app"));
       expect(settingsActions?.parentElement).not.toBe(settingsContent);
       expect(settingsActions?.querySelector("[data-action='save']")).not.toBeNull();
@@ -146,6 +146,7 @@ describe("settings renderer", () => {
         throw new Error("Attention duration range is missing.");
       }
       expect(dom.window.document.querySelector("[data-attention='panel-pulse']")?.textContent).toBe("边缘");
+      expect(dom.window.document.querySelector("[data-attention='fullscreen-fx']")?.textContent).toBe("全屏");
       duration.value = "3200";
       duration.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
       dom.window.document.querySelector<HTMLButtonElement>("[data-attention='panel-pulse']")?.click();
@@ -156,6 +157,38 @@ describe("settings renderer", () => {
       await Promise.resolve();
       expect(previewSettings).toHaveBeenCalledWith({ attentionDurationMs: 3200 });
       expect(previewSettings).toHaveBeenCalledWith({ attentionMode: "corner-overlay" });
+      dom.window.document.querySelector<HTMLButtonElement>("[data-attention='fullscreen-fx']")?.click();
+      await Promise.resolve();
+      expect(previewSettings).toHaveBeenCalledWith({ attentionMode: "fullscreen-fx" });
+
+      const launchToggle = dom.window.document.querySelector<HTMLInputElement>("input[data-setting='launchOnStartup']");
+      expect(dom.window.document.querySelector("[aria-label='启动']")).not.toBeNull();
+      expect(launchToggle).not.toBeNull();
+      if (launchToggle) {
+        launchToggle.checked = true;
+        launchToggle.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
+        await Promise.resolve();
+        expect(previewSettings).toHaveBeenCalledWith({ launchOnStartup: true });
+      }
+
+      const showPanelToggle = dom.window.document.querySelector<HTMLInputElement>("input[data-setting='showPanel']");
+      expect(showPanelToggle).not.toBeNull();
+      if (showPanelToggle) {
+        showPanelToggle.checked = false;
+        showPanelToggle.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
+        await Promise.resolve();
+        expect(previewSettings).toHaveBeenCalledWith({ showPanel: false });
+      }
+
+      const scaleRange = dom.window.document.querySelector<HTMLInputElement>("#scale-range");
+      expect(scaleRange).not.toBeNull();
+      expect(dom.window.document.querySelector("#scale-output")?.textContent).toContain("100%");
+      if (scaleRange) {
+        scaleRange.value = "120";
+        scaleRange.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+        await Promise.resolve();
+        expect(previewSettings).toHaveBeenCalledWith({ scale: 120 });
+      }
 
       await Promise.resolve();
       expect(getHookSetup).toHaveBeenCalledOnce();

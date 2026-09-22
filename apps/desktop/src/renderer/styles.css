@@ -101,7 +101,7 @@ h1 { margin: 0; color: #f5f7fb; font-size: 17px; font-weight: 700; }
 .range-control { display: grid; grid-template-columns: 1fr auto; gap: 7px 12px; color: #d7dde8; font-size: 12px; }
 .range-control output { color: #92a0b2; font-variant-numeric: tabular-nums; }
 .range-control input { grid-column: 1 / -1; width: 100%; accent-color: #f2c14e; }
-.segmented { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 6px; overflow: hidden; }
+.segmented { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 6px; overflow: hidden; }
 .segmented button { min-height: 27px; border: 0; border-right: 1px solid rgba(255, 255, 255, 0.10); color: #9ea9b9; background: transparent; font-size: 11px; cursor: pointer; }
 .segmented button:last-child { border-right: 0; }
 .segmented button.selected { color: #f6f8fb; background: rgba(242, 193, 78, 0.18); }
@@ -235,6 +235,92 @@ h1 { margin: 0; color: #f5f7fb; font-size: 17px; font-weight: 700; }
 }
 .attention-edge--right::after { top: 0; }
 .attention-edge--left::after { bottom: 0; animation-direction: reverse; }
+
+.surface--attention-fx {
+  --edge-width: 4px;
+  --edge-streak-width: 7px;
+  --edge-streak-length: 52%;
+  --edge-base: rgba(229, 72, 77, 0.92);
+  --edge-halo-core: rgba(255, 127, 137, 0.56);
+  --edge-halo: rgba(229, 72, 77, 0.44);
+  --edge-streak-shadow: rgba(255, 184, 118, 0.62);
+  --edge-spectrum: rgba(190, 134, 255, 0) 0%, rgba(190, 134, 255, 0.88) 18%, rgba(94, 191, 255, 0.98) 34%, rgba(91, 224, 171, 0.98) 50%, rgba(255, 209, 105, 0.98) 66%, rgba(255, 104, 136, 0.92) 82%, rgba(255, 104, 136, 0) 100%;
+  --edge-duration: 2.2s;
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: radial-gradient(ellipse at center, rgba(30, 34, 44, 0.12) 0%, rgba(30, 34, 44, 0) 62%);
+  box-shadow: inset 0 0 22px -2px var(--edge-halo-core), inset 0 0 96px -10px var(--edge-halo);
+  pointer-events: none;
+  animation: none;
+}
+.surface--attention-fx[data-kind="done"] {
+  --edge-width: 3px;
+  --edge-streak-width: 6px;
+  --edge-streak-length: 44%;
+  --edge-base: rgba(70, 184, 129, 0.78);
+  --edge-halo-core: rgba(126, 225, 170, 0.46);
+  --edge-halo: rgba(70, 184, 129, 0.34);
+  --edge-streak-shadow: rgba(111, 224, 181, 0.5);
+  --edge-duration: 2.8s;
+}
+.attention-fx { position: absolute; inset: 0; width: 100%; height: 100%; }
+.attention-fx-copy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2.4vh, 26px);
+  max-width: 86%;
+  margin: 0 auto;
+  text-align: center;
+  pointer-events: none;
+}
+.attention-fx-eyebrow {
+  font-size: clamp(15px, 2.2vh, 26px);
+  font-weight: 650;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  color: rgba(255, 141, 149, 0.95);
+  text-shadow: 0 0 16px rgba(255, 107, 107, 0.75), 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.attention-fx-title {
+  font-size: clamp(52px, 11vh, 150px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: 0.05em;
+  color: #f8fafc;
+  text-shadow: 0 0 30px rgba(255, 118, 128, 0.85), 0 0 90px rgba(255, 107, 107, 0.45), 0 3px 14px rgba(0, 0, 0, 0.6);
+}
+.attention-fx-detail {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55em;
+  max-width: 100%;
+  font-size: clamp(17px, 3vh, 40px);
+  font-weight: 550;
+  color: #e6ecf3;
+  text-shadow: 0 0 14px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.55);
+}
+.attention-fx-workspace, .attention-fx-summary {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+.attention-fx-workspace { color: #cdd8e4; }
+.attention-fx-summary { color: #f2f6fa; }
+.attention-fx-separator { color: rgba(160, 172, 186, 0.85); }
+.surface--attention-fx[data-kind="done"] .attention-fx-eyebrow {
+  color: rgba(134, 231, 180, 0.95);
+  text-shadow: 0 0 16px rgba(70, 184, 129, 0.75), 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.surface--attention-fx[data-kind="done"] .attention-fx-title {
+  text-shadow: 0 0 30px rgba(111, 224, 181, 0.85), 0 0 90px rgba(70, 184, 129, 0.45), 0 3px 14px rgba(0, 0, 0, 0.6);
+}
 .attention-live {
   position: absolute;
   width: 1px;

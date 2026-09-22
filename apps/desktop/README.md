@@ -1,6 +1,6 @@
 # Electron 桌面运行时
 
-此目录包含 ZCode 状态灯的 Electron + TypeScript + Vite Windows 桌面运行时。它只通过 `127.0.0.1:57310` 接收既有 Hook 事件协议，并渲染悬浮状态面板、设置页、托盘菜单和点击穿透的短时提醒。当前版本为 `0.2.0-alpha.6` 预发布版。
+此目录包含 ZCode 状态灯的 Electron + TypeScript + Vite Windows 桌面运行时。它只通过 `127.0.0.1:57310` 接收既有 Hook 事件协议，并渲染悬浮状态面板、设置页、托盘菜单和点击穿透的短时提醒。当前版本为 `0.2.0-alpha.7` 预发布版。
 
 ## Hook 集成
 
@@ -11,7 +11,9 @@
 - 若 `hooks.enabled` 明确为 `false`，确认对话框会单独说明将启用 Hooks，程序不会静默开启。
 - 应用会在 Electron `app.getPath("userData")\ZCodeStatusLight\electron-integration-state.json` 中记录受管路径；在常见 Windows 安装下通常对应 `%APPDATA%\zcode-status-light-desktop\ZCodeStatusLight\electron-integration-state.json`，实际路径以 Electron 返回值为准。不保存完整配置、提示词、会话 ID 或错误正文。重启后只在助手路径仍匹配时恢复用户选择的自定义 `config.json`。
 - 正常卸载仅对仍完全匹配记录的规则执行 `--unconfigure-hooks --silent` 精确清理；升级跳过清理，安装器默认保留 Electron userData。根目录 `uninstall.ps1 -PurgeUserData` 仅属于旧 Python 运行时，不会清理此目录。
-- 左键托盘图标打开设置；右键托盘图标可重置位置或退出。当前没有面板右键菜单或 Electron 开机自启开关。
+- 左键托盘图标显示/隐藏状态面板（持久开关，与设置页"显示悬浮面板"同步）；右键托盘图标可打开设置、重置位置、提醒演示或退出。关闭面板后全局提醒和事件接收不受影响。
+- 设置页提供"开机自动启动"开关：开启后写入当前用户的 `HKCU\...\Run` 登录项（固定值名 `ZCode Status Light`，仅打包安装版生效，开发运行不写注册表），每次启动会按已保存设置自动纠正；关闭或卸载时移除。
+- 设置页提供"面板缩放"（50%–150%）与"显示悬浮面板"总开关：缩放同时缩放窗口尺寸和界面内容；关闭面板后全局提醒、托盘和事件接收不受影响，托盘左键可重新打开。
 - 提醒 `PermissionRequest` 即使 Hook 输入没有 `turn_id` 也会更新当前会话并显示等待提醒；只有完成用的 `Stop` 仍要求与当前轮匹配的轮次标识。重复审批会刷新同一提醒，不会无限创建窗口。提醒显示期间会周期性重新提升窗口层级，降低被 Fences 等桌面软件遮挡的概率。
 - 正常卸载仅对仍完全匹配记录的规则执行 `--unconfigure-hooks --silent` 精确清理；升级跳过清理，安装器默认保留 Electron userData。
 

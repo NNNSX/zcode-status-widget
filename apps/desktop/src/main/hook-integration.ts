@@ -148,6 +148,31 @@ export const isManagedHookRule = (
     && normalizePath(database) === normalizePath(databasePath);
 };
 
+// Rules whose command points at this install's helper and carry the managed token are ours
+// even when a user tweaked other fields (timeout, database path); they must be replaced on
+// merge and removed on uninstall instead of duplicating or stranding them.
+export const isManagedHelperRule = (
+  candidate: unknown,
+  spec: HookRuleSpec,
+  executablePath: string,
+): boolean => {
+  const rule = recordValue(candidate);
+  if (!rule || rule.matcher !== spec.matcher) {
+    return false;
+  }
+  if (spec.matcher === undefined && "matcher" in rule && rule.matcher !== undefined) {
+    return false;
+  }
+  if (!Array.isArray(rule.hooks) || rule.hooks.length !== 1) {
+    return false;
+  }
+  const hook = recordValue(rule.hooks[0]);
+  if (!hook || hook.type !== "process" || !Array.isArray(hook.args) || hook.args.length === 0) {
+    return false;
+  }
+  return normalizePath(hook.command) === normalizePath(executablePath) && hook.args[0] === spec.token;
+};
+
 export const mergeHookConfig = (
   source: unknown,
   executablePath: string,
@@ -167,7 +192,7 @@ export const mergeHookConfig = (
     const eventRules = nextEvents[spec.event];
     const current: unknown[] = Array.isArray(eventRules) ? eventRules : [];
     nextEvents[spec.event] = [
-      ...current.filter((rule) => !isManagedHookRule(rule, spec, executablePath, databasePath)),
+      ...current.filter((rule) => !isManagedHelperRule(rule, spec, executablePath)),
       managedHookRule(spec, executablePath, databasePath),
     ];
   }
@@ -187,7 +212,6 @@ export const mergeHookConfig = (
 export const removeManagedHookRules = (
   source: unknown,
   executablePath: string,
-  databasePath: string,
 ): Record<string, unknown> => {
   const validated = validateHookConfig(source);
   const config = validated.config;
@@ -200,7 +224,7 @@ export const removeManagedHookRules = (
   for (const spec of hookRuleSpecs) {
     const eventRules = nextEvents[spec.event];
     const current: unknown[] = Array.isArray(eventRules) ? eventRules : [];
-    nextEvents[spec.event] = current.filter((rule) => !isManagedHookRule(rule, spec, executablePath, databasePath));
+    nextEvents[spec.event] = current.filter((rule) => !isManagedHelperRule(rule, spec, executablePath));
   }
   return { ...config, hooks: { ...hooks, events: nextEvents } };
 };

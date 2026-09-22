@@ -235,3 +235,4 @@ ZCode CLI 触发 Hook 事件
 - **ZCode 客户端自身的渲染进程 V8 内存泄漏**（长会话数小时后 4GB 堆耗尽 → 白屏）已在 Windows 3.10.2 实证（crashpad dump：`v8-oom-location: CALL_AND_RETRY_LAST`），机制上全平台存在。与本悬浮窗无关（数据流单向、helper 只读），mac 开发时如遇 ZCode 白屏，先查 `~/.zcode/v2/crash/` 下的 dump，不要怀疑本项目。
 - Windows 侧仍未做的人工验收（真实多显示器/不同 DPI/Fences 等）与 mac 验收可以并行推进。
 - alpha.4 → alpha.6 期间修复的关键回归（勿回退）：Bash/非 Bash 审批区分、`Stop.turn_id` 校验、无 `turn_id` 审批事件更新会话、重复提醒窗口复用、设置窗口拖动夹紧、卸载 Hook 清理失败即中止。
+- Windows `0.2.0-alpha.7` 在 electron 版新增：开机自启（注册表 Run 键，`src/main/login-item.ts`）、面板缩放 `scale` 与总开关 `showPanel`、全屏粒子特效提醒模式、一轮稳定性修复（详见 CHANGELOG）——mac 版如需对齐这些能力，以 Windows 版实现为参照。

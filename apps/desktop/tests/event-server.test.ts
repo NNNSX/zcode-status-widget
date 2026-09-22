@@ -1,4 +1,5 @@
 import { once } from "node:events";
+import { connect } from "node:net";
 import { request as httpRequest } from "node:http";
 import { describe, expect, it } from "vitest";
 import { EventServer } from "../src/main/event-server";
@@ -72,8 +73,29 @@ describe("loopback event server", () => {
     await withServer(async (server, url) => {
       expect((await request(`${url}/event`, JSON.stringify({ event: "unknown" }))).status).toBe(400);
       expect((await request(`${url}/event`, JSON.stringify({ event: "stop", prompt_preview: "x".repeat(513) }))).status).toBe(400);
-      expect((await request(`${url}/event`, JSON.stringify({ event: "todo_update", todos: Array.from({ length: 65 }, () => ({ content: "x" })) }))).status).toBe(400);
+      const oversized = await request(`${url}/event`, JSON.stringify({ event: "todo_update", todos: Array.from({ length: 65 }, () => ({ content: "x" })) }));
+      expect(oversized.status).toBe(204);
+      expect(server.drain()[0]).toMatchObject({ event: "todo_update", todos: Array.from({ length: 64 }, () => ({ content: "x" })) });
       expect(server.pending).toBe(0);
+    });
+  });
+
+  it("tolerates malformed todo entries instead of dropping the whole event", async () => {
+    await withServer(async (server, url) => {
+      const reply = await request(`${url}/event`, JSON.stringify({
+        event: "todo_update",
+        todos: [{ content: "keep" }, "not-an-object", { status: 42 }, { content: 7 }],
+      }));
+      expect(reply.status).toBe(204);
+      expect(server.drain()[0]).toMatchObject({ todos: [{ content: "keep" }] });
+    });
+  });
+
+  it("drops implausible timestamps instead of rejecting the event", async () => {
+    await withServer(async (server, url) => {
+      const reply = await request(`${url}/event`, JSON.stringify({ event: "stop", session_id: "s", ts: 1e300 }));
+      expect(reply.status).toBe(204);
+      expect(server.drain()[0]).toEqual({ event: "stop", session_id: "s" });
     });
   });
 
@@ -83,6 +105,33 @@ describe("loopback event server", () => {
       expect((await request(`${url}/event`, "not-json")).status).toBe(400);
       expect((await request(`${url}/event`, "[]")).status).toBe(400);
       expect((await request(`${url}/event`, undefined, "GET")).status).toBe(404);
+    });
+  });
+
+  it("responds 400 instead of crashing on malformed request targets", async () => {
+    await withServer(async (server, url) => {
+      const port = new URL(url).port;
+      const sendRaw = (target: string): Promise<number> => new Promise((resolve, reject) => {
+        const socket = connect({ host: "127.0.0.1", port: Number(port) }, () => {
+          socket.write(`POST ${target} HTTP/1.1\r\nHost: 127.0.0.1\r\nContent-Length: 2\r\nConnection: close\r\n\r\n{}`);
+        });
+        let head = "";
+        socket.setEncoding("utf8");
+        socket.on("data", (chunk: string) => { head += chunk; });
+        socket.on("close", () => {
+          const match = head.match(/HTTP\/1\.[01] (\d{3})/);
+          if (match) {
+            resolve(Number(match[1]));
+          } else {
+            reject(new Error(`no status line received: ${JSON.stringify(head)}`));
+          }
+        });
+        socket.on("error", reject);
+      });
+      expect(await sendRaw("/\\")).toBe(400);
+      expect(await sendRaw("http://")).toBe(400);
+      expect(await sendRaw("http://[")).toBe(400);
+      expect(server.pending).toBe(0);
     });
   });
 

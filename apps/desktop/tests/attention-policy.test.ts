@@ -6,6 +6,7 @@ describe("attention policy", () => {
   it.each([
     ["off", { kind: "none", durationMs: 800 }],
     ["panel-pulse", { kind: "edge", durationMs: 1800 }],
+    ["fullscreen-fx", { kind: "fullscreen", durationMs: 1800 }],
     ["corner-overlay", { kind: "overlay", durationMs: 5000, placement: "corner" }],
     ["center-overlay", { kind: "overlay", durationMs: 1800, placement: "center" }],
   ] as const)("maps %s to its visible behavior", (attentionMode, expected) => {

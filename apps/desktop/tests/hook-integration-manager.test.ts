@@ -32,6 +32,34 @@ afterEach(async () => {
 });
 
 describe("HookIntegrationManager", () => {
+  it("still removes its rules from the default config when the state file was lost", async () => {
+    const fixture = await createFixture();
+    await writeFile(fixture.configPath, JSON.stringify({ hooks: { enabled: true, events: {} } }), "utf8");
+    const manager = managerFor(fixture);
+    await manager.configure();
+    await rm(fixture.statePath);
+
+    await expect(manager.unconfigure()).resolves.toBe(true);
+    const cleaned = JSON.parse(await readFile(fixture.configPath, "utf8")) as { hooks: { events: Record<string, unknown[]> } };
+    expect(Object.values(cleaned.hooks.events).every((rules) => rules.length === 0)).toBe(true);
+    expect(JSON.parse(await readFile(fixture.statePath, "utf8").catch(() => "{}"))).toEqual({});
+  });
+
+  it("takes over a stale lock file left behind by a crashed process", async () => {
+    const fixture = await createFixture();
+    await writeFile(fixture.configPath, JSON.stringify({ hooks: { enabled: true, events: {} } }), "utf8");
+    const lockPath = path.join(fixture.root, ".zcode-status-light.lock");
+    await writeFile(lockPath, "orphaned", "utf8");
+    const staleTime = new Date(Date.now() - 60_000);
+    const { utimes } = await import("node:fs/promises");
+    await utimes(lockPath, staleTime, staleTime);
+    const manager = managerFor(fixture);
+
+    const result = await manager.configure();
+    expect(result.isConfigured).toBe(true);
+    await expect(readFile(lockPath, "utf8")).rejects.toThrow();
+  });
+
   it("backs up and merges only its six rules while preserving unknown configuration", async () => {
     const fixture = await createFixture();
     const source = {

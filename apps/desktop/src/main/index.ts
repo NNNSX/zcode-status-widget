@@ -10,6 +10,7 @@ import type { AttentionContent, PanelSnapshot, ReducerEffect } from "../shared/p
 import { SessionReducer } from "../shared/reducer";
 import { EventServer, MAX_EVENTS_PER_TICK } from "./event-server";
 import { SettingsRegistry } from "./settings-registry";
+import { applyLaunchOnStartup, loginItemSettingsFor, type LoginItemSetter } from "./login-item";
 import { createTray } from "./tray";
 import { WindowManager } from "./window-manager";
 import { APP_USER_MODEL_ID } from "./app-identity";
@@ -41,8 +42,11 @@ let startupFailed = false;
 let tray: Tray | undefined;
 let refreshTimer: NodeJS.Timeout | undefined;
 let consumptionScheduled = false;
+let appliedLaunchOnStartup: boolean | undefined;
 
 const EXIT_GRACE_PERIOD_MS = 5_000;
+const PANEL_RECREATE_FAILURE_LIMIT = 5;
+let panelRecreateFailures = 0;
 
 const settleBeforeExit = async (): Promise<void> => {
   await Promise.race([
@@ -145,6 +149,20 @@ const unconfigureHooks = async (): Promise<Awaited<ReturnType<typeof inspectHook
   return inspectHookSetup();
 };
 
+const loginItemSetter: LoginItemSetter = {
+  setLoginItemSettings: (settings) => {
+    app.setLoginItemSettings({ ...settings, args: [...settings.args] });
+  },
+};
+
+const syncLaunchOnStartup = (enabled: boolean): void => {
+  const environment = { isPackaged: app.isPackaged, platform: process.platform, execPath: process.execPath };
+  const applied = applyLaunchOnStartup(loginItemSetter, environment, enabled);
+  if (applied || loginItemSettingsFor(environment, enabled) === undefined) {
+    appliedLaunchOnStartup = enabled;
+  }
+};
+
 const effectiveConfig = (): AppConfig => previewConfig ?? config;
 
 const snapshot = (): PanelSnapshot => {
@@ -181,6 +199,10 @@ const showAttentionForConfig = (content?: AttentionContent): void => {
     void windows.showAttention(content, request.durationMs, "edge").catch(() => undefined);
     return;
   }
+  if (request.kind === "fullscreen") {
+    void windows.showAttention(content, request.durationMs, "fullscreen").catch(() => undefined);
+    return;
+  }
   void windows.showAttention(content, request.durationMs, request.placement).catch(() => undefined);
 };
 
@@ -197,6 +219,9 @@ const applyEffects = (effects: readonly ReducerEffect[]): void => {
 };
 
 const consumeEvents = (): void => {
+  if (isQuitting) {
+    return;
+  }
   for (const event of eventServer.drain(MAX_EVENTS_PER_TICK)) {
     const result = reducer.apply(event);
     if (result.accepted) {
@@ -245,6 +270,9 @@ const saveSettings = (input: ConfigInput): AppConfig => {
   config = saveSettingsConfig(config, input);
   previewConfig = undefined;
   closeAttentionWhenDisabled();
+  if (config.launchOnStartup !== appliedLaunchOnStartup) {
+    syncLaunchOnStartup(config.launchOnStartup);
+  }
   configPersistence.schedule(config);
   publish();
   windows.publishSettings(config);
@@ -339,6 +367,11 @@ if (singleInstance) {
         if (!removed) {
           throw new Error("当前 Hook 集成记录不可用或不属于此安装实例，已拒绝移除。");
         }
+        applyLaunchOnStartup(
+          loginItemSetter,
+          { isPackaged: app.isPackaged, platform: process.platform, execPath: process.execPath },
+          false,
+        );
       } catch (error) {
         exitCode = 1;
         if (!silentLaunch) {
@@ -354,11 +387,21 @@ if (singleInstance) {
     }
 
     config = await settingsRegistry.load();
+    appliedLaunchOnStartup = undefined;
+    if (!settingsRegistry.lastLoadDegraded) {
+      syncLaunchOnStartup(config.launchOnStartup);
+    }
     registerIpc();
     try {
       await windows.createPanel(config);
       tray = createTray(windows, {
-        togglePanel: () => windows.togglePanel(effectiveConfig()),
+        togglePanel: () => {
+          const next = !effectiveConfig().showPanel;
+          saveSettings({ showPanel: next });
+          if (next) {
+            windows.showPanel(effectiveConfig());
+          }
+        },
         openSettings: () => void windows.openSettings(),
         resetPosition: () => { resetSavedPosition(); },
         showAttention: showAttentionForConfig,
@@ -383,6 +426,7 @@ if (singleInstance) {
       }
       tray?.destroy();
       tray = undefined;
+      eventServer.off("enqueued", scheduleConsumption);
       await eventServer.stop().catch(() => undefined);
       windows.destroyAll();
       app.exit(1);
@@ -393,6 +437,7 @@ if (singleInstance) {
     if (!isQuitting) {
       event.preventDefault();
       isQuitting = true;
+      eventServer.off("enqueued", scheduleConsumption);
       if (refreshTimer) {
         clearInterval(refreshTimer);
         refreshTimer = undefined;
@@ -409,8 +454,14 @@ if (singleInstance) {
   });
 
   app.on("window-all-closed", () => {
-    if (startupReady && !startupFailed && !isQuitting) {
-      void windows.createPanel(effectiveConfig()).catch(() => undefined);
+    if (startupReady && !startupFailed && !isQuitting && panelRecreateFailures < PANEL_RECREATE_FAILURE_LIMIT) {
+      void windows.createPanel(effectiveConfig())
+        .then(() => {
+          panelRecreateFailures = 0;
+        })
+        .catch(() => {
+          panelRecreateFailures += 1;
+        });
     }
   });
 }

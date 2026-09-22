@@ -76,6 +76,12 @@ const syncSettings = (root: HTMLElement, config: AppConfig): void => {
     doneTtl.value = String(config.doneTtlMinutes);
     doneTtlOutput.value = `${config.doneTtlMinutes} 分钟`;
   }
+  const scale = root.querySelector<HTMLInputElement>("#scale-range");
+  const scaleOutput = root.querySelector<HTMLOutputElement>("#scale-output");
+  if (scale && scaleOutput) {
+    scale.value = String(config.scale);
+    scaleOutput.value = `${config.scale}%`;
+  }
   const attentionDuration = root.querySelector<HTMLInputElement>("#attention-duration-range");
   const attentionDurationOutput = root.querySelector<HTMLOutputElement>("#attention-duration-output");
   if (attentionDuration && attentionDurationOutput) {
@@ -84,7 +90,7 @@ const syncSettings = (root: HTMLElement, config: AppConfig): void => {
   }
   root.querySelectorAll<HTMLInputElement>("[data-setting]").forEach((input) => {
     const key = input.dataset.setting;
-    if (key === "showIdle" || key === "showTodoProgress" || key === "showDuration") {
+    if (key === "showIdle" || key === "showTodoProgress" || key === "showDuration" || key === "launchOnStartup" || key === "showPanel") {
       input.checked = config[key];
     }
   });
@@ -100,6 +106,7 @@ const syncSettings = (root: HTMLElement, config: AppConfig): void => {
     "panel-pulse": "沿屏幕边缘提示",
     "corner-overlay": "在状态面板附近提示",
     "center-overlay": "在屏幕中央提示",
+    "fullscreen-fx": "全屏粒子特效强提醒",
   } as const;
   if (attentionModeDetail) {
     attentionModeDetail.textContent = attentionLabels[config.attentionMode];
@@ -111,7 +118,7 @@ type SettingsInput = Parameters<typeof window.zcodeStatus.previewSettings>[0];
 const settingRange = (
   root: HTMLElement,
   selector: string,
-  key: keyof Pick<AppConfig, "panelWidth" | "opacity" | "doneTtlMinutes" | "attentionDurationMs">,
+  key: keyof Pick<AppConfig, "panelWidth" | "scale" | "opacity" | "doneTtlMinutes" | "attentionDurationMs">,
   outputSelector: string,
   preview: (input: SettingsInput) => void,
 ): void => {
@@ -122,7 +129,7 @@ const settingRange = (
     if (output) {
       output.value = key === "panelWidth"
         ? `${value} px`
-        : key === "opacity"
+        : key === "opacity" || key === "scale"
           ? `${value}%`
           : key === "attentionDurationMs"
             ? `${value} 毫秒`
@@ -150,6 +157,11 @@ const renderSettings = (root: HTMLElement): void => {
           <output id="width-output">380 px</output>
           <input id="width-range" type="range" min="320" max="640" step="20" value="380" />
         </label>
+        <label class="range-control">
+          <span>面板缩放</span>
+          <output id="scale-output">100%</output>
+          <input id="scale-range" type="range" min="50" max="150" step="5" value="100" />
+        </label>
         <div class="segmented" role="group" aria-label="停靠位置">
           <button type="button" data-corner="bottom-right">右下</button>
           <button type="button" data-corner="bottom-left">左下</button>
@@ -161,6 +173,11 @@ const renderSettings = (root: HTMLElement): void => {
         <label class="toggle"><span>显示 Todo 进度</span><input data-setting="showTodoProgress" type="checkbox" /><i></i></label>
         <label class="toggle"><span>显示时间</span><input data-setting="showDuration" type="checkbox" /><i></i></label>
         <label class="toggle"><span>无会话时显示空闲状态</span><input data-setting="showIdle" type="checkbox" /><i></i></label>
+      </section>
+      <section class="settings-section" aria-label="启动">
+        <label class="toggle"><span>显示悬浮面板</span><input data-setting="showPanel" type="checkbox" /><i></i></label>
+        <label class="toggle"><span>开机自动启动</span><input data-setting="launchOnStartup" type="checkbox" /><i></i></label>
+        <p class="hook-config-path" id="show-panel-hint">关闭后仅保留全局提醒，托盘左键或此开关可重新打开。</p>
       </section>
       <section class="settings-section" aria-label="透明度">
         <label class="range-control">
@@ -184,6 +201,7 @@ const renderSettings = (root: HTMLElement): void => {
           <button type="button" data-attention="panel-pulse">边缘</button>
           <button type="button" data-attention="corner-overlay">角落</button>
           <button type="button" data-attention="center-overlay">中央</button>
+          <button type="button" data-attention="fullscreen-fx">全屏</button>
         </div>
         <label class="range-control">
           <span>提醒展示时长</span>
@@ -372,13 +390,14 @@ const renderSettings = (root: HTMLElement): void => {
     });
   });
   settingRange(root, "#width-range", "panelWidth", "#width-output", preview);
+  settingRange(root, "#scale-range", "scale", "#scale-output", preview);
   settingRange(root, "#opacity-range", "opacity", "#opacity-output", preview);
   settingRange(root, "#done-ttl-range", "doneTtlMinutes", "#done-ttl-output", preview);
 
   root.querySelectorAll<HTMLInputElement>("[data-setting]").forEach((input) => {
     input.addEventListener("change", () => {
       const key = input.dataset.setting;
-      if (key === "showIdle" || key === "showTodoProgress" || key === "showDuration") {
+      if (key === "showIdle" || key === "showTodoProgress" || key === "showDuration" || key === "launchOnStartup" || key === "showPanel") {
         preview({ [key]: input.checked });
       }
     });
@@ -395,7 +414,7 @@ const renderSettings = (root: HTMLElement): void => {
   root.querySelectorAll<HTMLButtonElement>("[data-attention]").forEach((element) => {
     element.addEventListener("click", () => {
       const attentionMode = element.dataset.attention;
-      if (attentionMode === "off" || attentionMode === "panel-pulse" || attentionMode === "corner-overlay" || attentionMode === "center-overlay") {
+      if (attentionMode === "off" || attentionMode === "panel-pulse" || attentionMode === "corner-overlay" || attentionMode === "center-overlay" || attentionMode === "fullscreen-fx") {
         preview({ attentionMode });
       }
     });
@@ -420,15 +439,70 @@ const renderSettings = (root: HTMLElement): void => {
   });
 };
 
-const attentionPresentation = (): "card" | "edge" => (
-  new URLSearchParams(window.location.search).get("presentation") === "edge" ? "edge" : "card"
-);
+const attentionPresentation = (): "card" | "edge" | "fullscreen" => {
+  const value = new URLSearchParams(window.location.search).get("presentation");
+  return value === "edge" ? "edge" : value === "fullscreen" ? "fullscreen" : "card";
+};
+
+const startAttentionParticles = (canvas: HTMLCanvasElement, kind: "waiting" | "done"): void => {
+  const context = canvas.getContext("2d");
+  if (!context || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+  const palette = kind === "waiting"
+    ? ["#ff6b6b", "#ffb374", "#ff8fa3", "#ffd166"]
+    : ["#5eeab0", "#38bdac", "#a7f3d0", "#d9f99d"];
+  const resize = (): void => {
+    canvas.width = Math.max(1, canvas.clientWidth);
+    canvas.height = Math.max(1, canvas.clientHeight);
+  };
+  resize();
+  window.addEventListener("resize", resize, { once: true });
+  const spawn = () => ({
+    x: Math.random() * canvas.width,
+    y: canvas.height * (0.15 + Math.random() * 0.9),
+    radius: 1.2 + Math.random() * 2.8,
+    rise: 0.35 + Math.random() * 1.3,
+    phase: Math.random() * Math.PI * 2,
+    swaySpeed: 0.006 + Math.random() * 0.02,
+    alpha: 0.35 + Math.random() * 0.55,
+    color: palette[Math.floor(Math.random() * palette.length)] ?? palette[0] ?? "#ffffff",
+  });
+  const particles = Array.from({ length: 72 }, spawn);
+  let frame = 0;
+  const tick = (): void => {
+    frame += 1;
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    for (const particle of particles) {
+      particle.y -= particle.rise;
+      particle.phase += particle.swaySpeed;
+      particle.x += Math.sin(particle.phase) * 0.45;
+      if (particle.y < -12) {
+        particle.y = canvas.height + 12;
+        particle.x = Math.random() * canvas.width;
+      }
+      const twinkle = 0.72 + 0.28 * Math.sin(particle.phase * 2.4);
+      context.globalAlpha = particle.alpha * twinkle;
+      context.fillStyle = particle.color;
+      context.beginPath();
+      context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+      context.fill();
+    }
+    context.globalAlpha = 1;
+    if (frame < 900) {
+      requestAnimationFrame(tick);
+    }
+  };
+  requestAnimationFrame(tick);
+};
 
 const renderAttention = (root: HTMLElement): void => {
   const presentation = attentionPresentation();
   root.className = presentation === "edge"
     ? "surface surface--attention-edge"
-    : "surface surface--attention";
+    : presentation === "fullscreen"
+      ? "surface surface--attention-fx"
+      : "surface surface--attention";
   const update = (content: AttentionContent): void => {
     root.dataset.kind = content.kind;
     if (presentation === "edge") {
@@ -447,6 +521,50 @@ const renderAttention = (root: HTMLElement): void => {
         return edge;
       });
       root.replaceChildren(...edges, live);
+      return;
+    }
+
+    const edges = ["top", "right", "bottom", "left"].map((side) => {
+      const edge = document.createElement("div");
+      edge.className = `attention-edge attention-edge--${side}`;
+      edge.setAttribute("aria-hidden", "true");
+      return edge;
+    });
+
+    if (presentation === "fullscreen") {
+      const canvas = document.createElement("canvas");
+      canvas.className = "attention-fx";
+      canvas.setAttribute("aria-hidden", "true");
+      const copy = document.createElement("div");
+      copy.className = "attention-fx-copy";
+      copy.setAttribute("role", "status");
+      copy.setAttribute("aria-live", "polite");
+      copy.setAttribute("aria-atomic", "true");
+      const eyebrow = document.createElement("p");
+      eyebrow.className = "attention-fx-eyebrow";
+      eyebrow.textContent = content.kind === "waiting" ? "等待用户操作" : "任务已完成";
+      const title = document.createElement("h1");
+      title.className = "attention-fx-title";
+      title.textContent = content.title;
+      const detail = document.createElement("p");
+      detail.className = "attention-fx-detail";
+      const workspace = document.createElement("span");
+      workspace.className = "attention-fx-workspace";
+      workspace.textContent = content.workspace;
+      detail.append(workspace);
+      if (content.summary) {
+        const separator = document.createElement("span");
+        separator.className = "attention-fx-separator";
+        separator.setAttribute("aria-hidden", "true");
+        separator.textContent = "·";
+        const summary = document.createElement("span");
+        summary.className = "attention-fx-summary";
+        summary.textContent = content.summary;
+        detail.append(separator, summary);
+      }
+      copy.append(eyebrow, title, detail);
+      root.replaceChildren(canvas, ...edges, copy);
+      startAttentionParticles(canvas, content.kind);
       return;
     }
 

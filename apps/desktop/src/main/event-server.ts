@@ -27,20 +27,20 @@ const stringValue = (value: unknown, maximumLength = MAX_EVENT_STRING_LENGTH): s
   typeof value === "string" && value.length <= maximumLength ? value : undefined
 );
 
-const sanitizedTodos = (value: unknown): readonly { readonly content?: string; readonly status?: string }[] | undefined => {
-  if (!Array.isArray(value) || value.length > MAX_EVENT_TODOS) {
-    return undefined;
+const sanitizedTodos = (value: unknown): readonly { readonly content?: string; readonly status?: string }[] => {
+  if (!Array.isArray(value)) {
+    return [];
   }
   const todos: { content?: string; status?: string }[] = [];
-  for (const rawTodo of value) {
+  for (const rawTodo of value.slice(0, MAX_EVENT_TODOS)) {
     if (!rawTodo || typeof rawTodo !== "object" || Array.isArray(rawTodo)) {
-      return undefined;
+      continue;
     }
     const todo = rawTodo as { readonly content?: unknown; readonly status?: unknown };
-    const content = stringValue(todo.content);
-    const status = stringValue(todo.status, 64);
-    if ((todo.content !== undefined && content === undefined) || (todo.status !== undefined && status === undefined)) {
-      return undefined;
+    const content = typeof todo.content === "string" ? todo.content.slice(0, MAX_EVENT_STRING_LENGTH) : undefined;
+    const status = typeof todo.status === "string" ? todo.status.slice(0, 64) : undefined;
+    if (content === undefined && status === undefined) {
+      continue;
     }
     todos.push({ ...(content === undefined ? {} : { content }), ...(status === undefined ? {} : { status }) });
   }
@@ -70,19 +70,15 @@ export const sanitizeHookEvent = (payload: unknown): HookEvent | undefined => {
     }
     strings[field] = value;
   }
-  const todos = raw.todos === undefined ? undefined : sanitizedTodos(raw.todos);
-  if (raw.todos !== undefined && todos === undefined) {
-    return undefined;
-  }
+  const todos = raw.todos === undefined ? [] : sanitizedTodos(raw.todos);
   const timestamp = raw.ts;
-  if (timestamp !== undefined && (typeof timestamp !== "number" || !Number.isFinite(timestamp))) {
-    return undefined;
-  }
+  const validTimestamp = typeof timestamp === "number" && Number.isFinite(timestamp)
+    && timestamp >= 0 && timestamp < 10_000_000_000 ? timestamp : undefined;
   return {
     event,
     ...strings,
-    ...(todos === undefined ? {} : { todos }),
-    ...(timestamp === undefined ? {} : { ts: timestamp }),
+    ...(todos.length ? { todos } : {}),
+    ...(validTimestamp === undefined ? {} : { ts: validTimestamp }),
   };
 };
 
@@ -188,8 +184,16 @@ export class EventServer extends EventEmitter {
   }
 
   private handle(request: IncomingMessage, reply: ServerResponse): void {
-    const pathname = new URL(request.url ?? "/", "http://127.0.0.1").pathname;
+    let pathname = "";
+    try {
+      pathname = new URL(request.url ?? "/", "http://127.0.0.1").pathname;
+    } catch {
+      request.resume();
+      response(reply, 400, true);
+      return;
+    }
     if (request.method !== "POST" || pathname !== "/event") {
+      request.resume();
       response(reply, 404);
       return;
     }
@@ -197,6 +201,7 @@ export class EventServer extends EventEmitter {
     const rawLength = request.headers["content-length"];
     const length = typeof rawLength === "string" && /^\d+$/.test(rawLength) ? Number(rawLength) : Number.NaN;
     if (!Number.isSafeInteger(length) || length < 0) {
+      request.resume();
       response(reply, 400);
       return;
     }

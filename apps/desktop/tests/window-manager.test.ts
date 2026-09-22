@@ -10,9 +10,11 @@ class FakeWindow {
   public readonly webContents = {
     id: FakeWindow.nextWebContentsId++,
     getURL: vi.fn(() => ""),
+    isDestroyed: vi.fn(() => false),
     on: vi.fn(),
     send: vi.fn(),
     setWindowOpenHandler: vi.fn(),
+    setZoomFactor: vi.fn(),
   };
 
   public readonly setIgnoreMouseEvents = vi.fn();
@@ -77,7 +79,9 @@ const emitScreen = (event: string, ...args: unknown[]): void => {
   screenListeners.get(event)?.(...args);
 };
 const resetScreen = (): void => {
+  displays.primary.bounds = { x: 0, y: 0, width: 1920, height: 1080 };
   displays.primary.workArea = { x: 0, y: 0, width: 1920, height: 1080 };
+  displays.secondary.bounds = { x: -1600, y: 0, width: 1600, height: 900 };
   displays.secondary.workArea = { x: -1600, y: 0, width: 1600, height: 860 };
   availableDisplays = [displays.primary];
   screenListeners.clear();
@@ -283,7 +287,7 @@ describe("WindowManager", () => {
     const initial = settings.getBounds();
     manager.beginSettingsDrag(settings.webContents.id, 300, 200);
     manager.moveSettingsDrag(settings.webContents.id, 344, 238);
-    expect(settings.setPosition).toHaveBeenCalledWith(1564, initial.y + 38);
+    expect(settings.setPosition).toHaveBeenCalledWith(initial.x + 44, initial.y + 38);
 
     manager.endSettingsDrag(settings.webContents.id);
     manager.moveSettingsDrag(settings.webContents.id, 390, 260);
@@ -313,12 +317,12 @@ describe("WindowManager", () => {
       if (!settings) {
         throw new Error("Settings window was not created.");
       }
-      expect(settings.getBounds()).toEqual({ x: -372, y: 16, width: 356, height: 760 });
+      expect(settings.getBounds()).toEqual({ x: -978, y: 50, width: 356, height: 760 });
 
       displays.secondary.workArea = { x: -1200, y: 0, width: 1200, height: 600 };
       emitScreen("display-metrics-changed", {}, displays.secondary, ["workArea"]);
       vi.advanceTimersByTime(100);
-      expect(settings.getBounds()).toEqual({ x: -372, y: 16, width: 356, height: 568 });
+      expect(settings.getBounds()).toEqual({ x: -778, y: 16, width: 356, height: 568 });
     } finally {
       vi.useRealTimers();
       resetScreen();
@@ -455,6 +459,133 @@ describe("WindowManager", () => {
       expect(first.close).toHaveBeenCalledOnce();
       vi.advanceTimersByTime(800);
       expect(second.close).toHaveBeenCalledOnce();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("scales panel bounds and zoom factor from the scale setting", async () => {
+    resetScreen();
+    FakeWindow.instances.splice(0);
+    const { WindowManager } = await import("../src/main/window-manager");
+    const manager = new WindowManager();
+
+    await manager.createPanel(DEFAULT_CONFIG);
+    const panel = FakeWindow.instances[0];
+    if (!panel) {
+      throw new Error("Panel window was not created.");
+    }
+    panel.setBounds.mockClear();
+    manager.applyConfig({ ...DEFAULT_CONFIG, scale: 150 });
+
+    expect(panel.setBounds).toHaveBeenCalled();
+    expect(panel.setBounds.mock.calls.at(-1)?.[0]).toMatchObject({ width: 570, height: 71, x: 1336, y: 957 });
+    expect(panel.webContents.setZoomFactor).toHaveBeenLastCalledWith(1.5);
+  });
+
+  it("keeps the panel hidden while the panel switch is off but sessions arrive", async () => {
+    resetScreen();
+    FakeWindow.instances.splice(0);
+    const { WindowManager } = await import("../src/main/window-manager");
+    const manager = new WindowManager();
+
+    await manager.createPanel({ ...DEFAULT_CONFIG, showPanel: false });
+    const panel = FakeWindow.instances[0];
+    if (!panel) {
+      throw new Error("Panel window was not created.");
+    }
+    expect(panel.hide).toHaveBeenCalled();
+
+    manager.publishSnapshot({
+      sessions: [{
+        id: "s1",
+        state: "working",
+        workspace: "ZCode",
+        task: "任务",
+        todoProgress: "",
+        duration: "",
+      }],
+      showIdle: true,
+    });
+    expect(panel.isVisible()).toBe(false);
+  });
+
+  it("renders fullscreen effect reminders over the whole panel display", async () => {
+    resetScreen();
+    availableDisplays = [displays.primary, displays.secondary];
+    FakeWindow.instances.splice(0);
+    const { WindowManager } = await import("../src/main/window-manager");
+    const manager = new WindowManager();
+    await manager.createPanel(DEFAULT_CONFIG);
+    const panel = FakeWindow.instances[0];
+    if (!panel) {
+      throw new Error("Panel window was not created.");
+    }
+    panel.setBounds({ x: -900, y: 500, width: 380, height: 47 });
+
+    await manager.showAttention({
+      sessionId: "fx-session",
+      kind: "waiting",
+      title: "请完成审批",
+      workspace: "ZCode",
+      summary: "",
+    }, 800, "fullscreen");
+    const fx = FakeWindow.instances[1];
+    if (!fx) {
+      throw new Error("Fullscreen attention window was not created.");
+    }
+    expect(fx.getBounds()).toEqual({ x: -1600, y: 0, width: 1600, height: 900 });
+    expect(fx.loadURL).toHaveBeenCalledWith(expect.stringContaining("presentation=fullscreen"));
+    expect(fx.setAlwaysOnTop).toHaveBeenCalledWith(true, "pop-up-menu");
+    expect(fx.setIgnoreMouseEvents).toHaveBeenCalledWith(true, { forward: true });
+    expect(fx.focus).not.toHaveBeenCalled();
+  });
+
+  it("destroys a window whose renderer process crashes", async () => {    resetScreen();
+    FakeWindow.instances.splice(0);
+    const { WindowManager } = await import("../src/main/window-manager");
+    const manager = new WindowManager();
+
+    await manager.createPanel(DEFAULT_CONFIG);
+    const panel = FakeWindow.instances.at(-1);
+    if (!panel) {
+      throw new Error("Panel window was not created.");
+    }
+    const registration = panel.webContents.on.mock.calls.find(([event]) => event === "render-process-gone");
+    expect(registration).toBeDefined();
+    (registration as unknown as [string, () => void])[1]();
+    expect(panel.destroy).toHaveBeenCalledOnce();
+
+    await manager.openSettings();
+    const settings = FakeWindow.instances.at(-1);
+    if (!settings) {
+      throw new Error("Settings window was not created.");
+    }
+    const settingsRegistration = settings.webContents.on.mock.calls.find(([event]) => event === "render-process-gone");
+    expect(settingsRegistration).toBeDefined();
+  });
+
+  it("resets the panel move state through the watchdog when no move event follows", async () => {
+    vi.useFakeTimers();
+    try {
+      resetScreen();
+      FakeWindow.instances.splice(0);
+      const { WindowManager } = await import("../src/main/window-manager");
+      const manager = new WindowManager();
+      await manager.createPanel(DEFAULT_CONFIG);
+      const panel = FakeWindow.instances.at(-1);
+      if (!panel) {
+        throw new Error("Panel window was not created.");
+      }
+      const positionListener = vi.fn();
+      manager.setPanelPositionListener(positionListener);
+
+      panel.emit("will-move");
+      vi.advanceTimersByTime(10_500);
+      panel.emit("move");
+      vi.advanceTimersByTime(500);
+
+      expect(positionListener).not.toHaveBeenCalled();
     } finally {
       vi.useRealTimers();
     }
